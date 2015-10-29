@@ -1,5 +1,6 @@
 package com.yanhao.main.yanhaoandroid.login;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.util.StringUtil;
+import com.yanhao.main.yanhaoandroid.util.TopBar;
+import com.yanhao.main.yanhaoandroid.util.UIHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -33,6 +36,8 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
     private final static int mMsgCodeCounting = 2;
     private static int mResendTime = 60;
     private final static int mMaxTime = 60;
+    TopBar mTopBar;
+    Dialog mDialog;
 
     MyInnerHandler mHander = new MyInnerHandler(this);
 
@@ -50,7 +55,7 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
     }
 
-    //开启Handler
+    //开启Handler,
     static class MyInnerHandler extends Handler {
         WeakReference<FrogetFragment> mFragReference;
 
@@ -104,6 +109,25 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
 
         mBtnGetPwd = (Button) view.findViewById(R.id.btnGetPwd);
         mBtnGetPwd.setOnClickListener(this);
+
+        mTopBar = (TopBar) view.findViewById(R.id.topBar);
+        mTopBar.setOnTopbarClickListener(new TopBar.topbarClickListener() {
+            @Override
+            public void leftClick() {
+                getActivity().finish();
+            }
+
+            @Override
+            public void rightClick() {
+
+            }
+        });
+
+        // 控制topbar上组件的状态
+        // params (0,true) 显示
+        // params (1,false) 隐藏
+        mTopBar.setButtonVisable(0, true);
+        mTopBar.setButtonVisable(1, false);
         return view;
     }
 
@@ -160,11 +184,29 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
     public void sendCode() {
 
         mHander.sendEmptyMessage(mMsgCodeCounting);
+
         Toast.makeText(getActivity(), "正在向用户" + mEt_phone.getText() + "发送验证码，请注意查收！！", Toast.LENGTH_LONG).show();
     }
 
     public void getPwd(){
 
-        Toast.makeText(getActivity(), "用户" + mEt_phone.getText() + "密码重置！请牢记！！", Toast.LENGTH_LONG).show();
+        mDialog = UIHelper.buildConfirm(
+                getActivity(),
+                "用户" + mEt_phone.getText() + "密码重置！请牢记！！", "确定", "取消",
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        getActivity().finish();
+                    }
+                }, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                        getActivity().finish();
+                    }
+                });
+        //Toast.makeText(getActivity(), "用户" + mEt_phone.getText() + "密码重置！请牢记！！", Toast.LENGTH_LONG).show();
+
     }
 }

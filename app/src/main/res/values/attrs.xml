@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TopBar">
+
+        <!--title属性的定义-->
+        <attr name="costumTitle" format="string"/>
+        <attr name="costumTitleTextSize" format="dimension"/>
+        <attr name="costumTitleTextColor" format="color"/>
+
+        <!--左边区域属性定义-->
+        <attr name="costumLeftTextColor" format="color"/>
+        <attr name="costumLeftTextBackground" format="reference|color"/>
+        <attr name="costumLeftText" format="string"/>
+
+        <!--右边区域属性定义-->
+        <attr name="costumRightTextColor" format="color"/>
+        <attr name="costumRightTextBackground" format="reference|color"/>
+        <attr name="costumRightText" format="string"/>
+    </declare-styleable>
+</resources>
