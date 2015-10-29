@@ -1,0 +1,121 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.mylogin.LoginFragment"
+    android:layout_marginTop="157.6dp">
+
+    <include layout="@layout/divider_settings" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/login_email_tv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="25dp"
+                android:src="@drawable/login_user_icon" />
+
+
+            <EditText
+                android:id="@+id/login_username_et"
+                style="@style/Account.EditText"
+                android:background="@color/transparent"
+                android:hint="邮箱/手机号"
+                android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/login_show_pwd1"
+                style="?android:imageButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:padding="16dp"
+                android:src="@drawable/help_drawable" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/yr_divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="9dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/login_pw_tv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/login_pwd_icon" />
+
+            <EditText
+                android:id="@+id/login_pw_et"
+                style="@style/Account.EditText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+
+
+            <ImageButton
+                android:id="@+id/login_show_pwd"
+                style="?android:imageButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:padding="16dp"
+                android:src="@drawable/pwd_no" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/yr_divider" />
+
+        <TextView
+            android:id="@+id/froget_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="忘记密码"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:textSize="14.63sp"
+            android:textColor="#479de2"
+            />
+
+        <Button
+            android:id="@+id/login_login_btn"
+            style="?buttonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="25dp"
+            android:text="@string/login"
+            android:background="@drawable/btn_bg"
+            android:textColor="@color/white"
+            android:textSize="21sp" />
+    </LinearLayout>
+</FrameLayout>

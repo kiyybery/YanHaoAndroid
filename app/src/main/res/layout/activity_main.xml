@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+
+    <RelativeLayout
+        android:id="@+id/login_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="231dp"
+        android:background="@drawable/login_bg">
+
+        <TextView
+            android:id="@+id/login_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="欢迎来到您的心灵驿站"
+            android:textColor="#FFFFFF"
+            android:textSize="22.6sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/login_title_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/line_select"
+        android:layout_below="@+id/login_top_layout">
+
+        <LinearLayout
+            android:id="@+id/login_line_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/no_corner_white"
+                android:text="登录"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_gravity="bottom" />
+
+            <Button
+                android:id="@+id/rigst_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/no_corner_white"
+                android:text="注册"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_gravity="bottom" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_line_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:weightSum="2">
+
+            <FrameLayout
+                android:id="@+id/pinnedIndicator"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+                <ImageView style="@style/UserCenter.Indicator"/>
+            </FrameLayout>
+        </LinearLayout>
+        </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    </FrameLayout>
+
+</RelativeLayout>

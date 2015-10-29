@@ -1,0 +1,68 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="bgimg">
+        <item name="android:background">@drawable/bg_repeat</item>
+    </style>
+
+    <style name="Widget.IOSched.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@color/white</item>
+        <item name="android:textCursorDrawable">@drawable/edittext_cursor_color</item>
+    </style>
+
+    <style name="UserCenter" />
+
+    <style name="UserCenter.Indicator">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:src">@drawable/line_icon</item>
+    </style>
+
+    <!--Welcome-->
+    <!--登陆,注册-->
+    <style name="Account">
+
+    </style>
+
+    <style name="Account.TextView">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">82dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/yr_text_light</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+
+    <style name="Account.EditText" parent="Widget.IOSched.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/yr_text_dark</item>
+        <item name="android:textColorHint">@color/yr_text_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="Settings.EditText" parent="Widget.IOSched.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/yr_text_dark</item>
+        <item name="android:textColorHint">@color/yr_text_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+
+        <item name="android:layout_gravity">left|center_vertical</item>
+
+    </style>
+</resources>

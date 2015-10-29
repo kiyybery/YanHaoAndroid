@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:clickable="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Account.TextView"
+            android:text="手机号" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            style="@style/Settings.EditText"
+            android:hint="输入手机号"
+            android:inputType="phone" />
+    </LinearLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Account.TextView"
+            android:text="@string/password" />
+
+        <EditText
+            android:id="@+id/et_froget_pwd"
+            style="@style/Settings.EditText"
+            android:hint="输入新密码"
+            android:inputType="textPassword"
+            android:layout_weight="1"
+            />
+
+        <ImageButton
+            android:id="@+id/forget_show_pwd"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/pwd_no"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+
+        <TextView
+            style="@style/Account.TextView"
+            android:text="@string/password" />
+
+        <EditText
+            android:id="@+id/et_regist_confirm_pwd"
+            style="@style/Settings.EditText"
+            android:hint="再次确认密码"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/Account.TextView"
+            android:text="验证码" />
+
+        <EditText
+            android:id="@+id/account_froget_code_et"
+            style="@style/Settings.EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入验证码"
+            android:paddingLeft="20dp"
+            android:singleLine="true" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/account_froget_get_code_btn"
+            style="?android:borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_nomal_yellow"
+            android:padding="5dp"
+            android:text="获取验证码"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <include layout="@layout/divider" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnGetPwd"
+        style="?android:buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="25dp"
+        android:background="@drawable/btn_bg"
+        android:minHeight="50dp"
+        android:text="完成"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>
