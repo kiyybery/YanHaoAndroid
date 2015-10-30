@@ -277,5 +277,7 @@
     <color name="accent_pressed">#C2185B</color>
 
     <color name="login_btn_bg">#3b9be8</color>
+
+    <color name="background_tab_pressed">#22000000</color>
 </resources>
 

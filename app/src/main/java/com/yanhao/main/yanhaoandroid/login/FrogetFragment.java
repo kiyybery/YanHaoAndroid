@@ -140,10 +140,12 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
                 //控制密码的隐藏与显示
                 if (mEt_froget_pwd.getInputType() != InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
                     mEt_froget_pwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    mForget_show_pwd.setImageResource(R.drawable.pwd_yes);
+                   // mForget_show_pwd.setImageResource(R.drawable.pwd_yes);
+                    mForget_show_pwd.setBackgroundResource(R.drawable.pwd_yes);
                 } else {
                     mEt_froget_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    mForget_show_pwd.setImageResource(R.drawable.pwd_no);
+                   //mForget_show_pwd.setImageResource(R.drawable.pwd_no);
+                    mForget_show_pwd.setBackgroundResource(R.drawable.pwd_no);
                 }
                 //变更属性后记得让光标显示在输入框最后
                 Editable editable = mEt_froget_pwd.getText();

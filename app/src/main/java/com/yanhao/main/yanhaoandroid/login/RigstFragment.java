@@ -120,10 +120,8 @@ public class RigstFragment extends Fragment implements View.OnClickListener{
                 String phone = mEt_regist_username.getText().toString();
 
                 if(!StringUtil.isMobileNO(phone)){
-
                     Toast.makeText(getActivity(),"您输入的手机号有误，请再次输入!!",Toast.LENGTH_LONG).show();
                 }else {
-
                     getRigstCode();
                 }
                 break;

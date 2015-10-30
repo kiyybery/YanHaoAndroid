@@ -86,14 +86,15 @@
             android:hint="请至少输入6位有效数字"
             android:singleLine="true" />
 
+
         <ImageButton
             android:id="@+id/rigst_show_pwd"
-            style="?android:imageButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@null"
-            android:padding="16dp"
-            android:src="@drawable/pwd_yes" />
+            android:background="@drawable/pwd_no"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical"
+            />
     </LinearLayout>
 
     <include layout="@layout/divider" />
@@ -108,7 +109,6 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:minHeight="50dp"
-
         android:orientation="horizontal">
         <!-- android:drawableLeft="@drawable/checkbox_bg_selector"
                     android:button="@null"
