@@ -1,0 +1,64 @@
+package com.yanhao.main.yanhaoandroid.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.bean.ConsultListBean;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2015/11/2 0002.
+ */
+public class ConsultListAdapter extends BaseAdapter{
+
+    private LayoutInflater mInflater;
+    private List<ConsultListBean> mList;
+
+    public ConsultListAdapter(List<ConsultListBean> list, Context context) {
+        this.mList = list;
+        this.mInflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public int getCount() {
+        return mList.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return mList.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        ViewHolder viewHolder ;
+        if(view == null){
+            viewHolder = new ViewHolder();
+            view = mInflater.inflate(R.layout.consultlist_item, null);
+            //viewHolder.view = view.findViewById(R.id.color_view);
+            viewHolder.textView = (TextView) view.findViewById(R.id.item_tv);
+            view.setTag(viewHolder);
+        }else {
+
+            viewHolder = (ViewHolder) view.getTag();
+        }
+        viewHolder.textView.setText(mList.get(i).getText());
+        return view;
+    }
+
+    class ViewHolder{
+        //View view;
+        TextView textView;
+     }
+}

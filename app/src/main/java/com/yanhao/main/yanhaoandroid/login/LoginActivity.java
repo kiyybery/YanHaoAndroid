@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         initIndexOffset();
-
         switch (view.getId()){
 
             case R.id.login_btn:

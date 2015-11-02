@@ -44,7 +44,6 @@ public class RigstFragment extends Fragment implements View.OnClickListener{
     //开启Handler
     static class MyInnerHandler extends Handler {
         WeakReference<RigstFragment> mFragReference;
-
         MyInnerHandler(RigstFragment aFragment) {
             mFragReference = new WeakReference<>(aFragment);
         }
@@ -63,7 +62,6 @@ public class RigstFragment extends Fragment implements View.OnClickListener{
                     break;
                 case mMsgCodeCounting:
                     mResendTime--;
-
                     if (mResendTime > 0) {
                         theFrag.mAccount_register_get_code_btn.setClickable(false);
                         theFrag.mAccount_register_get_code_btn.setText(theFrag.getString(R.string.send_code_counting_text, mResendTime));
@@ -94,7 +92,6 @@ public class RigstFragment extends Fragment implements View.OnClickListener{
         btnRegister.setOnClickListener(this);
         mRigst_show_pwd.setOnClickListener(this);
         mAccount_register_get_code_btn.setOnClickListener(this);
-
         return view;
     }
 
@@ -145,7 +142,6 @@ public class RigstFragment extends Fragment implements View.OnClickListener{
 
         mHander.sendEmptyMessage(mMsgCodeCounting);
         Toast.makeText(getActivity(),"正在向用户"+mEt_regist_username.getText()+"发送验证码，请注意查收！！",Toast.LENGTH_LONG).show();
-
     }
 
     public void rigst(){

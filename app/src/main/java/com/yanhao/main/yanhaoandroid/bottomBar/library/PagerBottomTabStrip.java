@@ -6,9 +6,11 @@ import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,6 +145,7 @@ public class PagerBottomTabStrip extends LinearLayout implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		int n = (Integer) v.getTag();
+		Log.i("click",n+"");
 		mViewPager.setCurrentItem(n,false);
 		setFocus(n);
 	}

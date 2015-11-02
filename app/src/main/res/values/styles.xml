@@ -24,7 +24,26 @@
         <item name="android:layout_width">30dp</item>
         <item name="android:src">@drawable/line_icon</item>
     </style>
+    <style name="Snachat"/>
+    <style name="Snapchat.Detail" parent="Snachat"></style>
+    <style name="Snapchat.Detail.Comment" parent="Snapchat.Detail"/>
 
+    <style name="Snapchat.Detail.Comment.Item2" parent="Snapchat.Detail.Comment">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/yr_text_dark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+
+    </style>
+
+    <style name="Snapchat.Detail.Comment.Item3" parent="Snapchat.Detail.Comment">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+
+    </style>
     <!--Welcome-->
     <!--登陆,注册-->
     <style name="Account">
@@ -79,5 +98,18 @@
         <!-- 背景透明 -->
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 模糊 -->
+    </style>
+
+    <style name="commonAvatar">
+        <item name="android:layout_width">@dimen/avatar_worksList</item>
+        <item name="android:layout_height">@dimen/avatar_worksList</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">@dimen/worklistAvatarMarginLeft</item>
+        <item name="android:clickable">true</item>
+        <item name="android:src">@drawable/avatar_default</item>
     </style>
 </resources>

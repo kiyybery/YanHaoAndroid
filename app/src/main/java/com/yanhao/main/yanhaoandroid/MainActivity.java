@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.yanhao.main.yanhaoandroid.bottomBar.Adapter;
 import com.yanhao.main.yanhaoandroid.bottomBar.library.PagerBottomTabStrip;
+import com.yanhao.main.yanhaoandroid.consult.ConsultFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         List<Fragment> list = new ArrayList<Fragment>();
-        for(int i = 0 ; i < 4 ; i++){
+        /*for(int i = 0 ; i < 4 ; i++){
             list.add(new HomeFragment());
-        }
+        }*/
+        list.add(new HomeFragment());
+        list.add(new ConsultFragment());
+        list.add(new HomeFragment());
+        list.add(new HomeFragment());
         Adapter adapter = new Adapter(getSupportFragmentManager(), list);
         mViewPager.setAdapter(adapter);
     }
