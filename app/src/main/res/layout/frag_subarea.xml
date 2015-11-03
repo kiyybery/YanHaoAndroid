@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bilibg"
+    android:orientation="vertical">
 
     <com.yanhao.main.yanhaoandroid.util.TopBar
         android:id="@+id/topBar_consult"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        custom:costumLeftTextBackground="@drawable/blue_button"
         custom:costumLeftText="返回"
+        custom:costumLeftTextBackground="@drawable/blue_button"
         custom:costumLeftTextColor="@color/white"
-        custom:costumRightTextBackground="@drawable/blue_button"
         custom:costumRightText="北京"
+        custom:costumRightTextBackground="@drawable/blue_button"
         custom:costumRightTextColor="@color/white"
         custom:costumTitle="咨询"
         custom:costumTitleTextColor="@color/white"
-        custom:costumTitleTextSize="8sp"
-        />
+        custom:costumTitleTextSize="8sp" />
 
     <GridView
         android:id="@+id/AreaGridView"
@@ -26,15 +26,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="6dp"
         android:layout_marginTop="15dp"
-        android:background="@color/bilibg"
+
         android:columnWidth="15dp"
         android:gravity="center"
         android:horizontalSpacing="10dp"
         android:numColumns="2"
         android:scrollbarStyle="outsideInset"
-        android:verticalSpacing="10dp" >
+        android:verticalSpacing="10dp">
 
     </GridView>
 

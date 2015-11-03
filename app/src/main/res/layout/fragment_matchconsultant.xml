@@ -1,29 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.yanhao.main.yanhaoandroid.util.TopBar
-        android:id="@+id/topBar_consult"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        custom:costumLeftTextBackground="@drawable/blue_button"
-        custom:costumLeftText="返回"
-        custom:costumLeftTextColor="@color/white"
-        custom:costumRightTextBackground="@drawable/blue_button"
-        custom:costumRightText="北京"
-        custom:costumRightTextColor="@color/white"
-        custom:costumTitle="情绪与神经症"
-        custom:costumTitleTextColor="@color/white"
-        custom:costumTitleTextSize="8sp"
-        />
+
+    <include layout="@layout/section_title" />
 
     <ListView
         android:id="@+id/match_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_below="@+id/li_section_title" />
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/anim_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:background="#ffffff">
+
+        <ImageView
+            android:id="@+id/gear_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/green_chilun" />
+
+        <ImageView
+            android:id="@+id/gear_iv_left"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/gear_iv"
+            android:layout_toLeftOf="@+id/gear_iv_right"
+            android:layout_toStartOf="@+id/gear_iv_right"
+            android:src="@drawable/blue_chilun" />
+
+        <ImageView
+            android:id="@+id/gear_iv_right"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/gear_iv"
+            android:layout_alignRight="@+id/gear_iv"
+            android:layout_alignTop="@+id/gear_iv_left"
+            android:src="@drawable/pink_chilun" />
+
+        <TextView
+            android:id="@+id/gear_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gear_iv_right"
+            android:layout_centerHorizontal="true"
+            android:text="咨询师匹配中。。。"
+            android:textColor="@color/material_blue_grey_800" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -112,4 +112,26 @@
         <item name="android:clickable">true</item>
         <item name="android:src">@drawable/avatar_default</item>
     </style>
+
+    <style name="MyProfile" />
+    <style name="MyProfile.Text">
+        <item name="android:background">@color/yr_background_main</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/yr_title_secondary</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:layout_gravity">left</item>
+    </style>
+
+    <style name="A1_Font">
+        <item name="android:textColor">#333333</item>
+        <item name="android:shadowDx">1.0</item>
+        <item name="android:shadowDy">-1.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
 </resources>

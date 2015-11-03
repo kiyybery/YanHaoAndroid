@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.bean.AreaItem;
@@ -44,17 +45,20 @@ public class AreaGridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         AreaItem areaItem = (AreaItem) getItem(i);
         view = LayoutInflater.from(mContext).inflate(R.layout.area_item, null);
         ImageView areaImageView = (ImageView) view.findViewById(R.id.area_iv);
         TextView areaTextView = (TextView) view.findViewById(R.id.area_tv);
         areaImageView.setImageResource(areaItem.getImg());
         areaTextView.setText(areaItem.getText());
+        final String select = areaItem.getText();
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
+                intent.putExtra("itemId",i);
+                intent.putExtra("itemName",select);
                 intent.setClass(mContext,ConsultListActivity.class);
                 mContext.startActivity(intent);
             }
