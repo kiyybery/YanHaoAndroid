@@ -2,6 +2,8 @@ package com.yanhao.main.yanhaoandroid.consult;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.adapter.ConsultListAdapter;
 import com.yanhao.main.yanhaoandroid.bean.ConsultListBean;
 import com.yanhao.main.yanhaoandroid.matchconsultant.MatchConsultantActivity;
+import com.yanhao.main.yanhaoandroid.util.CustomProgressDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/11/2 0002.
  */
-public class ConsultListFragment extends Fragment{
+public class ConsultListFragment extends Fragment {
 
     private ListView mConsultListView;
     private List<ConsultListBean> mList;
@@ -49,16 +52,16 @@ public class ConsultListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_consultlist,container,false);
+        View view = inflater.inflate(R.layout.fragment_consultlist, container, false);
 
         int itemId = getArguments().getInt("itemId", 0);
         String itemName = getArguments().getString("itemName");
 
-        Toast.makeText(getActivity(),"activity say :"+itemId+","+itemName,Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "activity say :" + itemId + "," + itemName, Toast.LENGTH_LONG).show();
         mList = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             mConsultListBean = new ConsultListBean();
-            mConsultListBean.setText("情绪障碍"+i);
+            mConsultListBean.setText("情绪障碍" + i);
             mList.add(mConsultListBean);
         }
         mConsultListView = (ListView) view.findViewById(R.id.consult_listview);
@@ -69,7 +72,7 @@ public class ConsultListFragment extends Fragment{
 
                 String titleName = mList.get(i).getText();
                 Intent intent = new Intent(getActivity(), MatchConsultantActivity.class);
-                intent.putExtra("titlename",titleName);
+                intent.putExtra("titlename", titleName);
                 startActivity(intent);
             }
         });

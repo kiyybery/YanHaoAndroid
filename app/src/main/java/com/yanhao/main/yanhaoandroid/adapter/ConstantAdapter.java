@@ -21,7 +21,6 @@ public class ConstantAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
 
     public ConstantAdapter (Context ctx,List<ConstantBean> list){
-
         mInflater = LayoutInflater.from(ctx);
         mList = list;
     }
@@ -53,7 +52,6 @@ public class ConstantAdapter extends BaseAdapter{
             viewHolder.area_tv = (TextView) view.findViewById(R.id.consult_area);
             view.setTag(viewHolder);
         }else {
-
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.imageView.setImageResource(R.drawable.avatar_default);
@@ -64,7 +62,6 @@ public class ConstantAdapter extends BaseAdapter{
     }
 
     class ViewHolder {
-
         ImageView imageView;
         TextView name_tv,level_tv,area_tv;
     }

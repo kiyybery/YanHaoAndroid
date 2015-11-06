@@ -280,6 +280,6 @@
 
     <color name="background_tab_pressed">#22000000</color>
     <color name="bilibg">#f2f2f2</color>
-    <color name= "black_alpha2">#23000000</color>
+    <color name= "black_alpha2">@color/yr_divider</color>
 </resources>
 

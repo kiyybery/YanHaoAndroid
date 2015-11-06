@@ -134,4 +134,21 @@
         <item name="android:shadowDy">-1.0</item>
         <item name="android:shadowRadius">1.0</item>
     </style>
+
+    <style name="Consultant" />
+    <style name="Consultant.Text">
+        <item name="android:background">@color/yr_background_main</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/yr_title_secondary</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:drawableRight">@drawable/icon_arrow_right</item>
+    </style>
 </resources>

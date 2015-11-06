@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.yanhao.main.yanhaoandroid.MainActivity;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.util.CommonUtils;
+import com.yanhao.main.yanhaoandroid.util.CustomProgressDialog;
 import com.yanhao.main.yanhaoandroid.util.StringUtil;
 
 /**

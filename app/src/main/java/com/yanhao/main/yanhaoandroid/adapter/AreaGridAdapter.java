@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.bean.AreaItem;
 import com.yanhao.main.yanhaoandroid.consult.ConsultListActivity;
+import com.yanhao.main.yanhaoandroid.util.CustomProgressDialog;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class AreaGridAdapter extends BaseAdapter {
                 Intent intent = new Intent();
                 intent.putExtra("itemId",i);
                 intent.putExtra("itemName",select);
-                intent.setClass(mContext,ConsultListActivity.class);
+                intent.setClass(mContext, ConsultListActivity.class);
                 mContext.startActivity(intent);
             }
         });

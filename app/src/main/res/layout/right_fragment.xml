@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center"
-        android:minHeight="50dp"
+        android:minHeight="45dp"
         android:orientation="horizontal">
 
         <TextView
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center"
-        android:minHeight="50dp"
+        android:minHeight="45dp"
         android:orientation="horizontal">
 
         <TextView
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:minHeight="50dp"
+        android:minHeight="45dp"
         android:orientation="horizontal">
 
         <TextView
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:minHeight="50dp"
+        android:minHeight="45dp"
         android:orientation="horizontal">
         <!-- android:drawableLeft="@drawable/checkbox_bg_selector"
                     android:button="@null"

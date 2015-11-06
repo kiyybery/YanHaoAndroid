@@ -35,8 +35,8 @@ public class ConsultFragment extends Fragment{
             R.drawable.sex,R.drawable.other
     };
     private String[] areatexts = new String[]{
-            "婚姻关系","少年儿童","职场困惑",
-            "情绪神经症","人及社交","个人成长",
+            "婚姻关系","青少年儿童","职场困惑",
+            "情绪与神经症","人际社交","个人成长",
             "性方面","其他"
     };
 

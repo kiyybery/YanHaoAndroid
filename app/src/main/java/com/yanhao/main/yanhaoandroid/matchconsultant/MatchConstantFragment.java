@@ -100,6 +100,7 @@ public class MatchConstantFragment extends Fragment {
         set = (AnimationSet) AnimationUtils.loadAnimation(getActivity(), R.anim.gear_anim);
         setLeft = (AnimationSet) AnimationUtils.loadAnimation(getActivity(), R.anim.gear_anim_left);
         setRight = (AnimationSet) AnimationUtils.loadAnimation(getActivity(), R.anim.gear_anim_right);
+
         ImageView gearIV = (ImageView) view.findViewById(R.id.gear_iv);
         ImageView gearIVLeft = (ImageView) view.findViewById(R.id.gear_iv_left);
         ImageView gearIVRight = (ImageView) view.findViewById(R.id.gear_iv_right);

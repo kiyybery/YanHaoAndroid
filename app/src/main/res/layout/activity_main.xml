@@ -1,63 +1,62 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
 
     <RelativeLayout
         android:id="@+id/login_top_layout"
         android:layout_width="match_parent"
         android:layout_height="231dp"
-        android:background="@drawable/login_title_bg">
+        android:background="@drawable/login_title_bg"
+        android:clipToPadding="true"
+        >
 
         <TextView
             android:id="@+id/login_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:text="欢迎来到您的心灵驿站"
             android:textColor="#FFFFFF"
-            android:textSize="22.6sp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:textSize="22.6sp" />
     </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/login_title_layout"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:background="@drawable/login_select_line"
-        android:layout_below="@+id/login_top_layout">
+        android:layout_below="@+id/login_top_layout"
+        android:background="@drawable/login_select_line">
 
         <LinearLayout
             android:id="@+id/login_line_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/login_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:background="@drawable/no_corner_white"
                 android:text="登录"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:layout_gravity="bottom" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/rigst_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:background="@drawable/no_corner_white"
                 android:text="注册"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:layout_gravity="bottom" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,21 +70,19 @@
                 android:id="@+id/pinnedIndicator"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                >
-                <ImageView style="@style/UserCenter.Indicator"/>
+                android:layout_weight="1">
+
+                <ImageView style="@style/UserCenter.Indicator" />
             </FrameLayout>
         </LinearLayout>
-        </FrameLayout>
-
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-    </FrameLayout>
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"></FrameLayout>
 
 </RelativeLayout>
