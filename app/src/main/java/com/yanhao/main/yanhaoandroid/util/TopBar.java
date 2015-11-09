@@ -150,5 +150,4 @@ public class TopBar extends RelativeLayout{
         // 右按钮点击事件
         void rightClick();
     }
-
 }

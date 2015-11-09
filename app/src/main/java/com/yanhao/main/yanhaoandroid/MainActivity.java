@@ -1,7 +1,5 @@
 package com.yanhao.main.yanhaoandroid;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +7,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 
 import com.yanhao.main.yanhaoandroid.bottomBar.Adapter;
 import com.yanhao.main.yanhaoandroid.bottomBar.library.PagerBottomTabStrip;
 import com.yanhao.main.yanhaoandroid.consult.ConsultFragment;
+import com.yanhao.main.yanhaoandroid.usercenter.MyPrefireFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         //透明状态栏
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
+
         hideNavigationBar();
         initAdapter();
         mPagerBottomTabStrip = (PagerBottomTabStrip) findViewById(R.id.tab);
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         list.add(new HomeFragment());
         list.add(new ConsultFragment());
         list.add(new HomeFragment());
-        list.add(new HomeFragment());
+        list.add(new MyPrefireFragment());
         Adapter adapter = new Adapter(getSupportFragmentManager(), list);
         mViewPager.setAdapter(adapter);
     }
@@ -91,18 +90,4 @@ public class MainActivity extends AppCompatActivity {
             hideNavigationBar();
         }
     }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
-
 }

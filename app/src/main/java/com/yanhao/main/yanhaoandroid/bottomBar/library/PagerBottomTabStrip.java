@@ -50,10 +50,8 @@ public class PagerBottomTabStrip extends LinearLayout implements OnClickListener
 	public PagerBottomTabStrip(Context context, AttributeSet attrs,
 							   int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-
 		this.setOrientation(HORIZONTAL);
 		mContext = context;
-
 	}
 
 	/**
@@ -64,13 +62,10 @@ public class PagerBottomTabStrip extends LinearLayout implements OnClickListener
 	public IMode builder(ViewPager viewPager){
 		mViewPager = viewPager;
 		viewPager.addOnPageChangeListener(this);
-
 		mTabstrips = new ArrayList<Tabstrip>();
 		mTexts = new ArrayList<String>();
-
 		mCount = viewPager.getAdapter().getCount();
 		for (int i = 0; i < mCount; i++) {
-
 			mTexts.add(viewPager.getAdapter().getPageTitle(i).toString());
 			Tabstrip tabstrip = new Tabstrip(mContext);
 			tabstrip.setTabText(mTexts.get(i));
@@ -78,7 +73,6 @@ public class PagerBottomTabStrip extends LinearLayout implements OnClickListener
 			tabstrip.setOnClickListener(this);
 			mTabstrips.add(tabstrip);
 		}
-
 		return this;
 	}
 

@@ -24,6 +24,10 @@
         <activity android:name=".login.LoginActivity"/>
         <activity android:name=".consult.ConsultListActivity"/>
         <activity android:name=".matchconsultant.MatchConsultantActivity"/>
+        <activity android:name=".usercenter.EditActivity"/>
+        <activity android:name=".usercenter.OrderActivity"/>
+        <activity android:name=".usercenter.RecordActivity"/>
+        <activity android:name=".usercenter.SettingActivity"/>
     </application>
 
 </manifest>
