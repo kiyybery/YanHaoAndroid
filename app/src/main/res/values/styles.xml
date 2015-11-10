@@ -234,5 +234,39 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <!--选择-->
+    <style name="Select" />
+
+    <style name="Select.ItemText">
+        <item name="android:layout_weight">2</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/yr_text_dark</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Select.TitleText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/yr_text_dark</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SelectCheckedButton" parent="android:Widget.ImageButton">
+        <item name="android:visibility">visible</item>
+        <item name="android:src">@drawable/checkbox_open</item>
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
     <dimen name="profileTopWidgetMarginLeft">30dp</dimen>
 </resources>

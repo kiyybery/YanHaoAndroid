@@ -28,6 +28,8 @@
         <activity android:name=".usercenter.OrderActivity"/>
         <activity android:name=".usercenter.RecordActivity"/>
         <activity android:name=".usercenter.SettingActivity"/>
+        <activity android:name=".usercenter.MyCollectionActivity"/>
+        <activity android:name=".usercenter.UpdateProfireActivity"/>
     </application>
 
 </manifest>

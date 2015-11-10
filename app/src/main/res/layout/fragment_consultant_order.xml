@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <include layout="@layout/divider_thick" />
+
+    <RelativeLayout
+        android:id="@+id/item_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main">
+
+        <com.yanhao.main.yanhaoandroid.util.CircleImageView
+            android:id="@+id/cv_order_avatar"
+            style="@style/commonAvatar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left|top" />
+
+        <RelativeLayout
+            android:id="@+id/content_re_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/cv_order_avatar">
+
+            <TextView
+                android:id="@+id/order_name"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:paddingTop="7dp"
+                android:text="张晓梅"
+                android:textSize="22dp" />
+
+            <TextView
+                android:id="@+id/order_level"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/order_name"
+                android:paddingTop="10dp"
+                android:text="国家二级"
+                android:textColor="#636363" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/area_rl_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/content_re_layout"
+            android:layout_toRightOf="@+id/cv_order_avatar">
+
+            <TextView
+                android:id="@+id/order_area_tv"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:paddingTop="10dp"
+                android:text="擅长 精神病 亲子关系 婚姻问题"
+                android:textSize="15dp"
+                android:textColor="#969696" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/ordered_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/ordered_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="已接受预约"
+            android:textSize="18dp"
+            android:textColor="#333333" />
+
+        <TextView
+            android:id="@+id/ordered_time"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="5月23日下午3：00"
+            android:textSize="16dp"
+            android:textColor="#479de2" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_thick" />
+
+    <RelativeLayout
+        android:id="@+id/style_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/style_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="咨询方式"
+            android:textSize="18dp"
+            android:textColor="#333333" />
+
+        <TextView
+            android:id="@+id/style_time"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="当面咨询"
+            android:textSize="16dp"
+            android:textColor="#666666" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/ordered_address_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/ordered_address_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="咨询地址"
+            android:textColor="#333333"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/ordered_address_tv_info"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ordered_address_tv"
+            android:layout_marginLeft="15dp"
+            android:textSize="16dp"
+            android:text="北京市西城区广安门外大街XX小区三单元101室"
+            android:textColor="#666666"
+            android:singleLine="false"
+            />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/updateordertime_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profire_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/updateordertime_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="修改预约时间(仅一次)"
+            android:textSize="18dp"
+            android:textColor="#333333" />
+
+        <ImageView
+            android:id="@+id/updateordertime_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/arrow_right_uc" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/call_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/call_layout_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="联系客服"
+            android:textSize="18dp"
+            android:textColor="#333333" />
+
+        <ImageView
+            android:id="@+id/call_layout_phone"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/uc_callnum"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/call_layout_num"
+            android:layout_toStartOf="@+id/call_layout_num"
+            android:layout_marginRight="6dp"
+            android:layout_marginEnd="17dp" />
+
+        <TextView
+            android:id="@+id/call_layout_num"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="4001215906"
+            android:textSize="16dp"
+            android:textColor="#666666" />
+    </RelativeLayout>
+</LinearLayout>

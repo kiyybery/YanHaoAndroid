@@ -54,6 +54,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         mOrder_tv.setOnClickListener(this);
         mNote_tv.setOnClickListener(this);
         mSetting_tv.setOnClickListener(this);
+        mCollection_tv.setOnClickListener(this);
         setTVDrawable();
         return view;
     }
@@ -108,7 +109,9 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
 
                 break;
             case R.id.my_profile_collection:
-
+                intent = new Intent();
+                intent.setClass(getActivity(),MyCollectionActivity.class);
+                startActivity(intent);
                 break;
             case R.id.my_profile_note:
 
