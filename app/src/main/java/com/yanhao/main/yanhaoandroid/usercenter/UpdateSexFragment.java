@@ -1,6 +1,8 @@
 package com.yanhao.main.yanhaoandroid.usercenter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,15 +25,11 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/11/10 0010.
  */
-public class UpdateSexFragment extends Fragment{
+public class UpdateSexFragment extends Fragment implements View.OnClickListener{
 
-    String[] sex = new String[]{
-            "男",//1
-            "女",//2
-    };
-    private List<String> mList;
-    private ListView mListView;
-    private SexAdapter mSexAdapter;
+    private TextView mMan_tv,mWoman_tv,mFinish;
+    private String getMan,getWoman,getSex;
+    private ImageView mCheckMan,mCheckWoman;
 
     public static UpdateSexFragment newInstance() {
 
@@ -52,79 +51,53 @@ public class UpdateSexFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_updatesex,container,false);
-        mList = Arrays.asList(sex);
-
-        mSexAdapter = new SexAdapter(getActivity());
-        mListView = (ListView) view.findViewById(R.id.list_sex);
-        mListView.setAdapter(new SexAdapter(getActivity()));
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mSexAdapter.setSelectpoistion(i);
-                mSexAdapter.notifyDataSetInvalidated();
-                String sexname = mSexAdapter.getItem(i);
-                Toast.makeText(getActivity(),i+"sexname",Toast.LENGTH_LONG).show();
-            }
-        });
+        mMan_tv = (TextView) view.findViewById(R.id.man_tv);
+        mMan_tv.setOnClickListener(this);
+        mWoman_tv = (TextView) view.findViewById(R.id.woman_tv);
+        mWoman_tv.setOnClickListener(this);
+        mFinish = (TextView) view.findViewById(R.id.tv_text_title_right);
+        mFinish.setOnClickListener(this);
+        mCheckMan = (ImageView) view.findViewById(R.id.right_check_man);
+        mCheckWoman = (ImageView) view.findViewById(R.id.right_check_woman);
         return view;
     }
 
-    private class SexAdapter extends BaseAdapter{
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
 
-        int selectpoistion = 0;
-        private LayoutInflater mInflater;
-
-        public SexAdapter(Context context){
-
-            this.mInflater = LayoutInflater.from(context);
-        }
-
-        public void setSelectpoistion(int i){
-            selectpoistion = i;
-        }
-
-        @Override
-        public int getCount() {
-            return mList.size();
-        }
-
-        @Override
-        public String getItem(int i) {
-            return mList.get(i);
-        }
-
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            ViewHolder viewHolder;
-            if(view == null){
-                viewHolder = new ViewHolder();
-                view = mInflater.inflate(R.layout.item_updatesex,null);
-                viewHolder.tv_sex = (TextView) view.findViewById(R.id.tvSexName);
-                viewHolder.ib_sex = (ImageButton) view.findViewById(R.id.ibSexField);
-                view.setTag(viewHolder);
-            }else {
-                viewHolder = (ViewHolder) view.getTag();
-            }
-
-            String sexname = getItem(i);
-            viewHolder.tv_sex.setText(sexname);
-            if(selectpoistion != i){
-                viewHolder.ib_sex.setVisibility(View.VISIBLE);
-            }else{
-                viewHolder.ib_sex.setVisibility(View.INVISIBLE);
-            }
-            return view;
+            case R.id.man_tv:
+                getMan = mMan_tv.getText().toString();
+                getSex = getMan;
+                mCheckMan.setVisibility(View.VISIBLE);
+                mCheckWoman.setVisibility(View.GONE);
+                break;
+            case R.id.woman_tv:
+                getWoman = mWoman_tv.getText().toString();
+                getSex = getWoman;
+                mCheckMan.setVisibility(View.GONE);
+                mCheckWoman.setVisibility(View.VISIBLE);
+                break;
+            case R.id.tv_text_title_right:
+                save();
+                break;
+            default:
+                break;
         }
     }
 
-    class ViewHolder{
-        TextView tv_sex;
-        ImageButton ib_sex;
+    public void save(){
+
+        Intent intent = new Intent();
+        intent.putExtra("sex",getSex);
+        Toast.makeText(getActivity(),"sex="+getSex,Toast.LENGTH_LONG).show();
+        finish(Activity.RESULT_OK, intent);
+    }
+
+    protected void finish(int resultCode, Intent data) {
+        if (getActivity() != null) {
+            getActivity().setResult(resultCode, data);
+            getActivity().finish();
+        }
     }
 }

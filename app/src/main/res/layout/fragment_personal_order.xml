@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <include layout="@layout/divider_thick" />
+
+    <RelativeLayout
+        android:id="@+id/personal_item_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main">
+
+        <com.yanhao.main.yanhaoandroid.util.CircleImageView
+            android:id="@+id/cv_personal_order_avatar"
+            style="@style/commonAvatar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left|top"
+            />
+
+        <RelativeLayout
+            android:id="@+id/personal_content_re_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/cv_personal_order_avatar">
+
+            <TextView
+                android:id="@+id/personal_order_name"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:paddingTop="7dp"
+                android:text="萌萌"
+                android:textColor="#333333"
+                android:textSize="22dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/area_rl_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personal_content_re_layout"
+            android:layout_toRightOf="@+id/cv_personal_order_avatar">
+
+            <TextView
+                android:id="@+id/order_area_tv"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:paddingTop="10dp"
+                android:text="北京"
+                android:textColor="#636363"
+                android:textSize="18dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_ordered_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_ordered_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="预约时间"
+            android:textColor="#333333"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/personal_ordered_time"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="5月23日下午3：00"
+            android:textColor="#479de2"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_thick" />
+
+    <RelativeLayout
+        android:id="@+id/personal_style_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_style_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="咨询方式"
+            android:textColor="#333333"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/personal_style_time"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="电话咨询"
+            android:textColor="#666666"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_updateordertime_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profire_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_updateordertime_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="问题描述"
+            android:textColor="#333333"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/personal_style_type"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="夫妻不和"
+            android:textColor="#666666"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_call_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_call_layout_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="联系电话"
+            android:textColor="#333333"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/personal_call_layout_phone"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="17dp"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/personal_call_layout_num"
+            android:layout_toStartOf="@+id/personal_call_layout_num"
+            android:background="@drawable/uc_callnum" />
+
+        <TextView
+            android:id="@+id/personal_call_layout_num"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="13902988908"
+            android:textColor="#666666"
+            android:textSize="16dp" />
+    </RelativeLayout>
+</LinearLayout>

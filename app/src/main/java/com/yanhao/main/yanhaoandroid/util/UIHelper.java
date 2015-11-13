@@ -17,7 +17,7 @@ import com.yanhao.main.yanhaoandroid.YanHao;
  */
 public class UIHelper {
 
-    public static Dialog buildConfirm(Context context, String title, String left,String right, android.view.View.OnClickListener listener_left, android.view.View.OnClickListener listener_right) {
+    public static Dialog buildConfirm(Context context, String title, String left, String right, android.view.View.OnClickListener listener_left, android.view.View.OnClickListener listener_right) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -38,7 +38,7 @@ public class UIHelper {
         return dialog;
     }
 
-    public static Dialog buildAccent(Context context, String title, String left,String right, android.view.View.OnClickListener listener_left, android.view.View.OnClickListener listener_right) {
+    public static Dialog buildAccent(Context context, String title, String left, String right, android.view.View.OnClickListener listener_left, android.view.View.OnClickListener listener_right) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -72,6 +72,31 @@ public class UIHelper {
         Button btn_confirm = (Button) view.findViewById(R.id.btn_dialog_alert);
         btn_confirm.setText(str_button);
         btn_confirm.setOnClickListener(listener);
+        window.setContentView(view);
+        dialog.setCanceledOnTouchOutside(true);
+        return dialog;
+    }
+
+    public static Dialog buildCall(Context context, String title, String content, String left, String right,
+                                   android.view.View.OnClickListener listener_left,
+                                   android.view.View.OnClickListener listener_right) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        View view = View.inflate(context, R.layout.customdialog, null);
+        //RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
+
+        TextView tv_title = (TextView) view.findViewById(R.id.title_tv_phone);
+        tv_title.setText(title);
+        TextView tv_num = (TextView) view.findViewById(R.id.num_tv);
+        tv_num.setText(content);
+        TextView tv_left = (TextView) view.findViewById(R.id.cancel_btn);
+        tv_left.setText(left);
+        tv_left.setOnClickListener(listener_left);
+        TextView tv_right = (TextView) view.findViewById(R.id.confirm_btn);
+        tv_right.setText(right);
+        tv_right.setOnClickListener(listener_right);
         window.setContentView(view);
         dialog.setCanceledOnTouchOutside(true);
         return dialog;

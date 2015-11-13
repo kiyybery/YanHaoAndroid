@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/presonal_item_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <com.yanhao.main.yanhaoandroid.util.CircleImageView
+            android:id="@+id/cv_presonal_order_avatar"
+            style="@style/commonAvatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left|top" />
+
+        <RelativeLayout
+            android:id="@+id/presonal_content_re_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/cv_presonal_order_avatar">
+
+            <TextView
+                android:id="@+id/presonal_order_name"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:paddingTop="10dp"
+                android:text="李萌"
+                android:textColor="#333333"
+                android:textSize="22dp" />
+
+            <TextView
+                android:id="@+id/presonal_order_level"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/presonal_order_name"
+                android:paddingTop="10dp"
+                android:text="国家二级"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/presonal_area_rl_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/presonal_content_re_layout"
+            android:layout_toRightOf="@+id/cv_presonal_order_avatar">
+
+            <TextView
+                android:id="@+id/presonal_order_area_tv"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:paddingTop="1dp"
+                android:text="电话咨询"
+                android:textColor="#636363" />
+
+            <TextView
+                android:id="@+id/presonal_order_date_tv"
+                style="@style/Snapchat.Detail.Comment.Item2"
+                android:layout_below="@+id/presonal_order_area_tv"
+                android:paddingTop="1dp"
+                android:text="5月12日 下午3点"
+                android:textColor="#969696" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

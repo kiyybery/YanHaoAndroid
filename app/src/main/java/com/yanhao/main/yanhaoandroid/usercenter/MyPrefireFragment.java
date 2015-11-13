@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 
 /**
  * Created by Administrator on 2015/11/9 0009.
@@ -19,6 +20,7 @@ import com.yanhao.main.yanhaoandroid.R;
 public class MyPrefireFragment extends Fragment implements View.OnClickListener {
 
     private TextView mOrder_tv, mTest_tv, mCollection_tv, mNote_tv, mSetting_tv, mShare_tv, mUpdate_tv;
+    private CircleImageView mCircleImageView;
 
     public static MyPrefireFragment newInstance() {
 
@@ -42,6 +44,8 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         //getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         View view = inflater.inflate(R.layout.prefire_fragment, container, false);
 
+        mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar);
+        mCircleImageView.setImageResource(R.drawable.imgmengmengava);
         mOrder_tv = (TextView) view.findViewById(R.id.my_profile_order);
         mTest_tv = (TextView) view.findViewById(R.id.my_profile_test);
         mCollection_tv = (TextView) view.findViewById(R.id.my_profile_collection);

@@ -134,7 +134,6 @@
     <color name="trans_black_95">#F2000000</color>
 
 
-
     <!--点赞、退出按钮-->
     <!--收藏-->
     <!--聊天页面对话框-->
@@ -280,6 +279,7 @@
 
     <color name="background_tab_pressed">#22000000</color>
     <color name="bilibg">#f2f2f2</color>
-    <color name= "black_alpha2">@color/yr_divider</color>
+    <color name="black_alpha2">@color/yr_divider</color>
+    <color name="callbtn">#0a82e2</color>
 </resources>
 

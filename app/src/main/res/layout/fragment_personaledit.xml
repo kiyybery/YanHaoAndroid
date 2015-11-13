@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <include layout="@layout/divider_thick" />
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/avatar_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="88dp"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_edit_avatar_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="头像" />
+
+        <com.yanhao.main.yanhaoandroid.util.CircleImageView
+            android:id="@+id/personal_iv_uc_avatar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:clickable="true"
+            android:src="@drawable/avatar_default" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_name_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_edit_name_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="名字" />
+
+
+        <TextView
+            android:id="@+id/personal_edit_name"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/personal_edit_name_back"
+            android:text="张晓梅" />
+
+        <ImageView
+            android:id="@+id/personal_edit_name_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/arrow_right_uc" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_sex_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_sex_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_edit_sex_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="性别" />
+
+
+        <TextView
+            android:id="@+id/personal_edit_sex"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/personal_edit_sex_back"
+            android:text="女" />
+
+        <ImageView
+            android:id="@+id/personal_edit_sex_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/arrow_right_uc" />
+    </RelativeLayout>
+
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_address_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_sex_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_edit_address_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="咨询地址" />
+
+
+        <TextView
+            android:id="@+id/personal_edit_address"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/personal_edit_address_back"
+            android:text="北京  朝阳区" />
+
+        <ImageView
+            android:id="@+id/personal_edit_address_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/arrow_right_uc" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <include layout="@layout/divider_thick" />
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_level_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profire_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_edit_level_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="证书级别" />
+
+        <TextView
+            android:id="@+id/personal_edit_level"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="国家二级" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_area_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profire_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_area_level_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="擅长领域" />
+
+        <TextView
+            android:id="@+id/personal_area_level"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="婚姻家庭  亲子教育" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/personal_profire_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profire_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/personal_edit_profire_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="个人简介" />
+
+        <ImageView
+            android:id="@+id/personal_edit_profire_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/arrow_right_uc" />
+    </RelativeLayout>
+
+</LinearLayout>

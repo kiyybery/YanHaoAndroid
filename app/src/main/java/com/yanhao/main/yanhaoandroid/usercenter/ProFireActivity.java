@@ -1,30 +1,27 @@
 package com.yanhao.main.yanhaoandroid.usercenter;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by Administrator on 2015/11/9 0009.
+ * Created by Administrator on 2015/11/12 0012.
  */
-public class OrderActivity extends AppCompatActivity{
+public class ProFireActivity extends AppCompatActivity{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null){
-            /*FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            OrderFragment productionResultFrg = OrderFragment.newInstance();
-            ft.add(android.R.id.content, productionResultFrg);
-            ft.commit();*/
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            OrderPersonalFragment productionResultFrg = OrderPersonalFragment.newInstance();
+            ProFireFrag productionResultFrg = ProFireFrag.newInstance();
             ft.add(android.R.id.content, productionResultFrg);
             ft.commit();
         }
+
     }
 }
