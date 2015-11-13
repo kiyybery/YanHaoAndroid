@@ -1,6 +1,8 @@
 package com.yanhao.main.yanhaoandroid.usercenter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PixelFormat;
@@ -16,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
@@ -35,11 +38,11 @@ import java.util.regex.Pattern;
 /**
  * Created by Administrator on 2015/11/13 0013.
  */
-public class CityListActivity extends AppCompatActivity{
+public class CityListActivity extends AppCompatActivity {
 
     private BaseAdapter adapter;
     private ListView personList;
-    private TextView overlay; // 对话框首字母textview
+    private TextView overlay,title_tv,right_tv; // 对话框首字母textview
     private MyLetterListView letterListView; // A-Z listview
     private HashMap<String, Integer> alphaIndexer;// 存放存在的汉语拼音首字母和与之对应的列表位置
     private String[] sections;// 存放存在的汉语拼音首字母
@@ -49,15 +52,20 @@ public class CityListActivity extends AppCompatActivity{
     private ArrayList<City> city_lists;// 城市列表
     ListAdapter.TopViewHolder topViewHolder;
     private String lngCityName = "正在定位所在位置..";
+    private String city_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.city_list_layout,null);
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.city_list_layout, null);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
         setContentView(view);
 
+        title_tv = (TextView) findViewById(R.id.tv_profire_title_title);
+        title_tv.setText("所在地");
+        right_tv = (TextView) findViewById(R.id.tv_profire_title_right);
+        right_tv.setVisibility(View.GONE);
         personList = (ListView) findViewById(R.id.list_view);
         allCity_lists = new ArrayList<City>();
         letterListView = (MyLetterListView) findViewById(R.id.MyLetterListView01);
@@ -159,6 +167,7 @@ public class CityListActivity extends AppCompatActivity{
     }
 
     public class ListAdapter extends BaseAdapter {
+        private City city;
         private LayoutInflater inflater;
         private List<City> list;
         final int VIEW_TYPE = 3;
@@ -216,6 +225,7 @@ public class CityListActivity extends AppCompatActivity{
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            final City city_adapter = (City) getItem(position);
             ViewHolder holder;
             int viewType = getItemViewType(position);
             if (viewType == 1) {
@@ -275,6 +285,16 @@ public class CityListActivity extends AppCompatActivity{
                     }
                 }
             }
+            city_name = city_adapter.getName();
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(CityListActivity.this,"adapter_click"+city_adapter.getName(),Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent();
+                    intent.putExtra("city_name",city_adapter.getName());
+                    finish(Activity.RESULT_OK,intent);
+                }
+            });
             return convertView;
         }
 
@@ -291,6 +311,13 @@ public class CityListActivity extends AppCompatActivity{
         private class ShViewHolder {
             EditText editText;
 
+        }
+    }
+
+    protected void finish(int resultCode, Intent data) {
+        if (this != null) {
+            this.setResult(resultCode, data);
+            this.finish();
         }
     }
 

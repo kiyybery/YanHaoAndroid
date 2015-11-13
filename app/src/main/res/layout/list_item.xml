@@ -9,12 +9,13 @@
         android:id="@+id/alpha"
         android:layout_width="fill_parent"
         android:layout_height="25dip"
-        android:background="#B7B7B7"
+        android:background="#ffececec"
         android:paddingBottom="2dip"
         android:paddingLeft="13dip"
         android:paddingTop="2dip"
-        android:textColor="#515151"
-        android:textSize="14sp"
+        android:textColor="#333333"
+        android:textSize="50px"
+        android:textStyle="bold"
         android:visibility="gone" />
 
     <TextView
@@ -22,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dip"
-        android:textColor="#000000"
-        android:textSize="18dp" />
+        android:textColor="#333333"
+        android:textSize="50px" />
 
 </LinearLayout>

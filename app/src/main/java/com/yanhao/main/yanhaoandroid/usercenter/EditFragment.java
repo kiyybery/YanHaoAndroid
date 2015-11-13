@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class EditFragment extends Fragment implements View.OnClickListener {
 
-    private TextView mTitle, mName_tv,mSex_tv;
+    private TextView mTitle, mName_tv,mSex_tv,mCity_tv;
     private ImageView mBackImage;
     private CircleImageView mCircleImageView;
     private RelativeLayout mName_layout, mSex_layout, mAddress_layout, mProfire_layout;
@@ -44,6 +44,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private static final int REQUEST_MODIFY_REGION = 504;
     public static final int REQUEST_MODIFY_USERNAME = 505;
     public static final int REQUEST_MODIFY_SEX = 506;
+    public static final int REQUEST_MODIFY_CITY = 507;
     private Map<String, String> tempUserInfo = new HashMap<>();
 
     public static EditFragment newInstance() {
@@ -68,6 +69,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         name = getArguments().getString("username");
         mName_tv = (TextView) view.findViewById(R.id.edit_name);
         mSex_tv = (TextView) view.findViewById(R.id.edit_sex);
+        mCity_tv = (TextView) view.findViewById(R.id.edit_address);
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar);
         mCircleImageView.setImageResource(R.drawable.imgmengmengava);
         mName_layout = (RelativeLayout) view.findViewById(R.id.name_layout);
@@ -115,7 +117,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
                 intent = new Intent();
                 intent.setClass(getActivity(),CityListActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_MODIFY_CITY);
                 break;
             case R.id.profire_layout:
 
@@ -124,6 +126,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.iv_uc_avatar:
+
                 FragmentManager fm = getFragmentManager();
                 SelectAvatarSourceFrag f = SelectAvatarSourceFrag.newInstance();
                 f.setTargetFragment(EditFragment.this, REQUEST_MODIFY_AVATAR);
@@ -178,7 +181,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 Map map = (Map) data.getExtras().getSerializable("region_id");
                 tempUserInfo.putAll(map);*/
                 break;
-
             case REQUEST_MODIFY_USERNAME:
                 String name = data.getStringExtra("username");
                 mName_tv.setText(name);
@@ -187,6 +189,9 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 String sex = data.getStringExtra("sex");
                 mSex_tv.setText(sex);
                 break;
+            case REQUEST_MODIFY_CITY:
+                String cityname = data.getStringExtra("city_name");
+                mCity_tv.setText(cityname);
             default:
                 break;
         }
@@ -194,5 +199,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     public interface LocateIn {
         public void getCityName(String name);
+    }
+
+    public boolean isChanged() {
+        boolean changed = tempUserInfo != null && tempUserInfo.size() > 0;
+        if (changed) {
+            Log.d(TAG, tempUserInfo.toString());
+        }
+        return changed;
     }
 }

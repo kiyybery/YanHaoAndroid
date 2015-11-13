@@ -13,7 +13,8 @@
         android:padding="10dip"
         android:hint="请输入城市名称"
         android:textColor="#515151"
-        android:textSize="13dp" >
+        android:textSize="13dp"
+        android:visibility="gone">
     </EditText>
 
 </RelativeLayout>

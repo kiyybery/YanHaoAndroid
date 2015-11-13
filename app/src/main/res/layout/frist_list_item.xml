@@ -7,12 +7,12 @@
         android:id="@+id/alpha"
         android:layout_width="fill_parent"
         android:layout_height="25dip"
-        android:background="#B7B7B7"
+        android:background="#ffececec"
         android:paddingBottom="2dip"
         android:paddingLeft="13dip"
         android:paddingTop="2dip"
-        android:textColor="#515151"
-        android:textSize="14sp"
+        android:textColor="#333333"
+        android:textSize="50px"
         android:visibility="gone" />
 
     <LinearLayout
@@ -36,7 +36,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dip"
             android:text="正在定位所在位置.."
-            android:textColor="#515151" />
+            android:textSize="38px"
+            android:textColor="#333333" />
     </LinearLayout>
 
 </RelativeLayout>

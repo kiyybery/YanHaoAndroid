@@ -22,7 +22,8 @@
             android:id="@+id/MyLetterListView01"
             android:layout_width="30dip"
             android:layout_height="fill_parent"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            />
 
     </RelativeLayout>
 </LinearLayout>
