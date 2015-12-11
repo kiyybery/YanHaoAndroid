@@ -184,14 +184,17 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             case REQUEST_MODIFY_USERNAME:
                 String name = data.getStringExtra("username");
                 mName_tv.setText(name);
+                tempUserInfo.put("username",name);
                 break;
             case REQUEST_MODIFY_SEX:
                 String sex = data.getStringExtra("sex");
                 mSex_tv.setText(sex);
+                tempUserInfo.put("sex", sex);
                 break;
             case REQUEST_MODIFY_CITY:
                 String cityname = data.getStringExtra("city_name");
                 mCity_tv.setText(cityname);
+                tempUserInfo.put("cityname", cityname);
             default:
                 break;
         }

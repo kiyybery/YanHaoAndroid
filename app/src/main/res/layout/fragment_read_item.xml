@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/divider_px_thick" />
+
+    <RelativeLayout
+        android:id="@+id/read_layout"
+        android:layout_width="match_parent"
+        android:layout_height="230px">
+
+        <com.yanhao.main.yanhaoandroid.util.XCRoundRectImageView
+            android:id="@+id/read_pic"
+            android:layout_width="240px"
+            android:layout_height="180px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="35px"
+            android:src="@drawable/uc_my_background" />
+
+
+        <TextView
+            android:id="@+id/title_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/read_pic"
+            android:layout_marginLeft="35px"
+            android:layout_marginStart="35px"
+            android:layout_toEndOf="@+id/read_pic"
+            android:layout_toRightOf="@+id/read_pic"
+            android:text="我是标题Q3Q我是标题Q3Q"
+            android:textColor="#666666"
+            android:textSize="28px" />
+
+        <TextView
+            android:id="@+id/read_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/read_pic"
+            android:layout_alignEnd="@+id/title_name"
+            android:layout_alignParentRight="true"
+            android:layout_alignRight="@+id/title_name"
+            android:layout_marginRight="35px"
+            android:text="2015年3月10日"
+            android:textColor="#969696"
+            android:textSize="26px" />
+
+    </RelativeLayout>
+
+</LinearLayout>

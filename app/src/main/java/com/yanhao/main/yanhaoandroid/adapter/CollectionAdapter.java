@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.bean.CollectionBean;
+import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class CollectionAdapter extends BaseAdapter{
         if(view == null){
             viewHolder = new ViewHolder();
             view = mInflater.inflate(R.layout.collection_item,null);
+            RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.img_collection);
             viewHolder.title_tv = (TextView) view.findViewById(R.id.title_tv);
             viewHolder.time_tv = (TextView) view.findViewById(R.id.time_tv);

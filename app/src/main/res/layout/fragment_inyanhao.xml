@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <include layout="@layout/divider_px_thick" />
+
+    <RelativeLayout
+        android:id="@+id/inyanhao_name_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/inyanhao_edit_name_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="姓名"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/inyanhao_edit_name"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15px"
+            android:text="张晓梅"
+            android:textColor="#666666" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/inyanhao_sex_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/inyanhao_edit_sex_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="性别"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/inyanhao_edit_sex"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/edit_name_back"
+            android:text="女"
+            android:textColor="#666666" />
+
+        <ImageView
+            android:id="@+id/edit_name_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/arrow_right_uc" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/inyanhao_city_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/inyanhao_edit_city_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="城市"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/inyanhao_edit_city"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/edit_city_back"
+            android:text="北京"
+            android:textColor="#666666" />
+
+        <ImageView
+            android:id="@+id/edit_city_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/arrow_right_uc" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <include layout="@layout/divider_px_thick" />
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/inyanhao_phone_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/inyanhao_edit_phone_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="手机号"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/inyanhao_edit_phone"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="13354698521"
+            android:textColor="#666666" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/inyanhao_address_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/inyanhao_edit_address_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="咨询地址"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/inyanhao_edit_address"
+            style="@style/MyProfile.Text"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:text="北京市丰台区朝阳小区20号楼3单元503"
+            android:textColor="#666666" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <RelativeLayout
+        android:id="@+id/inyanhao_mail_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/inyanhao_edit_mail_tv"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="邮箱"
+            android:textColor="#333333" />
+
+
+        <TextView
+            android:id="@+id/inyanhao_edit_mail"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:text="xxxxxxxxxxxx@163.com"
+            android:textColor="#666666" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <Button
+        android:id="@+id/btnCommit_inyanhao"
+        style="?android:buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="50px"
+        android:background="@drawable/btn_bg"
+        android:minHeight="100px"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+</LinearLayout>

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/homepage_consultant_title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="430px"
+                android:background="@drawable/uc_my_background">
+
+                <LinearLayout
+                    android:id="@+id/ll_homepage_title_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="35px"
+                    android:paddingLeft="35px"
+                    android:paddingRight="35px"
+                    android:paddingTop="35px">
+
+                    <ImageView
+                        android:id="@+id/iv_homepage_title_back"
+                        android:layout_width="26px"
+                        android:layout_height="40px"
+                        android:background="@drawable/common_left_btn_return" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/content_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.yanhao.main.yanhaoandroid.util.CircleImageView
+                        android:id="@+id/iv_uc_avatar"
+                        android:layout_width="160px"
+                        android:layout_height="160px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20px"
+                        android:clickable="true"
+                        android:src="@drawable/avatar_default" />
+
+                    <TextView
+                        android:id="@+id/tv_uc_nickname"
+                        style="@style/UserCenter.Mine.tvNick"
+                        android:layout_below="@+id/iv_uc_avatar"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="55px"
+                        android:text="徐慧盈"
+                        android:textColor="@color/white"
+                        android:textSize="38px" />
+
+                    <ImageView
+                        android:id="@+id/check_in_iv"
+                        android:layout_width="79px"
+                        android:layout_height="30px"
+                        android:layout_alignTop="@+id/iv_uc_avatar"
+                        android:layout_marginLeft="56dp"
+                        android:layout_marginStart="56dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_toEndOf="@+id/iv_uc_avatar"
+                        android:layout_toRightOf="@+id/iv_uc_avatar"
+                        android:src="@drawable/gerenzhuye_yirenzheng_icon" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_uc_address"
+                    style="@style/UserCenter.Mine.tvNick"
+                    android:layout_below="@+id/content_layout"
+                    android:layout_centerHorizontal="true"
+                    android:padding="15px"
+                    android:text="北京"
+                    android:textColor="@color/white"
+                    android:textSize="28px" />
+
+
+                <TextView
+                    android:id="@+id/personal_sigenal"
+                    style="@style/UserCenter.Mine.tvNick"
+                    android:layout_below="@+id/tv_uc_address"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20px"
+                    android:text="越接近自己才能越接近自由"
+                    android:textColor="#ffffff"
+                    android:textSize="28px" />
+            </RelativeLayout>
+
+            <include layout="@layout/divider_px_thick" />
+
+            <LinearLayout
+                android:id="@+id/myprofire_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/myprofire_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginTop="35px"
+                    android:text="个人介绍"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <TextView
+                    android:id="@+id/myprofire_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35px"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginRight="35px"
+                    android:layout_marginTop="10px"
+                    android:maxLines="5"
+                    android:singleLine="false"
+                    android:text="@string/myprofire_content"
+                    android:textColor="#666666"
+                    android:textSize="30px" />
+            </LinearLayout>
+
+            <include layout="@layout/divider_settings" />
+
+            <LinearLayout
+                android:id="@+id/professional_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/professional_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginTop="35px"
+                    android:text="专业背景"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <TextView
+                    android:id="@+id/professional_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35px"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginRight="35px"
+                    android:layout_marginTop="10px"
+                    android:maxLines="5"
+                    android:singleLine="false"
+                    android:text="@string/professional_content"
+                    android:textColor="#666666"
+                    android:textSize="30px" />
+            </LinearLayout>
+
+            <include layout="@layout/divider_px_thick" />
+
+            <LinearLayout
+                android:id="@+id/area_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/area_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginTop="15px"
+                    android:text="擅长领域"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <LinearLayout
+                    android:id="@+id/area_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35px"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginTop="15px"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/item_tv_1"
+                        android:layout_width="140px"
+                        android:layout_height="64px"
+                        android:background="@drawable/corner"
+                        android:paddingLeft="15px"
+                        android:paddingTop="10px"
+                        android:text="亲子关系"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/item_tv_2"
+                        android:layout_width="140px"
+                        android:layout_height="64px"
+                        android:layout_marginLeft="20px"
+                        android:background="@drawable/corner"
+                        android:paddingLeft="15px"
+                        android:paddingTop="10px"
+                        android:text="人际交往"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/item_tv_3"
+                        android:layout_width="140px"
+                        android:layout_height="64px"
+                        android:layout_marginLeft="20px"
+                        android:background="@drawable/corner"
+                        android:paddingLeft="15px"
+                        android:paddingTop="10px"
+                        android:text="强迫症"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/item_tv_4"
+                        android:layout_width="140px"
+                        android:layout_height="64px"
+                        android:layout_marginLeft="20px"
+                        android:background="@drawable/corner"
+                        android:paddingLeft="15px"
+                        android:paddingTop="10px"
+                        android:text="抑郁症"
+                        android:textSize="30px" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <include layout="@layout/divider_settings" />
+
+            <LinearLayout
+                android:id="@+id/pay_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pay_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginTop="15px"
+                    android:text="收费标准"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <LinearLayout
+                    android:id="@+id/pay_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35px"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginTop="15px"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/pay_tv_1"
+                        android:layout_width="310px"
+                        android:layout_height="88px"
+                        android:background="@drawable/corner"
+                        android:paddingLeft="25px"
+                        android:paddingTop="20px"
+                        android:text="当面咨询 500/时"
+                        android:textColor="#479de2"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/pay_tv_2"
+                        android:layout_width="310px"
+                        android:layout_height="88px"
+                        android:layout_marginLeft="20px"
+                        android:background="@drawable/corner"
+                        android:paddingLeft="25px"
+                        android:paddingTop="20px"
+                        android:text="电话咨询 500/时"
+                        android:textColor="#479de2"
+                        android:textSize="30px" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnOrder"
+                style="?android:buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_margin="25dp"
+                android:background="@drawable/btn_bg"
+                android:minHeight="50dp"
+                android:text="立即预约"
+                android:textColor="@color/white"
+                android:textSize="38px" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="头像" />
+            android:text="头像"
+            android:textColor="#333333"/>
 
         <com.yanhao.main.yanhaoandroid.util.CircleImageView
             android:id="@+id/iv_uc_avatar"
@@ -53,7 +54,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="名字" />
+            android:text="名字"
+            android:textColor="#333333"/>
 
 
         <TextView
@@ -62,7 +64,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/edit_name_back"
-            android:text="唐夏" />
+            android:text="唐夏"
+            android:textColor="#666666"/>
 
         <ImageView
             android:id="@+id/edit_name_back"
@@ -90,7 +93,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="性别" />
+            android:text="性别"
+            android:textColor="#333333"/>
 
 
         <TextView
@@ -99,7 +103,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/edit_sex_back"
-            android:text="女" />
+            android:text="女"
+            android:textColor="#666666"/>
 
         <ImageView
             android:id="@+id/edit_sex_back"
@@ -131,7 +136,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="所在地" />
+            android:text="所在地"
+            android:textColor="#333333"/>
 
 
         <TextView
@@ -140,7 +146,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/edit_address_back"
-            android:text="北京  朝阳区" />
+            android:text="北京  朝阳区"
+            android:textColor="#666666"/>
 
         <ImageView
             android:id="@+id/edit_address_back"
@@ -168,7 +175,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="个人简介" />
+            android:text="个人简介"
+            android:textColor="#333333"/>
 
         <ImageView
             android:id="@+id/edit_profire_back"

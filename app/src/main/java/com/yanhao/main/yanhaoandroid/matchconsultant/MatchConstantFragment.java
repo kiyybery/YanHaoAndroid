@@ -11,15 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.adapter.ConstantAdapter;
 import com.yanhao.main.yanhaoandroid.bean.ConstantBean;
+import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +88,14 @@ public class MatchConstantFragment extends Fragment {
             mList.add(mConstantBean);
         }
         mConstantListView = (ListView) view.findViewById(R.id.match_listview);
+        mConstantListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent intent = new Intent(getActivity(), HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
         mConstantListView.setAdapter(new ConstantAdapter(getActivity(), mList));
 
         mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);

@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 public class ProFireFrag extends Fragment {
 
     private static final int MAX_LENGTH = 120; // 最多支持120字
-
     private EditText mProfire_et;
     private TextView feedbackRemainNum;
 
@@ -60,7 +59,6 @@ public class ProFireFrag extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int i1, int i2) {
                 String inputString = s.toString();
-
                 String outputString = stringFilter(inputString);
                 if (!inputString.equals(outputString)) {
                     mProfire_et.setText(outputString);

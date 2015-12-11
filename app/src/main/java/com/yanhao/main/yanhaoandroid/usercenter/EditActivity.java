@@ -27,8 +27,6 @@ public class EditActivity extends AppCompatActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        name = getIntent().getStringExtra("username");
-        Toast.makeText(this, name+"fragment say", Toast.LENGTH_LONG).show();
         if(savedInstanceState == null){
 
             FragmentTransaction ft = fm.beginTransaction();
@@ -52,10 +50,14 @@ public class EditActivity extends AppCompatActivity{
         final Fragment fEdit = fm.findFragmentById(android.R.id.content);
 
         if (fEdit != null &&fEdit instanceof EditFragment && ((EditFragment) fEdit).isChanged()) {
-            dialog = UIHelper.buildConfirm(EditActivity.this, "退出编辑个人资料,您的个人资料已经修改，退出前要保存吗?", "确定", "取消", new View.OnClickListener() {
+            dialog = UIHelper.buildConfirm(EditActivity.this, "您的个人资料已经修改，退出前要保存吗?", "确定", "取消",
+                    new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
+                    //用户确认修改之后，写入缓存。。待做
+
+                    //// TODO: 2015/11/13 0013  
                     finish();
                 }
             }, new View.OnClickListener() {

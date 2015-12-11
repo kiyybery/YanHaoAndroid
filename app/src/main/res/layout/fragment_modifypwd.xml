@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_px_title" />
+
+    <include layout="@layout/divider_px_thick" />
+
+    <RelativeLayout
+        android:id="@+id/modify_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_avatar_tv"
+        android:background="@color/yr_background_main">
+
+        <TextView
+            android:id="@+id/edit_modify_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/edit_modify_back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="60px"
+            android:text="当前账号"
+            android:textColor="#333333"
+            android:textSize="38px" />
+
+
+        <TextView
+            android:id="@+id/edit_modify"
+            style="@style/MyProfile.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/edit_modify_back"
+            android:text="186****2222"
+            android:textColor="#666666"
+            android:textSize="36px" />
+
+        <ImageView
+            android:id="@+id/edit_modify_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/arrow_right_uc" />
+    </RelativeLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <LinearLayout
+        android:id="@+id/input_old_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/modify_et_pwd_old"
+            style="@style/Settings.EditText"
+            android:layout_height="120px"
+            android:hint="当前密码"
+            android:inputType="phone"
+            android:textColor="#333333"
+            android:textSize="38px" />
+
+    </LinearLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f8f8f8">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:padding="20px"
+            android:text="@string/modifypwd_alert"
+            android:textColor="#999999"
+            android:textSize="32px" />
+    </LinearLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <LinearLayout
+        android:id="@+id/input_new_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/modify_et_pwd_new"
+            style="@style/Settings.EditText"
+            android:layout_height="120px"
+            android:hint="新密码"
+            android:inputType="phone"
+            android:textColor="#333333"
+            android:textSize="38px" />
+
+    </LinearLayout>
+
+    <include layout="@layout/divider_settings" />
+
+    <LinearLayout
+        android:id="@+id/input_new_pwd_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yr_background_main"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/modify_et_pwd_new_confirm"
+            style="@style/Settings.EditText"
+            android:layout_height="120px"
+            android:hint="确认新密码"
+            android:inputType="phone"
+            android:textColor="#333333"
+            android:textSize="38px" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/modify_btnGetPwd"
+        style="?android:buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="25dp"
+        android:background="@drawable/btn_bg"
+        android:minHeight="50dp"
+        android:text="完成"
+        android:textColor="@color/white"
+        android:textSize="42px" />
+
+</LinearLayout>

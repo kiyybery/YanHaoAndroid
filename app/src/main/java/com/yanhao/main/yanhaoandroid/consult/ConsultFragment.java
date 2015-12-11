@@ -76,6 +76,7 @@ public class ConsultFragment extends Fragment{
             @Override
             public void rightClick() {
                 Toast.makeText(getActivity(),"区域选择",Toast.LENGTH_LONG).show();
+                //// TODO: 2015/11/17 0017 是否需要跳转citylist？ 
             }
         });
 

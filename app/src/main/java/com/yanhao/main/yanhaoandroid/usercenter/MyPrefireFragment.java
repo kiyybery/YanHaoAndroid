@@ -1,18 +1,30 @@
 package com.yanhao.main.yanhaoandroid.usercenter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.share.ShareActivity;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
+import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/11/9 0009.
@@ -21,6 +33,10 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
 
     private TextView mOrder_tv, mTest_tv, mCollection_tv, mNote_tv, mSetting_tv, mShare_tv, mUpdate_tv;
     private CircleImageView mCircleImageView;
+
+    private static final int REQUEST_MODIFY_AVATAR = 500;
+
+    private Map<String, String> tempUserInfo = new HashMap<>();
 
     public static MyPrefireFragment newInstance() {
 
@@ -46,6 +62,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
 
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar);
         mCircleImageView.setImageResource(R.drawable.imgmengmengava);
+        //mCircleImageView.setOnClickListener(this);
         mOrder_tv = (TextView) view.findViewById(R.id.my_profile_order);
         mTest_tv = (TextView) view.findViewById(R.id.my_profile_test);
         mCollection_tv = (TextView) view.findViewById(R.id.my_profile_collection);
@@ -59,6 +76,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         mNote_tv.setOnClickListener(this);
         mSetting_tv.setOnClickListener(this);
         mCollection_tv.setOnClickListener(this);
+        mShare_tv.setOnClickListener(this);
         setTVDrawable();
         return view;
     }
@@ -114,7 +132,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
                 break;
             case R.id.my_profile_collection:
                 intent = new Intent();
-                intent.setClass(getActivity(),MyCollectionActivity.class);
+                intent.setClass(getActivity(), MyCollectionActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_profile_note:
@@ -130,7 +148,58 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
                 startActivity(intent);
                 break;
             case R.id.my_profile_share:
+                intent = new Intent();
+                intent.setClass(getActivity(), ShareActivity.class);
+                startActivity(intent);
+                break;
 
+            case R.id.iv_uc_avatar:
+                FragmentManager fm = getFragmentManager();
+                SelectAvatarSourceFrag f = SelectAvatarSourceFrag.newInstance();
+                f.setTargetFragment(MyPrefireFragment.this, REQUEST_MODIFY_AVATAR);
+                f.show(fm, "avatar");
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (data != null) {
+            Log.i("111", "data=" + data.toString());
+        }
+
+        switch (resultCode) {
+            case REQUEST_MODIFY_AVATAR:
+                /**
+                 *  拍照后是跳转到裁剪frag,再到预览frag, 然后在预览frag if(确定)，再次返回本界面,更新本地avatar,
+                 *   if(onBackPressed 用户确认更新个人资料|点击保存按钮)
+                 * 从相册选择后返回，类似于拍照., 暂时先不做裁剪了，有时间再做
+                 */
+                int type = data.getIntExtra("avatar", 0);
+                String path = "";
+                if (type == 1) {
+                    Bundle extras = data.getExtras();
+                    path = extras.getString("avatarPath");
+                    if (!TextUtils.isEmpty(path)) {
+                        Log.i("11", "从相机返回的头像地址" + path);
+                        Glide.with(this).load(Uri.fromFile(new File(path))).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
+                    }
+                } else if (type == 2) {
+                    Uri imageUri = data.getData();
+                    Log.i("11", "imageUri.toString=" + imageUri.toString() +
+                            ",imageUri.getPath=" + imageUri.getPath() +
+                            ",imageUri.getEncodedPath()=" + imageUri.getEncodedPath());
+//                    imageUri.getPath(); iv_avatar.setImageURI(imageUri);
+                    Glide.with(this).load(imageUri).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
+                    path = FileUtilsOfPaul.getPath(getActivity(), imageUri);
+                    Log.i("11", "从本地Uri解析出的头像地址" + path);
+                }
+                tempUserInfo.put("avatars", path);
                 break;
             default:
                 break;

@@ -112,7 +112,6 @@ public class SelectAvatarSourceFrag extends DialogFragment implements View.OnCli
         switch (view.getId()) {
             case R.id.btn_from_camera:
                 if (!hasCameraPemission()) {
-                    //Toast.toast(this, "没有权限，请先在系统设置中开启相机权限");
                     Toast.makeText(getActivity(), "没有权限，请先在系统设置中开启相机权限", Toast.LENGTH_LONG).show();
                     return;
                 }

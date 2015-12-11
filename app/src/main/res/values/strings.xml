@@ -16,4 +16,31 @@
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
 
+    <!--设置-->
+    <!--设置部分-->
+    <string name="clear_cache_title">清理缓存</string>
+    <string name="clear_cache_hint">根据缓存文件大小，清理时间从几秒到几分钟不等，请耐心等待</string>
+    <string name="clear_cache_ok">确定</string>
+    <string name="clear_cache_cancle">取消</string>
+    <string name="logout_title">退出登录</string>
+    <string name="logout_hint">确认要退出登录吗？</string>
+    <string name="modifypwd_alert">请勿使用旧密码用作新密码</string>
+    <string name="modifyphone_alert">绑定新手机号</string>
+    <string name="modifyphone_code">输入验证码</string>
+    <string name="call_back_alert">亲爱的用户您好，欢迎来到意见反馈中心，请问以下是您所关心的问题吗？</string>
+    <string name="problem_one">如何在燕好心理预约咨询?</string>
+    <string name="problem_two">怎样鉴定老师的专业性？</string>
+    <string name="problem_three">怎样取消预约？</string>
+    <string name="problem_four">取消预约后何时能够退款？</string>
+
+    <!--咨询师个人主页-->
+
+    <string name="myprofire_content">华东师范大学心理咨询中心主任，副教授，心理学博士，中国心理卫生协会理事，中国心理学会临床与咨询心理学专业机构与专业人员注册系统首批注册心理督导师和注册心理师、上海心理咨询行业协会副会长、上海高校心理咨询协会副会长兼学术部部长、上海市心理卫生学会理事、上海心理学会心理咨询和心理治疗专业委员会副主任委员、上海市心理咨询师职业培训项目专家委员会委员、上海市教委学校心理咨询师培训项目专家委员会委员、《大众心理学》杂志编委，多家管理咨询公司的签约讲师。他有长达近二十年心理咨询、训练和培训的经验，擅长团体心理训练、人际关系和情绪问题的心理辅导、青少年心理咨询，在企业管理心理培训、人事测评和员工心理援助领域也有丰富的经验。他擅长的课程包括职业压力处理、管理沟通、自我探索、团队建设等。接受过他培训及服务的企业及单位包括：平安保险、太平洋安泰保险、浦发银行、招商银行、上海电信、贝尔阿尔卡特、BP石油、3M公司、英业达、京滨电子、东方航空、宝钢集团、延锋伟世通、小糸车灯、上海通用汽车、两面针集团、上海机场、中智公司、上海烟草、上海电力、德力西集团、上海市人事局、上海市检察院等上百企事业单位以及交通大学、复旦大学、清华大学、东华大学、华东理工等多家大学管理学院总裁班或MBA班、各大中小学教师培训等等。他著有《心理咨询师对你说》、《生存心境界》、《心理侦探》等书二十多本，并曾为数十家报刊开设心理专栏或撰稿，发表文章达百万字。</string>
+    <string name="professional_content">2011-2013 中德家庭医疗机构，同济大学</string>
+
+
+    <!--支付页-->
+    <string name="titlename">支付</string>
+    <string name="info">支付成功</string>
+    <string name="content">咨询师会尽快与您联系，详情可在我得预约查看。有任何疑问可拨打客服电话</string>
 </resources>

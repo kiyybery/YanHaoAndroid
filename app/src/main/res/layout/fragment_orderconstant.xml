@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_px_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/divider_px_thick" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="210px"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+                <com.yanhao.main.yanhaoandroid.util.CircleImageView
+                    android:id="@+id/cv_comment_avatar"
+                    style="@style/commonAvatar"
+                    android:layout_width="160px"
+                    android:layout_height="160px"
+                    android:layout_gravity="left|top" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/consultant_name"
+                            style="@style/Snapchat.Detail.Comment.Item2"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:text="张晓梅"
+                            android:textColor="#333333"
+                            android:textSize="38px" />
+
+                        <TextView
+                            android:id="@+id/consult_level"
+                            style="@style/Snapchat.Detail.Comment.Item3"
+                            android:layout_weight="1"
+                            android:text="国家二级"
+                            android:textColor="#636363"
+                            android:textSize="30px" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/consult_area"
+                        style="@style/Snapchat.Detail.Comment.Item3"
+                        android:layout_marginTop="35px"
+                        android:text="擅长 亲子关系 婚姻家庭 亲子关系"
+                        android:textColor="#969696"
+                        android:textSize="28px" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <include layout="@layout/divider_px_thick" />
+
+            <LinearLayout
+                android:id="@+id/ask_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/ask_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginTop="15px"
+                    android:text="咨询方式"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <LinearLayout
+                    android:id="@+id/ask_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35px"
+                    android:layout_marginLeft="35px"
+                    android:layout_marginTop="15px"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/tv1_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/select_contant"
+                        >
+
+                        <TextView
+                            android:id="@+id/ask_tv_1"
+                            android:layout_width="180px"
+                            android:layout_height="80px"
+                            android:paddingLeft="25px"
+                            android:paddingTop="20px"
+                            android:text="当面咨询"
+                            android:textColor="#666666"
+                            android:textSize="30px" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tv2_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/select_contant"
+                        android:layout_marginLeft="20px"
+                        >
+
+                        <TextView
+                            android:id="@+id/ask_tv_2"
+                            android:layout_width="180px"
+                            android:layout_height="80px"
+                            android:layout_marginLeft="20px"
+                            android:paddingLeft="25px"
+                            android:paddingTop="20px"
+                            android:text="电话咨询"
+                            android:textSize="30px" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <include layout="@layout/divider_settings" />
+
+            <RelativeLayout
+                android:id="@+id/asktime_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_avatar_tv"
+                android:background="@color/yr_background_main">
+
+                <TextView
+                    android:id="@+id/asktime_tv"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="咨询时间"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <TextView
+                    android:id="@+id/asktime_time"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="75px"
+                    android:text="10月11日 14：00"
+                    android:textColor="#479de2"
+                    android:textSize="32px" />
+
+                <ImageView
+                    android:id="@+id/asktime_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="35px"
+                    android:background="@drawable/arrow_right_uc" />
+            </RelativeLayout>
+
+            <include layout="@layout/divider_settings" />
+
+            <RelativeLayout
+                android:id="@+id/callstyle_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_avatar_tv"
+                android:background="@color/yr_background_main">
+
+                <TextView
+                    android:id="@+id/callstyle_tv"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="联系方式"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <TextView
+                    android:id="@+id/callstyle_time"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="75px"
+                    android:text="15929282900"
+                    android:textColor="#666666"
+                    android:textSize="32px" />
+            </RelativeLayout>
+
+            <include layout="@layout/divider_settings" />
+
+            <RelativeLayout
+                android:id="@+id/problem_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_avatar_tv"
+                android:background="@color/yr_background_main">
+
+                <TextView
+                    android:id="@+id/problem_tv"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="主要问题"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <EditText
+                    android:id="@+id/problem_time"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="75px"
+                    android:hint="简短叙述您的问题"
+                    android:textColor="#666666"
+                    android:textSize="32px" />
+            </RelativeLayout>
+
+            <include layout="@layout/divider_settings" />
+
+            <RelativeLayout
+                android:id="@+id/note_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_avatar_tv"
+                android:background="@color/yr_background_main">
+
+                <TextView
+                    android:id="@+id/note_tv"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="备注"
+                    android:textColor="#333333"
+                    android:textSize="38px" />
+
+                <EditText
+                    android:id="@+id/note_time"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="75px"
+                    android:hint="添加备注"
+                    android:textColor="#666666"
+                    android:textSize="32px" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnCommitAsk"
+                style="?android:buttonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_margin="25dp"
+                android:background="@drawable/btn_bg"
+                android:minHeight="50dp"
+                android:text="提交咨询"
+                android:textColor="@color/white"
+                android:textSize="38px" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

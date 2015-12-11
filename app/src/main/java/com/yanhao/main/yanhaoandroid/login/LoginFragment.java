@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,15 @@ import android.widget.Toast;
 
 import com.yanhao.main.yanhaoandroid.MainActivity;
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.http.HttpHeaders;
+import com.yanhao.main.yanhaoandroid.http.NHttpCallback;
+import com.yanhao.main.yanhaoandroid.http.NHttpProxy;
+import com.yanhao.main.yanhaoandroid.http.NHttpRequest;
+import com.yanhao.main.yanhaoandroid.http.NHttpResponse;
 import com.yanhao.main.yanhaoandroid.util.CommonUtils;
 import com.yanhao.main.yanhaoandroid.util.CustomProgressDialog;
+import com.yanhao.main.yanhaoandroid.util.LogUtil;
 import com.yanhao.main.yanhaoandroid.util.StringUtil;
 
 /**
@@ -31,6 +39,7 @@ import com.yanhao.main.yanhaoandroid.util.StringUtil;
  */
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
+    private static final String TAG = LoginFragment.class.getSimpleName();
     private TextView mFrogetPwdtv;
     private EditText mLogin_username_et,mLogin_pw_et;
     private ImageButton mLogin_show_pwd;
@@ -53,6 +62,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     getActivity().finish();
+                    getLoginUserinfo();
 
                     SharedPreferences sp = getActivity().getSharedPreferences("userInfo",getActivity().MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
@@ -173,5 +183,57 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         Message message = new Message();
         message.arg1 = 1;
         mHnadler.sendMessage(message);
+    }
+
+    private void doLogin(){
+
+
+        LoginRespMessage msg = new LoginRespMessage();
+    }
+
+    private void getLoginUserinfo (){
+
+        GetLogininfoCallback callback = new GetLogininfoCallback();
+        LoginReqMessgae reqMessgae = new LoginReqMessgae(YanHao.api_base+"getResp.do?",
+                HttpHeaders.VALUE_CONTENT_TYPE_STREAM);
+        //reqMessgae.setPhone("18101215049");
+        //reqMessgae.setPassword("123456");
+        reqMessgae.setName("login");
+        NHttpProxy.sendRequest(reqMessgae, callback, getActivity(), true, false);
+        if (LogUtil.DDBG){
+            LogUtil.d(TAG,"requestlogin");
+        }
+    }
+
+    private class GetLogininfoCallback implements NHttpCallback{
+
+        @Override
+        public void onRespond(NHttpRequest req, NHttpResponse resp) {
+
+            if(resp.getRespStatus() == NHttpResponse.RESPONSE_STATUS_OK){
+
+                LoginRespMessage respmsg = (LoginRespMessage) resp;
+                LoginReqMessgae reqMessgae = (LoginReqMessgae) req;
+                if(respmsg.getRespStatus() == YanHao.PROTOCAL_STATUS_OK){
+
+
+                }
+            }
+        }
+
+        @Override
+        public void onNetworkDisable() {
+
+        }
+
+        @Override
+        public void onProgressStatusUpdate(long status) {
+
+        }
+
+        @Override
+        public void onPostProgressUpdate(long postBytes, long totalBytes) {
+
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.yanhao.main.yanhaoandroid.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,23 +51,23 @@ public class MyOrderAdapter extends BaseAdapter{
             view = mInflater.inflate(R.layout.order_item,null);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.cv_order_avatar);
             viewHolder.name_tv = (TextView) view.findViewById(R.id.order_name);
-            viewHolder.level_tv = (TextView) view.findViewById(R.id.order_level);
+            viewHolder.level_tv = (ImageView) view.findViewById(R.id.order_level);
             viewHolder.area_tv = (TextView) view.findViewById(R.id.order_area_tv);
             viewHolder.date_tv = (TextView) view.findViewById(R.id.order_date_tv);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.imageView.setImageResource(R.drawable.avatar_default);
+        viewHolder.imageView.setImageResource(R.drawable.imgmengmengava);
         viewHolder.name_tv.setText(mList.get(i).constantName);
-        viewHolder.level_tv.setText(mList.get(i).level);
+        //viewHolder.level_tv.setText(mList.get(i).level);
         viewHolder.area_tv.setText(mList.get(i).area);
         viewHolder.date_tv.setText(mList.get(i).data);
         return view;
     }
 
     class ViewHolder {
-        ImageView imageView;
-        TextView name_tv,level_tv,area_tv,date_tv;
+        ImageView imageView,level_tv;
+        TextView name_tv,area_tv,date_tv;
     }
 }

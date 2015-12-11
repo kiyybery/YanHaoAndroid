@@ -11,8 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.adapter.MyOrderAdapter;
 import com.yanhao.main.yanhaoandroid.bean.OrderBean;
+import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +46,8 @@ public class RecordFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_myorder, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_myrecord, container, false);
+        RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
         mList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             mOrderBean = new OrderBean();
@@ -55,7 +57,7 @@ public class RecordFragment extends Fragment {
             mOrderBean.setData("2015年12月" + i + "日");
             mList.add(mOrderBean);
         }
-        mListView = (ListView) view.findViewById(R.id.order_listview);
+        mListView = (ListView) view.findViewById(R.id.record_listview);
         mListView.setAdapter(new MyOrderAdapter(getActivity(), mList));
 
         mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);

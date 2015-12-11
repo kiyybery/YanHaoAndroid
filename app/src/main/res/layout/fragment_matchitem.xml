@@ -33,10 +33,14 @@
                     android:paddingTop="10dp"
                     android:text="张晓梅" />
 
-                <TextView
+                <ImageView
                     android:id="@+id/consult_level"
                     style="@style/Snapchat.Detail.Comment.Item3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
+                    android:src="@drawable/erji_icon"
                     android:text="国家二级" />
 
             </LinearLayout>
@@ -54,7 +58,7 @@
             android:layout_gravity="right|center"
             android:layout_marginLeft="60dp">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/login_show_pwd"
                 android:layout_width="15dp"
                 android:layout_height="20dp"

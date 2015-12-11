@@ -24,9 +24,12 @@
         <item name="android:layout_width">30dp</item>
         <item name="android:src">@drawable/line_icon</item>
     </style>
-    <style name="Snachat"/>
+
+    <style name="Snachat" />
+
     <style name="Snapchat.Detail" parent="Snachat"></style>
-    <style name="Snapchat.Detail.Comment" parent="Snapchat.Detail"/>
+
+    <style name="Snapchat.Detail.Comment" parent="Snapchat.Detail" />
 
     <style name="Snapchat.Detail.Comment.Item2" parent="Snapchat.Detail.Comment">
         <item name="android:layout_width">wrap_content</item>
@@ -114,6 +117,7 @@
     </style>
 
     <style name="MyProfile" />
+
     <style name="MyProfile.Text">
         <item name="android:background">@color/yr_background_main</item>
         <item name="android:layout_width">match_parent</item>
@@ -132,7 +136,7 @@
         <item name="android:background">@color/yr_background_main</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/yr_title_secondary</item>
         <item name="android:singleLine">true</item>
         <item name="android:paddingTop">15dp</item>
@@ -149,7 +153,7 @@
         <item name="android:background">@color/yr_background_main</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/yr_title_secondary</item>
         <item name="android:singleLine">true</item>
         <item name="android:paddingTop">15dp</item>
@@ -166,7 +170,7 @@
         <item name="android:background">@color/yr_background_main</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/yr_title_secondary</item>
         <item name="android:singleLine">true</item>
         <item name="android:paddingTop">15dp</item>
@@ -183,7 +187,7 @@
         <item name="android:background">@color/yr_background_main</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/yr_title_secondary</item>
         <item name="android:singleLine">true</item>
         <item name="android:paddingTop">15dp</item>
@@ -204,6 +208,7 @@
     </style>
 
     <style name="Consultant" />
+
     <style name="Consultant.Text">
         <item name="android:background">@color/yr_background_main</item>
         <item name="android:layout_width">match_parent</item>
@@ -278,5 +283,73 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/bg</item>
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!--toolbar-->
+    <style name="ToolBarStyle.Base" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="ToolBarStyle.Base" />
+
+    <!--popupwindow-->
+    <style name="AnimTools" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_in</item>
+        <item name="android:windowExitAnimation">@anim/push_out</item>
+    </style>
+
+    <!--分享-->
+    <style name="shareButtonStyle" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <style name="FrameworkRoot.Theme" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="Theme" parent="FrameworkRoot.Theme">
+        <!-- Only needed for pre-L -->
+        <item name="android:editTextBackground">@color/white</item>
+        <item name="android:editTextStyle">@style/Widget.IOSched.EditText</item>
+        <item name="android:textCursorDrawable">@drawable/edittext_cursor_color</item>
+    </style>
+
+    <style name="Theme.IOSched.Base" parent="Theme">
+        <item name="colorPrimary">@color/theme_primary</item>
+        <item name="colorPrimaryDark">@color/theme_primary_light</item>
+        <!--0615 影响了radio button ,edit text 高亮-->
+        <item name="colorControlActivated">@color/yr_icon_blending</item>
+        <!--0615 影响了点击某些button 按下时的状态-->
+        <item name="colorControlHighlight">@color/yr_pressed</item>
+
+        <item name="android:textColorLink">@color/yr_pressed</item>
+
+
+        <!--   <item name="android:windowContentOverlay">@null</item>-->
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--  <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
+          <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
+          <item name="android:scrollbarThumbVertical">@drawable/scrollbar_thumb</item>
+          <item name="android:scrollbarTrackVertical">@drawable/scrollbar_track</item>-->
+    </style>
+
+    <style name="Theme.IOSched" parent="Theme.IOSched.Base">
+        <item name="actionMenuTextColor">@color/yr_text_dark</item>
+        <item name="android:actionMenuTextColor">@color/red</item>
+
+    </style>
+
+    <style name="Theme.IOSched.NoActionbar" parent="@style/Theme.IOSched">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ThemeTranslucent" parent="Theme.IOSched.NoActionbar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 </resources>

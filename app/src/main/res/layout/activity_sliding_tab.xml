@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical">
+
+    <include layout="@layout/section_title" />
+
+    <include layout="@layout/divider_thick" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eeeeee"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee"
+            android:orientation="vertical">
+
+            <com.yanhao.main.yanhaoandroid.matchconsultant.SlidingTabLayout
+                android:id="@+id/tl_2"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#ffffff"
+                tl:tl_indicator_color="#479de2"
+                tl:tl_indicator_height="1.5dp"
+                tl:tl_indicator_width_equal_title="true"
+                tl:tl_tab_padding="26dp"
+                tl:tl_tab_space_equal="true"
+                tl:tl_textSelectColor="#479de2"
+                tl:tl_textUnselectColor="#66000000"
+                tl:tl_underline_color="#1A000000"
+                tl:tl_underline_height="1dp" />
+
+            <com.yanhao.main.yanhaoandroid.matchconsultant.SlidingTabLayout
+                android:id="@+id/tl_3"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#ffffff"
+                tl:tl_indicator_color="#479de2"
+                tl:tl_indicator_width_equal_title="true"
+                tl:tl_tab_padding="26dp"
+                tl:tl_tab_space_equal="true"
+                tl:tl_textAllCaps="true"
+                tl:tl_textBold="true"
+                tl:tl_textSelectColor="#479de2"
+                tl:tl_textUnselectColor="#66000000"
+                tl:tl_textsize="14sp"
+                tl:tl_underline_color="#1A000000"
+                tl:tl_underline_height="1dp" />
+
+        </LinearLayout>
+
+        <include layout="@layout/divider_settings" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnpay"
+        style="?android:buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="25dp"
+        android:background="@drawable/btn_bg"
+        android:minHeight="50dp"
+        android:text="确认"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+</LinearLayout>

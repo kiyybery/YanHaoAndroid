@@ -27,15 +27,19 @@
                 android:id="@+id/order_name"
                 style="@style/Snapchat.Detail.Comment.Item2"
                 android:paddingTop="10dp"
-                android:text="张晓梅" />
+                android:text="张晓梅"
+                android:textColor="#333333"/>
 
-            <TextView
+            <ImageView
                 android:id="@+id/order_level"
                 style="@style/Snapchat.Detail.Comment.Item2"
                 android:layout_marginLeft="25dp"
+                android:layout_marginTop="3dp"
                 android:layout_toRightOf="@+id/order_name"
                 android:paddingTop="10dp"
-                android:text="国家二级" />
+                android:src="@drawable/erji_icon"
+                android:layout_height="25dp"
+                android:layout_width="25dp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -50,16 +54,16 @@
                 style="@style/Snapchat.Detail.Comment.Item2"
                 android:paddingTop="10dp"
                 android:text="擅长 精神病 亲子关系 婚姻问题"
-                />
+                android:textColor="#969696"/>
             <TextView
                 android:id="@+id/order_date_tv"
                 style="@style/Snapchat.Detail.Comment.Item2"
-                android:paddingTop="10dp"
+                android:paddingTop="5dp"
                 android:text="2015年12月12日"
                 android:layout_below="@+id/order_area_tv"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
-                />
+                android:textColor="#969696"/>
         </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

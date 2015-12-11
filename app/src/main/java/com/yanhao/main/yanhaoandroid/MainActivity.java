@@ -12,6 +12,9 @@ import android.view.WindowManager;
 import com.yanhao.main.yanhaoandroid.bottomBar.Adapter;
 import com.yanhao.main.yanhaoandroid.bottomBar.library.PagerBottomTabStrip;
 import com.yanhao.main.yanhaoandroid.consult.ConsultFragment;
+import com.yanhao.main.yanhaoandroid.test.ActionItem;
+import com.yanhao.main.yanhaoandroid.test.ClassifyWindow;
+import com.yanhao.main.yanhaoandroid.test.TestFragment;
 import com.yanhao.main.yanhaoandroid.usercenter.MyPrefireFragment;
 
 import java.util.ArrayList;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private PagerBottomTabStrip mPagerBottomTabStrip;
 
+    private ClassifyWindow mClassifyWindow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         //透明状态栏
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
 
         hideNavigationBar();
         initAdapter();
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
         list.add(new HomeFragment());
         list.add(new ConsultFragment());
-        list.add(new HomeFragment());
+        list.add(new TestFragment());
         list.add(new MyPrefireFragment());
         Adapter adapter = new Adapter(getSupportFragmentManager(), list);
         mViewPager.setAdapter(adapter);

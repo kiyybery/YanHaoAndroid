@@ -48,7 +48,7 @@ public class ConstantAdapter extends BaseAdapter{
             view = mInflater.inflate(R.layout.fragment_matchitem,null);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.cv_comment_avatar);
             viewHolder.name_tv = (TextView) view.findViewById(R.id.consultant_name);
-            viewHolder.level_tv = (TextView) view.findViewById(R.id.consult_level);
+            viewHolder.level_tv = (ImageView) view.findViewById(R.id.consult_level);
             viewHolder.area_tv = (TextView) view.findViewById(R.id.consult_area);
             view.setTag(viewHolder);
         }else {
@@ -56,13 +56,13 @@ public class ConstantAdapter extends BaseAdapter{
         }
         viewHolder.imageView.setImageResource(R.drawable.avatar_default);
         viewHolder.name_tv.setText(mList.get(i).constantName);
-        viewHolder.level_tv.setText(mList.get(i).level);
+        //viewHolder.level_tv.setText(mList.get(i).level);
         viewHolder.area_tv.setText(mList.get(i).area);
         return view;
     }
 
     class ViewHolder {
-        ImageView imageView;
-        TextView name_tv,level_tv,area_tv;
+        ImageView imageView,level_tv;
+        TextView name_tv,area_tv;
     }
 }
