@@ -15,12 +15,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.share.ShareActivity;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -31,8 +42,10 @@ import java.util.Map;
  */
 public class MyPrefireFragment extends Fragment implements View.OnClickListener {
 
-    private TextView mOrder_tv, mTest_tv, mCollection_tv, mNote_tv, mSetting_tv, mShare_tv, mUpdate_tv;
+    private TextView mOrder_tv, mTest_tv, mCollection_tv, mNote_tv, mSetting_tv, mShare_tv, mUpdate_tv,
+            mName_tv, mAddress_tv;
     private CircleImageView mCircleImageView;
+    String nick_name, loaction, photourl;
 
     private static final int REQUEST_MODIFY_AVATAR = 500;
 
@@ -47,6 +60,60 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         return fragment;
     }
 
+    public class MyStringCallback extends StringCallback {
+
+        @Override
+        public void onBefore(Request request) {
+            super.onBefore(request);
+        }
+
+        @Override
+        public void onAfter() {
+            super.onAfter();
+        }
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                jsonObject.getString("address");
+                JSONArray jsonArray = jsonObject.getJSONArray("charge");
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    JSONObject jo = (JSONObject) jsonArray.get(i);
+
+                }
+                jsonObject.getString("counselorName");
+                jsonObject.getString("education");
+                jsonObject.getInt("gender");
+                jsonObject.getString("intro");
+                jsonObject.getString("photoUrl");
+                JSONArray jsonArray1 = jsonObject.getJSONArray("speciality");
+
+                for (int j = 0; j < jsonArray1.length(); j++) {
+
+                }
+                Toast.makeText(getActivity(),"result"+s,Toast.LENGTH_LONG).show();
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void inProgress(float progress) {
+            super.inProgress(progress);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +126,12 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         //透明状态栏
         //getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         View view = inflater.inflate(R.layout.prefire_fragment, container, false);
+
+        getUserInfo();
+
+        mName_tv = (TextView) view.findViewById(R.id.tv_uc_nickname);
+
+        mAddress_tv = (TextView) view.findViewById(R.id.tv_uc_address);
 
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar);
         mCircleImageView.setImageResource(R.drawable.imgmengmengava);
@@ -78,7 +151,20 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         mCollection_tv.setOnClickListener(this);
         mShare_tv.setOnClickListener(this);
         setTVDrawable();
+
+
         return view;
+    }
+
+    public void getUserInfo() {
+
+        String url = YanHao.TEST_URL + "counselorId=1";
+        OkHttpUtils
+                .postString()
+                .url(url)
+                .content(new Gson().toJson(new UserInfo()))
+                .build()
+                .execute(new MyStringCallback());
     }
 
     public void setTVDrawable() {

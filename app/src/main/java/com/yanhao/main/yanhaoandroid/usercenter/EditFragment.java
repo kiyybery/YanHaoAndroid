@@ -18,9 +18,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -31,7 +40,7 @@ import java.util.Map;
  */
 public class EditFragment extends Fragment implements View.OnClickListener {
 
-    private TextView mTitle, mName_tv,mSex_tv,mCity_tv;
+    private TextView mTitle, mName_tv, mSex_tv, mCity_tv;
     private ImageView mBackImage;
     private CircleImageView mCircleImageView;
     private RelativeLayout mName_layout, mSex_layout, mAddress_layout, mProfire_layout;
@@ -56,6 +65,41 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
+    private class MyStringCallBack extends StringCallback {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                int error_code = jsonObject.getInt("error_code");
+                if (error_code == 0) {
+
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("result");
+                    String nickname = jsonObject1.getString("nickname");
+                    String loaction = jsonObject1.getString("loaction");
+                    String sex = jsonObject1.getString("sex");
+                    String photourl = jsonObject1.getString("photourl");
+                    String intro = jsonObject1.getString("intro");
+
+                    Glide.with(EditFragment.this).load(photourl).into(mCircleImageView);
+                    mName_tv.setText(nickname);
+                    mSex_tv.setText(sex);
+                    mCity_tv.setText(loaction);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +110,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit, container, false);
 
+        getUserInfo();
+
         name = getArguments().getString("username");
         mName_tv = (TextView) view.findViewById(R.id.edit_name);
         mSex_tv = (TextView) view.findViewById(R.id.edit_sex);
         mCity_tv = (TextView) view.findViewById(R.id.edit_address);
-        mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar);
+        mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar_edit);
         mCircleImageView.setImageResource(R.drawable.imgmengmengava);
         mName_layout = (RelativeLayout) view.findViewById(R.id.name_layout);
         mSex_layout = (RelativeLayout) view.findViewById(R.id.sex_layout);
@@ -92,6 +138,18 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
         mTitle.setText("个人信息");
         return view;
+    }
+
+    public void getUserInfo() {
+
+        String url = YanHao.QINIU_URL + "json_myprofire_edit_utf8.txt";
+
+        OkHttpUtils
+                .postString()
+                .url(url)
+                .content(new Gson().toJson(new UserInfo()))
+                .build()
+                .execute(new MyStringCallBack());
     }
 
     @Override
@@ -116,13 +174,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             case R.id.address_layout:
 
                 intent = new Intent();
-                intent.setClass(getActivity(),CityListActivity.class);
+                intent.setClass(getActivity(), CityListActivity.class);
                 startActivityForResult(intent, REQUEST_MODIFY_CITY);
                 break;
             case R.id.profire_layout:
 
                 intent = new Intent();
-                intent.setClass(getActivity(),ProFireActivity.class);
+                intent.setClass(getActivity(), ProFireActivity.class);
                 startActivity(intent);
                 break;
             case R.id.iv_uc_avatar:
@@ -184,7 +242,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             case REQUEST_MODIFY_USERNAME:
                 String name = data.getStringExtra("username");
                 mName_tv.setText(name);
-                tempUserInfo.put("username",name);
+                tempUserInfo.put("username", name);
                 break;
             case REQUEST_MODIFY_SEX:
                 String sex = data.getStringExtra("sex");

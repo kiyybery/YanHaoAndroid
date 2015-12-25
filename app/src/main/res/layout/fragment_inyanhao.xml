@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/section_title" />
+    <include layout="@layout/section_px_title" />
 
     <include layout="@layout/divider_px_thick" />
 
@@ -16,23 +16,29 @@
 
         <TextView
             android:id="@+id/inyanhao_edit_name_tv"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15px"
+            android:padding="15px"
             android:text="姓名"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="38px" />
 
 
         <TextView
             android:id="@+id/inyanhao_edit_name"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15px"
+            android:layout_margin="15px"
+            android:layout_marginRight="35px"
+            android:padding="15px"
             android:text="张晓梅"
-            android:textColor="#666666" />
+            android:textColor="#666666"
+            android:textSize="32px" />
 
     </RelativeLayout>
 
@@ -47,27 +53,34 @@
 
         <TextView
             android:id="@+id/inyanhao_edit_sex_tv"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15px"
+            android:padding="15px"
             android:text="性别"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="38px" />
 
 
         <TextView
             android:id="@+id/inyanhao_edit_sex"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="15px"
+            android:layout_marginRight="15px"
             android:layout_toLeftOf="@+id/edit_name_back"
+            android:padding="15px"
             android:text="女"
-            android:textColor="#666666" />
+            android:textColor="#666666"
+            android:textSize="32px" />
 
         <ImageView
             android:id="@+id/edit_name_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25px"
+            android:layout_height="35px"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -86,27 +99,34 @@
 
         <TextView
             android:id="@+id/inyanhao_edit_city_tv"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15px"
+            android:padding="15px"
             android:text="城市"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="38px" />
 
 
         <TextView
             android:id="@+id/inyanhao_edit_city"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="15px"
+            android:layout_marginRight="15px"
             android:layout_toLeftOf="@+id/edit_city_back"
+            android:padding="15px"
             android:text="北京"
-            android:textColor="#666666" />
+            android:textColor="#666666"
+            android:textSize="32px" />
 
         <ImageView
             android:id="@+id/edit_city_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25px"
+            android:layout_height="35px"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -129,23 +149,29 @@
 
         <TextView
             android:id="@+id/inyanhao_edit_phone_tv"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15px"
+            android:padding="15px"
             android:text="手机号"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="38px" />
 
 
         <TextView
             android:id="@+id/inyanhao_edit_phone"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_margin="15px"
+            android:layout_marginRight="15px"
+            android:padding="15px"
             android:text="13354698521"
-            android:textColor="#666666" />
+            android:textColor="#666666"
+            android:textSize="32px" />
 
     </RelativeLayout>
 
@@ -160,25 +186,31 @@
 
         <TextView
             android:id="@+id/inyanhao_edit_address_tv"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15px"
+            android:padding="15px"
             android:text="咨询地址"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="38px" />
 
 
         <TextView
             android:id="@+id/inyanhao_edit_address"
-            style="@style/MyProfile.Text"
-            android:layout_width="150dp"
+            android:layout_width="350px"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_margin="15px"
+            android:layout_marginRight="15px"
             android:maxLines="2"
+            android:padding="15px"
             android:singleLine="false"
             android:text="北京市丰台区朝阳小区20号楼3单元503"
-            android:textColor="#666666" />
+            android:textColor="#666666"
+            android:textSize="32px" />
 
     </RelativeLayout>
 
@@ -193,25 +225,31 @@
 
         <TextView
             android:id="@+id/inyanhao_edit_mail_tv"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15px"
+            android:padding="15px"
             android:text="邮箱"
-            android:textColor="#333333" />
+            android:textColor="#333333"
+            android:textSize="38px" />
 
 
         <TextView
             android:id="@+id/inyanhao_edit_mail"
-            style="@style/MyProfile.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
+            android:layout_margin="15px"
+            android:layout_marginRight="15px"
             android:maxLines="2"
+            android:padding="15px"
             android:singleLine="false"
             android:text="xxxxxxxxxxxx@163.com"
-            android:textColor="#666666" />
+            android:textColor="#666666"
+            android:textSize="32px" />
 
     </RelativeLayout>
 
@@ -221,12 +259,12 @@
         android:id="@+id/btnCommit_inyanhao"
         style="?android:buttonStyle"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100px"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_margin="50px"
         android:background="@drawable/btn_bg"
         android:minHeight="100px"
         android:text="提交"
         android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:textSize="32px" />
 </LinearLayout>

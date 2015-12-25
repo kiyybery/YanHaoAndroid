@@ -34,7 +34,7 @@ public class InYanHaoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inyanhao, container, false);
-        //RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
+        RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
         return view;
     }
 }

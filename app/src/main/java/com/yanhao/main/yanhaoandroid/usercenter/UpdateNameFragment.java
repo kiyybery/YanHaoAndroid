@@ -49,6 +49,10 @@ public class UpdateNameFragment extends Fragment {
         mFinish_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mUpdate_name_et.getText().length() == 0) {
+                    Toast.makeText(getActivity(), "您的用户名为空！！", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 save();
             }
         });

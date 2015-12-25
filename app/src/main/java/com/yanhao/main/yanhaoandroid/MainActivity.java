@@ -23,16 +23,16 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private int[] iconResid =
-            {R.drawable.ic_bookmark_outline_grey600_24dp,
-                    R.drawable.ic_search_black_24dp,
-                    R.drawable.ic_notifications_none_grey600_24dp,
-                    R.drawable.ic_favorite_outline_grey600_24dp};
+            {R.drawable.ic_home,
+                    R.drawable.ic_consult,
+                    R.drawable.ic_test,
+                    R.drawable.ic_my};
 
     private int[] iconResidClick =
-            {R.drawable.ic_bookmark_black_24dp,
-                    R.drawable.ic_search_black_24dp,
-                    R.drawable.ic_notifications_black_24dp,
-                    R.drawable.ic_favorite_grey600_24dp};
+            {R.drawable.ic_home_pressed,
+                    R.drawable.ic_consult_pressed,
+                    R.drawable.ic_test_pressed,
+                    R.drawable.ic_my_pressed};
 
     private ViewPager mViewPager;
 

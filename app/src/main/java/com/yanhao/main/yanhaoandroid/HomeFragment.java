@@ -111,8 +111,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 T.showShort(context, "position--->" + position);
-
-
             }
         });
 
@@ -160,7 +158,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void rightClick() {
-
                 Toast.makeText(getActivity(), "go to Serach", Toast.LENGTH_LONG).show();
             }
         });

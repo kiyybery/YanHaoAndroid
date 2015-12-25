@@ -16,8 +16,13 @@ public class YanHao extends YanHaoApplication{
     public static final int PROTOCAL_STATUS_INVALIDFORMAT = 6;
 
     //测试地址
-    public static final String HOST_URL="http://118.144.79.221:8091";
+    public static final String HOST_URL="http://118.144.79.221:8080";
     public static final String api_base = HOST_URL+ File.separator;
+
+    public static final String QINIU_URL = "http://7xop51.com1.z0.glb.clouddn.com/";
+
+    //本地地址
+    public static final String TEST_URL = "http://192.168.0.143:8080/selectCounselorInfo.jspa?";
 
     @Override
     public void onCreate() {

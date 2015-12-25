@@ -32,6 +32,9 @@
     <string name="problem_two">怎样鉴定老师的专业性？</string>
     <string name="problem_three">怎样取消预约？</string>
     <string name="problem_four">取消预约后何时能够退款？</string>
+    <string name="edit_unconfirm">怎样取消预约？</string>
+    <string name="edit_unconfirm_content">取消预约后何时能够退款？</string>
+
 
     <!--咨询师个人主页-->
 

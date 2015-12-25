@@ -12,7 +12,7 @@ import java.util.List;
 public class Adapter extends FragmentPagerAdapter {
 
     private List<Fragment> mFragmentList;
-    private String[] titles = {"燕好网","测试","咨询","我的"};
+    private String[] titles = {"燕好网","咨询","测试","我的"};
 
     public Adapter(FragmentManager fm,List<Fragment> fragList ) {
         super(fm );

@@ -194,11 +194,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private void getLoginUserinfo (){
 
         GetLogininfoCallback callback = new GetLogininfoCallback();
-        LoginReqMessgae reqMessgae = new LoginReqMessgae(YanHao.api_base+"getResp.do?",
+        LoginReqMessgae reqMessgae = new LoginReqMessgae(YanHao.api_base+"getResp.do?name=login",
                 HttpHeaders.VALUE_CONTENT_TYPE_STREAM);
         //reqMessgae.setPhone("18101215049");
         //reqMessgae.setPassword("123456");
-        reqMessgae.setName("login");
+        //reqMessgae.setName("login");
         NHttpProxy.sendRequest(reqMessgae, callback, getActivity(), true, false);
         if (LogUtil.DDBG){
             LogUtil.d(TAG,"requestlogin");
