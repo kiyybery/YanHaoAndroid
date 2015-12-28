@@ -43,7 +43,7 @@
                     android:orientation="vertical">
 
                     <com.yanhao.main.yanhaoandroid.util.CircleImageView
-                        android:id="@+id/iv_uc_avatar"
+                        android:id="@+id/iv_homepage_avatar"
                         android:layout_width="160px"
                         android:layout_height="160px"
                         android:layout_centerHorizontal="true"
@@ -54,9 +54,9 @@
                         android:src="@drawable/avatar_default" />
 
                     <TextView
-                        android:id="@+id/tv_uc_nickname"
+                        android:id="@+id/tv_homepage_nickname"
                         style="@style/UserCenter.Mine.tvNick"
-                        android:layout_below="@+id/iv_uc_avatar"
+                        android:layout_below="@+id/iv_homepage_avatar"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="55px"
                         android:text="徐慧盈"
@@ -67,12 +67,12 @@
                         android:id="@+id/check_in_iv"
                         android:layout_width="79px"
                         android:layout_height="30px"
-                        android:layout_alignTop="@+id/iv_uc_avatar"
+                        android:layout_alignTop="@+id/iv_homepage_avatar"
                         android:layout_marginLeft="56dp"
                         android:layout_marginStart="56dp"
                         android:layout_marginTop="28dp"
-                        android:layout_toEndOf="@+id/iv_uc_avatar"
-                        android:layout_toRightOf="@+id/iv_uc_avatar"
+                        android:layout_toEndOf="@+id/iv_homepage_avatar"
+                        android:layout_toRightOf="@+id/iv_homepage_avatar"
                         android:src="@drawable/gerenzhuye_yirenzheng_icon" />
                 </RelativeLayout>
 

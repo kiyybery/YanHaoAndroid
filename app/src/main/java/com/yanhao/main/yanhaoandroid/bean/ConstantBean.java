@@ -5,16 +5,25 @@ package com.yanhao.main.yanhaoandroid.bean;
  */
 public class ConstantBean {
 
-    public int imageview;
+    public int userid;
+    public String imageview;
     public String constantName;
-    public String level;
+    public int level;
     public String area;
 
-    public int getImageview() {
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public String getImageview() {
         return imageview;
     }
 
-    public void setImageview(int imageview) {
+    public void setImageview(String imageview) {
         this.imageview = imageview;
     }
 
@@ -26,11 +35,11 @@ public class ConstantBean {
         this.constantName = constantName;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 

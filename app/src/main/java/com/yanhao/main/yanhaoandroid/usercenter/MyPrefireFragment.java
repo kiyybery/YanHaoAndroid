@@ -82,30 +82,23 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                jsonObject.getString("address");
-                JSONArray jsonArray = jsonObject.getJSONArray("charge");
-                for (int i = 0; i < jsonArray.length(); i++) {
+                String userId = jsonObject.getString("userId");
+                int userType = jsonObject.getInt("userType");
+                int gender = jsonObject.getInt("gender");
+                String name = jsonObject.getString("name");
+                String nick_name = jsonObject.getString("nickName");
+                String address = jsonObject.getString("address");
+                String imgUrl = jsonObject.getString("photoUrl");
 
-                    JSONObject jo = (JSONObject) jsonArray.get(i);
-
-                }
-                jsonObject.getString("counselorName");
-                jsonObject.getString("education");
-                jsonObject.getInt("gender");
-                jsonObject.getString("intro");
-                jsonObject.getString("photoUrl");
-                JSONArray jsonArray1 = jsonObject.getJSONArray("speciality");
-
-                for (int j = 0; j < jsonArray1.length(); j++) {
-
-                }
-                Toast.makeText(getActivity(),"result"+s,Toast.LENGTH_LONG).show();
-
+                mName_tv.setText(nick_name);
+                mAddress_tv.setText(address);
+                Glide.with(MyPrefireFragment.this).load(imgUrl).into(mCircleImageView);
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
 
         @Override
@@ -158,7 +151,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
 
     public void getUserInfo() {
 
-        String url = YanHao.TEST_URL + "counselorId=1";
+        String url = YanHao.TEST_URL + "selectUserInfo.jspa?" + "userId=" + "1";
         OkHttpUtils
                 .postString()
                 .url(url)

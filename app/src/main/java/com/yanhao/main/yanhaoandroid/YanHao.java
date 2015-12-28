@@ -22,7 +22,7 @@ public class YanHao extends YanHaoApplication{
     public static final String QINIU_URL = "http://7xop51.com1.z0.glb.clouddn.com/";
 
     //本地地址
-    public static final String TEST_URL = "http://192.168.0.143:8080/selectCounselorInfo.jspa?";
+    public static final String TEST_URL = "http://192.168.0.202:8080/";
 
     @Override
     public void onCreate() {

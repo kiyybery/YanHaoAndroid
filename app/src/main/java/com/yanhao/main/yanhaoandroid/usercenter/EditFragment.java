@@ -78,21 +78,24 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                int error_code = jsonObject.getInt("error_code");
-                if (error_code == 0) {
+                String userId = jsonObject.getString("userId");
+                int userType = jsonObject.getInt("userType");
+                int gender = jsonObject.getInt("gender");
+                String name = jsonObject.getString("name");
+                String nick_name = jsonObject.getString("nickName");
+                String address = jsonObject.getString("address");
+                String imgUrl = jsonObject.getString("photoUrl");
 
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("result");
-                    String nickname = jsonObject1.getString("nickname");
-                    String loaction = jsonObject1.getString("loaction");
-                    String sex = jsonObject1.getString("sex");
-                    String photourl = jsonObject1.getString("photourl");
-                    String intro = jsonObject1.getString("intro");
-
-                    Glide.with(EditFragment.this).load(photourl).into(mCircleImageView);
-                    mName_tv.setText(nickname);
-                    mSex_tv.setText(sex);
-                    mCity_tv.setText(loaction);
+                Glide.with(EditFragment.this).load(imgUrl).into(mCircleImageView);
+                mName_tv.setText(nick_name);
+                if (gender == 1) {
+                    mSex_tv.setText("男");
+                } else {
+                    mSex_tv.setText("女");
                 }
+
+                mCity_tv.setText(address);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -142,7 +145,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     public void getUserInfo() {
 
-        String url = YanHao.QINIU_URL + "json_myprofire_edit_utf8.txt";
+        String url = YanHao.TEST_URL + "selectUserInfo.jspa?" + "userId=" + "1";
 
         OkHttpUtils
                 .postString()
@@ -183,7 +186,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 intent.setClass(getActivity(), ProFireActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.iv_uc_avatar:
+            case R.id.iv_uc_avatar_edit:
 
                 FragmentManager fm = getFragmentManager();
                 SelectAvatarSourceFrag f = SelectAvatarSourceFrag.newInstance();

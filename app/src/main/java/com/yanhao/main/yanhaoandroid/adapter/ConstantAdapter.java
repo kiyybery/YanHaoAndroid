@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.bean.ConstantBean;
 
@@ -55,6 +56,7 @@ public class ConstantAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.imageView.setImageResource(R.drawable.avatar_default);
+
         viewHolder.name_tv.setText(mList.get(i).constantName);
         //viewHolder.level_tv.setText(mList.get(i).level);
         viewHolder.area_tv.setText(mList.get(i).area);

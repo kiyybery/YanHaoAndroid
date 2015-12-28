@@ -19,10 +19,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.adapter.ConstantAdapter;
 import com.yanhao.main.yanhaoandroid.bean.ConstantBean;
+import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +45,7 @@ public class MatchConstantFragment extends Fragment {
     private ListView mConstantListView;
     private List<ConstantBean> mList;
     private ConstantBean mConstantBean;
+    private List mSpecialityList;
 
     private final static int mMsgAnimStart = 1;
     private final static int mMsgAnimStop = 2;
@@ -61,6 +72,44 @@ public class MatchConstantFragment extends Fragment {
         }
     };
 
+    private class GetContantsCallBack extends StringCallback {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            Toast.makeText(getActivity(), s + "s", Toast.LENGTH_LONG).show();
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                JSONArray counselorList = jsonObject.getJSONArray("counselorList");
+                for (int i = 0; i < counselorList.length(); i++) {
+
+                    JSONObject jo = counselorList.getJSONObject(i);
+                    mConstantBean = new ConstantBean();
+                    int userId = jo.getInt("userId");
+                    String name = jo.getString("name");
+                    String level = jo.getString("level");
+                    String photoUrl = jo.getString("photoUrl");
+                    JSONArray ja = jo.getJSONArray("speciality");
+                    for (int j = 0; j < ja.length(); j++) {
+                        mConstantBean.area = ja.optString(j);
+                    }
+                    mConstantBean.constantName = jo.getString("name");
+                    mConstantBean.imageview = jo.getString("photoUrl");
+
+                    mList.add(mConstantBean);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static MatchConstantFragment newInstance() {
         MatchConstantFragment fragment = new MatchConstantFragment();
         Bundle data = new Bundle();
@@ -79,14 +128,17 @@ public class MatchConstantFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_matchconsultant, container, false);
         String titleName = getArguments().getString("titlename");
+
+        getContants();
+        mSpecialityList = new ArrayList<>();
         mList = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
+        /*for (int i = 0; i < 15; i++) {
             mConstantBean = new ConstantBean();
             mConstantBean.setConstantName("大师" + i);
-            mConstantBean.setLevel("国家二级" + i);
+            //mConstantBean.setLevel("国家二级" + i);
             mConstantBean.setArea("亲子关系 婚姻困惑 三角恋" + i);
             mList.add(mConstantBean);
-        }
+        }*/
         mConstantListView = (ListView) view.findViewById(R.id.match_listview);
         mConstantListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -131,5 +183,16 @@ public class MatchConstantFragment extends Fragment {
             }
         }).start();
         return view;
+    }
+
+    public void getContants() {
+
+        String url = YanHao.TEST_URL + "matchCounselor.jspa?" +
+                "firstMatchInfo=liveQuestion" + "&&" + "secondMatchInfo=maryQuestion";
+        OkHttpUtils.postString()
+                .url(url)
+                .content(new Gson().toJson(new UserInfo()))
+                .build()
+                .execute(new GetContantsCallBack());
     }
 }
