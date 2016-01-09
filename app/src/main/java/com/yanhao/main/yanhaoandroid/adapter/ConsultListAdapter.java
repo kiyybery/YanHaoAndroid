@@ -21,7 +21,7 @@ import java.util.List;
 public class ConsultListAdapter extends BaseAdapter{
 
     private LayoutInflater mInflater;
-    private List<ConsultListBean> mList;
+    private List<String> mList;
     /**不同item显示不同颜色**/
     private String[] colors = new String[]{
             "#d199e7","#7ebaeb","#82cfd2",
@@ -31,7 +31,7 @@ public class ConsultListAdapter extends BaseAdapter{
     /**左边的色块**/
     private ShapeDrawable[] leftDrawables;
 
-    public ConsultListAdapter(List<ConsultListBean> list, Context context) {
+    public ConsultListAdapter(List<String> list, Context context) {
         this.mList = list;
         this.mInflater = LayoutInflater.from(context);
         initShapeDrawable();
@@ -80,7 +80,7 @@ public class ConsultListAdapter extends BaseAdapter{
         //Toast.makeText(mContext,color,Toast.LENGTH_LONG).show();
         //加载色块
         viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(leftDrawables[i], null, null, null);
-        viewHolder.textView.setText(mList.get(i).getText());
+        viewHolder.textView.setText(mList.get(i));
         return view;
     }
     class ViewHolder{

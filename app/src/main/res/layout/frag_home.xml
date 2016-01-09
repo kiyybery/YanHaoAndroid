@@ -28,11 +28,6 @@
 
         <include layout="@layout/home_px_title" />
 
-
-        <include layout="@layout/divider_px_thick" />
-
-        <include layout="@layout/divider_settings" />
-
         <com.yanhao.main.yanhaoandroid.banner.SimpleImageBanner
             android:id="@+id/sib_simple_usage"
             android:layout_width="fill_parent"
@@ -150,11 +145,12 @@
 
         <include layout="@layout/divider_settings" />
 
-        <com.yanhao.main.yanhaoandroid.banner.SimpleImageBanner
+        <com.yanhao.main.yanhaoandroid.banner.SimpleImageBannerConstant
             android:id="@+id/sib_simple_usage_recommended"
             android:layout_width="fill_parent"
-            android:layout_height="338px"
-            banner:bb_scale="0.5625" />
+            android:layout_height="335px"
+            banner:bb_scale="0.5625"
+            android:background="#ffffff"/>
 
         <include layout="@layout/divider_px_thick" />
 
@@ -186,6 +182,6 @@
             android:layout_height="516px"
             android:scrollbars="none"
             android:stackFromBottom="true"
-            android:background="#ffffff"/>
+            android:background="@drawable/myprofire_pressed"/>
     </LinearLayout>
 </ScrollView>

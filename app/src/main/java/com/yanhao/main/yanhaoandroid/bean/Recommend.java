@@ -5,17 +5,26 @@ package com.yanhao.main.yanhaoandroid.bean;
  */
 public class Recommend {
 
-    public int pic;
+    public int userId;
+    public String pic;
     public String subName;
     public int level_pic;
     public String distence;
     public String describe;
 
-    public int getPic() {
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getPic() {
         return pic;
     }
 
-    public void setPic(int pic) {
+    public void setPic(String pic) {
         this.pic = pic;
     }
 

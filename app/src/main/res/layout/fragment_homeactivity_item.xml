@@ -4,23 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/home_item_iv"
-            android:layout_width="200px"
-            android:layout_height="200px"
-            android:layout_margin="30px" />
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/home_item_iv"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_margin="30px" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30px"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="5px">
 
         <TextView
             android:id="@+id/home_item_title"
@@ -28,6 +23,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:singleLine="false"
+            android:layout_marginRight="15px"
             android:text="《我们和娃一起成长》大型公益讲座"
             android:textColor="#666666"
             android:textSize="30px" />
@@ -35,7 +31,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20px"
+            android:layout_marginTop="20px"
             android:orientation="horizontal">
 
             <TextView
@@ -50,7 +46,7 @@
                 android:id="@+id/home_item_teacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15px"
+                android:layout_marginLeft="10px"
                 android:text="李璐"
                 android:textColor="#999999"
                 android:textSize="28px" />
@@ -59,7 +55,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20px"
+            android:layout_marginTop="20px"
             android:orientation="horizontal">
 
             <TextView
@@ -74,7 +70,7 @@
                 android:id="@+id/home_item_pay_cash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15px"
+                android:layout_marginLeft="10px"
                 android:text="免费"
                 android:textColor="#999999"
                 android:textSize="28px" />
@@ -82,6 +78,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/divider_settings"/>
+    <include layout="@layout/divider_settings" />
 
 </LinearLayout>

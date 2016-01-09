@@ -210,9 +210,9 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
 
                 break;
             case R.id.my_profile_collection:
-                intent = new Intent();
+               /* intent = new Intent();
                 intent.setClass(getActivity(), MyCollectionActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
                 break;
             case R.id.my_profile_note:
 

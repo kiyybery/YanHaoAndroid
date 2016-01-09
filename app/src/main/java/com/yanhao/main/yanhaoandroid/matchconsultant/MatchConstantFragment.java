@@ -24,6 +24,7 @@ import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.adapter.ConstantAdapter;
+import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.ConstantBean;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
@@ -34,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class MatchConstantFragment extends Fragment {
     private List<ConstantBean> mList;
     private ConstantBean mConstantBean;
     private List mSpecialityList;
+    String userId;
 
     private final static int mMsgAnimStart = 1;
     private final static int mMsgAnimStop = 2;
@@ -57,6 +60,7 @@ public class MatchConstantFragment extends Fragment {
 
     private ImageView mBackImage;
     private TextView mTitle;
+    private ConstantAdapter constantAdapter;
 
     Handler handler = new Handler() {
         @Override
@@ -83,27 +87,32 @@ public class MatchConstantFragment extends Fragment {
         @Override
         public void onResponse(String s) {
 
-            Toast.makeText(getActivity(), s + "s", Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                JSONArray counselorList = jsonObject.getJSONArray("counselorList");
-                for (int i = 0; i < counselorList.length(); i++) {
+                JSONArray jsonArray = jsonObject.getJSONArray("counselorList");
 
-                    JSONObject jo = counselorList.getJSONObject(i);
+                for (int i = 0; i < jsonArray.length(); i++) {
                     mConstantBean = new ConstantBean();
-                    int userId = jo.getInt("userId");
+                    JSONObject jo = (JSONObject) jsonArray.get(i);
+                    int level = jo.getInt("level");
                     String name = jo.getString("name");
-                    String level = jo.getString("level");
-                    String photoUrl = jo.getString("photoUrl");
-                    JSONArray ja = jo.getJSONArray("speciality");
-                    for (int j = 0; j < ja.length(); j++) {
-                        mConstantBean.area = ja.optString(j);
+                    String photo = jo.getString("portraitUrl");
+                    userId = jo.getString("userId");
+                    JSONArray speciality = jo.getJSONArray("speciality");
+                    for (int j = 0; j < speciality.length(); j++) {
+                        speciality.optString(j);
+                        mConstantBean.area = speciality.optString(j);
+                        //Toast.makeText(getActivity(), "info" + userId + name + photo + speciality.optString(j), Toast.LENGTH_LONG).show();
                     }
-                    mConstantBean.constantName = jo.getString("name");
-                    mConstantBean.imageview = jo.getString("photoUrl");
-
+                    mConstantBean.userid = userId;
+                    mConstantBean.constantName = name;
+                    mConstantBean.level = level;
+                    mConstantBean.imageview = photo;
                     mList.add(mConstantBean);
                 }
+
+                mConstantListView.setAdapter(constantAdapter);
+                constantAdapter.notifyDataSetChanged();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -128,8 +137,11 @@ public class MatchConstantFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_matchconsultant, container, false);
         String titleName = getArguments().getString("titlename");
-
-        getContants();
+        String itemName = getArguments().getString("item");
+        Toast.makeText(getActivity(), titleName + " " + itemName, Toast.LENGTH_LONG).show();
+        //getContants();
+        //getConstants();
+        getCounselor(titleName, itemName);
         mSpecialityList = new ArrayList<>();
         mList = new ArrayList<>();
         /*for (int i = 0; i < 15; i++) {
@@ -145,10 +157,12 @@ public class MatchConstantFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent = new Intent(getActivity(), HomePageActivity.class);
+                intent.putExtra("userId", mList.get(i).userid);
+                //Toast.makeText(getActivity(), "userId" + mList.get(i).userid, Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
         });
-        mConstantListView.setAdapter(new ConstantAdapter(getActivity(), mList));
+        constantAdapter = new ConstantAdapter(getActivity(), mList);
 
         mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +207,30 @@ public class MatchConstantFragment extends Fragment {
                 .url(url)
                 .content(new Gson().toJson(new UserInfo()))
                 .build()
+                .execute(new GetContantsCallBack());
+    }
+
+    private void getConstants() {
+
+        String url = "http://7xop51.com1.z0.glb.clouddn.com/json_constant.txt";
+        OkHttpUtils
+                .postString()
+                .url(url)
+                .content(new Gson().toJson(new UserInfo("zhy", "123")))
+                .build()
+                .execute(new GetContantsCallBack());
+    }
+
+    private void getCounselor(String category, String item) {
+
+        String url = "http://210.51.190.27:8082/matchCounselor.jspa";
+        OkHttpUtils
+                .post()//
+                .url(url)//
+                .addParams("category", item)//
+                .addParams("item", category)//
+                        //.addParams("code","283454")
+                .build()//
                 .execute(new GetContantsCallBack());
     }
 }

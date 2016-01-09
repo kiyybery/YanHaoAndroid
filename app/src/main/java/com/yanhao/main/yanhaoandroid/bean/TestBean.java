@@ -5,17 +5,43 @@ package com.yanhao.main.yanhaoandroid.bean;
  */
 public class TestBean {
 
-    public int img;
+    public int id;
+    public String img;
     public String test_title;
-    public String time;
+    public String peopleNum;
     public int test_tag;
+    public String webUrl;
 
-    public int getImg() {
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getPeopleNum() {
+        return peopleNum;
+    }
+
+    public void setPeopleNum(String peopleNum) {
+        this.peopleNum = peopleNum;
     }
 
     public String getTest_title() {
@@ -26,13 +52,6 @@ public class TestBean {
         this.test_title = test_title;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public int getTest_tag() {
         return test_tag;
@@ -45,9 +64,10 @@ public class TestBean {
     @Override
     public String toString() {
         return "TestBean{" +
-                "img=" + img +
+                "id=" + id +
+                ", img='" + img + '\'' +
                 ", test_title='" + test_title + '\'' +
-                ", time='" + time + '\'' +
+                ", peopleNum='" + peopleNum + '\'' +
                 ", test_tag=" + test_tag +
                 '}';
     }

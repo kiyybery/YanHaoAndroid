@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:background="@drawable/myprofire_pressed">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <com.yanhao.main.yanhaoandroid.util.CircleImageView
             android:id="@+id/cv_comment_avatar"
@@ -19,17 +21,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/consultant_name"
                     style="@style/Snapchat.Detail.Comment.Item2"
-                    android:layout_weight="1"
                     android:paddingTop="10dp"
                     android:text="张晓梅" />
 
@@ -38,31 +37,36 @@
                     style="@style/Snapchat.Detail.Comment.Item3"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_marginLeft="25dp"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/erji_icon"
-                    android:text="国家二级" />
+                    android:layout_toRightOf="@+id/consultant_name"
+                    android:src="@drawable/erji_icon" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/consult_area"
                 style="@style/Snapchat.Detail.Comment.Item3"
                 android:layout_marginTop="15dp"
-                android:text="擅长 亲子关系 婚姻家庭 亲子关系" />
+                android:text="擅长 亲子关系 婚姻家庭 亲子关系"
+                android:maxEms="13"
+                android:singleLine="true"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
-            android:layout_marginLeft="60dp">
-
-            <ImageView
-                android:id="@+id/login_show_pwd"
-                android:layout_width="15dp"
-                android:layout_height="20dp"
-                android:background="@drawable/arrow_right" />
-        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/login_show_pwd"
+        android:layout_width="10dp"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/arrow_right" />
+
+
+</RelativeLayout>

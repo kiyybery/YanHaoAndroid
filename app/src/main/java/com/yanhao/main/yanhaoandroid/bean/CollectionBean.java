@@ -5,16 +5,26 @@ package com.yanhao.main.yanhaoandroid.bean;
  */
 public class CollectionBean {
 
-    private int imageView;
-    private String title;
-    private String date;
+    public int id;
+    public String imageView;
+    public String title;
+    public String date;
+    public String webUrl;
 
-    public int getImageView() {
+    public String getImageView() {
         return imageView;
     }
 
-    public void setImageView(int imageView) {
+    public void setImageView(String imageView) {
         this.imageView = imageView;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
     }
 
     public String getTitle() {

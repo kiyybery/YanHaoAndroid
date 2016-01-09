@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <ScrollView
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -194,7 +197,7 @@
                     android:layout_marginTop="15px"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/item_tv_1"
                         android:layout_width="140px"
                         android:layout_height="64px"
@@ -235,7 +238,12 @@
                         android:paddingLeft="15px"
                         android:paddingTop="10px"
                         android:text="抑郁症"
-                        android:textSize="30px" />
+                        android:textSize="30px" />-->
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/id_recycleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="64px" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -267,7 +275,7 @@
                     android:layout_marginTop="15px"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/pay_tv_1"
                         android:layout_width="310px"
                         android:layout_height="88px"
@@ -288,7 +296,12 @@
                         android:paddingTop="20px"
                         android:text="电话咨询 500/时"
                         android:textColor="#479de2"
-                        android:textSize="30px" />
+                        android:textSize="30px" />-->
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/id_recycleView_charge"
+                        android:layout_width="match_parent"
+                        android:layout_height="88px" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -307,5 +320,5 @@
                 android:textSize="38px" />
 
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -14,11 +14,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.adapter.RecommendAdapter;
 import com.yanhao.main.yanhaoandroid.bean.Recommend;
+import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +43,42 @@ public class RecommendFragment extends Fragment {
     private ListView mListView;
     private TextView mTitle;
     private LinearLayout mBack;
+    private RecommendAdapter mAdapter;
+
+    private class MyRecommedCallback extends StringCallback{
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                JSONArray jsonArray = jsonObject.getJSONArray("recommedList");
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    mRecommendBean = new Recommend();
+                    JSONObject job = (JSONObject) jsonArray.get(i);
+                    mRecommendBean.userId = job.getInt("userId");
+                    mRecommendBean.pic = job.getString("photoUrl");
+                    mRecommendBean.subName = job.getString("name");
+                    mRecommendBean.level_pic = job.getInt("level");
+                    mRecommendBean.distence = job.getString("address");
+                    mRecommendBean.describe = job.getString("intro");
+
+                    mList.add(mRecommendBean);
+                }
+                mAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
     public static RecommendFragment newInstance() {
 
@@ -47,7 +92,8 @@ public class RecommendFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getData();
+        //getData();
+        getCommendData();
     }
 
     @Nullable
@@ -57,13 +103,18 @@ public class RecommendFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recommend, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
+        mList = new ArrayList<>();
+
         mListView = (ListView) view.findViewById(R.id.recommend_listview);
-        mListView.setAdapter(new RecommendAdapter(getActivity(), mList));
+        mAdapter = new RecommendAdapter(getActivity(),mList);
+        mListView.setAdapter(mAdapter);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), HomePageActivity.class);
+                intent.putExtra("userId",mList.get(i).userId);
                 startActivity(intent);
             }
         });
@@ -102,6 +153,17 @@ public class RecommendFragment extends Fragment {
                     "《生存心境界》、《心理侦探》等书二十多本，并曾为数十家报刊开设心理专栏或撰稿，发表文章达百万字。");
             mList.add(mRecommendBean);
         }
+    }
+
+    private void getCommendData(){
+
+        String url = "http://7xop51.com1.z0.glb.clouddn.com/home_recommed_constant.txt";
+        OkHttpUtils
+                .postString()
+                .url(url)
+                .content(new Gson().toJson(new UserInfo("zhy", "123")))
+                .build()
+                .execute(new MyRecommedCallback());
     }
 
 }

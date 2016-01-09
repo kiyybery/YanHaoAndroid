@@ -11,19 +11,24 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.bean.ConstantBean;
+import com.yanhao.main.yanhaoandroid.util.ImageLoader;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/2 0002.
  */
-public class ConstantAdapter extends BaseAdapter{
+public class ConstantAdapter extends BaseAdapter {
     private List<ConstantBean> mList;
     private LayoutInflater mInflater;
+    private ImageLoader imageLoader;
+    private Context mContext;
 
-    public ConstantAdapter (Context ctx,List<ConstantBean> list){
+    public ConstantAdapter(Context ctx, List<ConstantBean> list) {
         mInflater = LayoutInflater.from(ctx);
         mList = list;
+        imageLoader = new ImageLoader();
+        mContext = ctx;
     }
 
     @Override
@@ -44,27 +49,42 @@ public class ConstantAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
-        if(view == null){
+        if (view == null) {
             viewHolder = new ViewHolder();
-            view = mInflater.inflate(R.layout.fragment_matchitem,null);
+            view = mInflater.inflate(R.layout.fragment_matchitem, null);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.cv_comment_avatar);
             viewHolder.name_tv = (TextView) view.findViewById(R.id.consultant_name);
             viewHolder.level_tv = (ImageView) view.findViewById(R.id.consult_level);
             viewHolder.area_tv = (TextView) view.findViewById(R.id.consult_area);
             view.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.imageView.setImageResource(R.drawable.avatar_default);
 
+        String url = mList.get(i).imageview;
+        /*if (url.equals(" ")) {
+            viewHolder.imageView.setImageResource(R.drawable.avatar_default);
+        } else {
+            imageLoader.showImageByAsyncTask(viewHolder.imageView, url);
+        }*/
+
+        Glide.with(mContext).load(url).into(viewHolder.imageView);
         viewHolder.name_tv.setText(mList.get(i).constantName);
         //viewHolder.level_tv.setText(mList.get(i).level);
+        if (mList.get(i).level == 1) {
+            viewHolder.level_tv.setImageResource(R.drawable.yiji_icon);
+        } else if (mList.get(i).level == 2) {
+            viewHolder.level_tv.setImageResource(R.drawable.erji_icon);
+        } else if (mList.get(i).level == 3) {
+            viewHolder.level_tv.setImageResource(R.drawable.sanji_icon);
+        }
+
         viewHolder.area_tv.setText(mList.get(i).area);
         return view;
     }
 
     class ViewHolder {
-        ImageView imageView,level_tv;
-        TextView name_tv,area_tv;
+        ImageView imageView, level_tv;
+        TextView name_tv, area_tv;
     }
 }

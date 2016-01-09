@@ -23,6 +23,7 @@ public class UIHelper {
         dialog.show();
         Window window = dialog.getWindow();
         View view = View.inflate(context, R.layout.dialog_confirm, null);
+        view.getBackground().setAlpha(100);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
         TextView tv_title = (TextView) view.findViewById(R.id.tv_dialog_confirm_title);

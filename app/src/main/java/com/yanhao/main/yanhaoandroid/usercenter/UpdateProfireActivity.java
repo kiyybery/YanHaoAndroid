@@ -12,23 +12,23 @@ import android.widget.Toast;
 public class UpdateProfireActivity extends AppCompatActivity{
 
 
-    private int type;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        type = getIntent().getIntExtra("type",1);
+        type = getIntent().getStringExtra("type");
 
-        if(type == 1){
-            Toast.makeText(UpdateProfireActivity.this,"type="+type,Toast.LENGTH_LONG).show();
+        if(type.equals("1")){
+            //Toast.makeText(UpdateProfireActivity.this,"type="+type,Toast.LENGTH_LONG).show();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             UpdateNameFragment productionResultFrg = UpdateNameFragment.newInstance();
             ft.add(android.R.id.content, productionResultFrg);
             ft.commit();
         }else {
-            Toast.makeText(UpdateProfireActivity.this,"type="+type,Toast.LENGTH_LONG).show();
+            //Toast.makeText(UpdateProfireActivity.this,"type="+type,Toast.LENGTH_LONG).show();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             UpdateSexFragment productionResultFrg = UpdateSexFragment.newInstance();

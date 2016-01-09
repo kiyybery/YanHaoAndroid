@@ -116,20 +116,20 @@
                     android:layout_marginTop="15px"
                     android:orientation="horizontal">
 
-                    <LinearLayout
+                    <!--<LinearLayout
                         android:id="@+id/tv1_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/select_contant">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/ask_tv_1"
                             android:layout_width="180px"
                             android:layout_height="80px"
-                            android:paddingLeft="25px"
-                            android:paddingTop="20px"
+                            android:background="@drawable/actionsheet_selector"
+                            android:paddingLeft="30px"
+                            android:paddingTop="17px"
                             android:text="当面咨询"
-                            android:textColor="#666666"
+                            android:textColor="@color/calendar_text_selector"
                             android:textSize="30px" />
 
                     </LinearLayout>
@@ -138,20 +138,32 @@
                         android:id="@+id/tv2_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20px"
-                        android:background="@drawable/select_contant">
+                        android:layout_marginLeft="20px">
 
                         <TextView
                             android:id="@+id/ask_tv_2"
                             android:layout_width="180px"
                             android:layout_height="80px"
                             android:layout_marginLeft="20px"
-                            android:paddingLeft="25px"
-                            android:paddingTop="20px"
+                            android:background="@drawable/actionsheet_selector"
+                            android:paddingLeft="30px"
+                            android:paddingTop="17px"
                             android:text="电话咨询"
+                            android:textColor="@color/calendar_text_selector"
                             android:textSize="30px" />
 
-                    </LinearLayout>
+                    </LinearLayout>-->
+
+                    <GridView
+                        android:id="@+id/type_gradview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@null"
+                        android:numColumns="2"
+                        android:scrollbars="none"
+                        android:horizontalSpacing="1px"
+                        android:layout_marginRight="215px"
+                        android:listSelector="@android:color/transparent"/>
 
                 </LinearLayout>
             </LinearLayout>

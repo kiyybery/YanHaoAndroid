@@ -1,6 +1,7 @@
 package com.yanhao.main.yanhaoandroid.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.bean.CollectionBean;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.yanhao.main.yanhaoandroid.util.XCRoundRectImageView;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.BitmapCallback;
 
 import java.util.List;
 
@@ -46,7 +50,7 @@ public class ReadAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if (view == null) {
             viewHolder = new ViewHolder();
             view = mInflater.inflate(R.layout.fragment_read_item, null);
@@ -59,7 +63,27 @@ public class ReadAdapter extends BaseAdapter {
 
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.imageView.setImageResource(R.drawable.uc_my_background);
+        String url = mList.get(i).imageView;
+        OkHttpUtils.get()
+                .url(url)
+                .tag(this)
+                .build()
+                .connTimeOut(20000)
+                .readTimeOut(20000)
+                .writeTimeOut(20000)
+                .execute(new BitmapCallback(){
+                    @Override
+                    public void onError(Request request, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+
+                        viewHolder.imageView.setImageBitmap(bitmap);
+                    }
+                });
+
         viewHolder.title_tv.setText(mList.get(i).getTitle());
         viewHolder.time_tv.setText(mList.get(i).getDate());
         return view;

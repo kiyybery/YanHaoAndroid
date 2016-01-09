@@ -13,9 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/li_section_title"
         android:layout_marginTop="15dp"
-        android:background="#ffffff"
+        android:background="@drawable/myprofire_pressed"
         android:focusable="true"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        />
 
     <RelativeLayout
         android:id="@+id/anim_layout"

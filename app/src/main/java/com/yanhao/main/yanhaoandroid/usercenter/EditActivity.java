@@ -57,7 +57,7 @@ public class EditActivity extends AppCompatActivity{
                     dialog.dismiss();
                     //用户确认修改之后，写入缓存。。待做
 
-                    //// TODO: 2015/11/13 0013  
+                    //// TODO: 2015/11/13 0013
                     finish();
                 }
             }, new View.OnClickListener() {

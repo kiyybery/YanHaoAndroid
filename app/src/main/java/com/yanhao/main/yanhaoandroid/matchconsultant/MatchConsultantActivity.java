@@ -13,6 +13,7 @@ import com.yanhao.main.yanhaoandroid.consult.ConsultListFragment;
 public class MatchConsultantActivity extends AppCompatActivity{
 
     public String titleName;
+    public String itemName;
     private static final String TAG = MatchConsultantActivity.class.getSimpleName();
     android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 
@@ -21,7 +22,7 @@ public class MatchConsultantActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
         titleName = getIntent().getStringExtra("titlename");
-
+        itemName = getIntent().getStringExtra("item");
         if (savedInstanceState == null) {
             /*FragmentTransaction ft = fm.beginTransaction();
             ft.add(android.R.id.content, MatchConstantFragment.newInstance());
@@ -32,6 +33,7 @@ public class MatchConsultantActivity extends AppCompatActivity{
             MatchConstantFragment productionResultFrg = MatchConstantFragment.newInstance();
             Bundle bundle = new Bundle();
             bundle.putString("titlename",titleName);
+            bundle.putString("item",itemName);
             productionResultFrg.setArguments(bundle);
             ft.add(android.R.id.content, productionResultFrg);
             ft.commit();

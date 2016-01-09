@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.bean.TestBean;
@@ -22,10 +23,12 @@ public class TestAdapter extends BaseAdapter{
 
     private List<TestBean> mList;
     private LayoutInflater mInflater;
+    private Context mContext;
 
     public TestAdapter(List<TestBean> list,Context context) {
         this.mList = list;
         this.mInflater = LayoutInflater.from(context);
+        mContext = context;
     }
 
     @Override
@@ -53,14 +56,22 @@ public class TestAdapter extends BaseAdapter{
             viewHolder.left_iv = (ImageView) view.findViewById(R.id.img_test);
             viewHolder.title_tv = (TextView) view.findViewById(R.id.title_tv);
             viewHolder.time_tv = (TextView) view.findViewById(R.id.answer_num);
+            viewHolder.tag_iv = (ImageView) view.findViewById(R.id.tag_iv);
             view.setTag(viewHolder);
         }else {
 
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.left_iv.setImageResource(R.drawable.uc_my_background);
+
+        Glide.with(mContext).load(mList.get(i).img).into(viewHolder.left_iv);
+        //viewHolder.left_iv.setImageResource(R.drawable.uc_my_background);
+        if(mList.get(i).test_tag == 1){
+            viewHolder.tag_iv.setImageResource(R.drawable.ceshi_zuire_icon);
+        }else if(mList.get(i).test_tag == 2){
+            viewHolder.tag_iv.setImageResource(R.drawable.ceshi_zuixin_icon);
+        }
         viewHolder.title_tv.setText(mList.get(i).test_title);
-        viewHolder.time_tv.setText(mList.get(i).time);
+        viewHolder.time_tv.setText(mList.get(i).peopleNum);
 
         return view;
     }

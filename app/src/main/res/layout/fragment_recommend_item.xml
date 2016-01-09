@@ -20,9 +20,8 @@
             <ImageView
                 android:id="@+id/recommend_item_pic"
                 android:layout_width="fill_parent"
-                android:layout_height="288px"
-                android:scaleType="fitXY"
-                android:src="@drawable/title_pic" />
+                android:layout_height="388px"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <RelativeLayout
@@ -38,7 +37,7 @@
                 android:id="@+id/subname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="张华画"
+                android:text="......"
                 android:textColor="#333333"
                 android:textSize="38px" />
 

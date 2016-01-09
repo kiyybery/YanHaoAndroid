@@ -12,5 +12,6 @@
         android:layout_gravity="center"
         android:text="情绪障碍"
         android:textColor="#666666"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:background="@drawable/myprofire_pressed"/>
 </LinearLayout>

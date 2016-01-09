@@ -43,13 +43,12 @@ public class SimpleImageBanner extends BaseIndicaorBanner<BannerItem, SimpleImag
 
         final BannerItem item = list.get(position);
         int itemWidth = dm.widthPixels;
-        int itemHeight = (int) (itemWidth * 360 * 1.0f / 640);
+        int itemHeight = (int) (itemWidth * 360 / 1.5f / 640);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setLayoutParams(new LinearLayout.LayoutParams(itemWidth, itemHeight));
 
         String imgUrl = item.imgUrl;
 
-        T.showShort(context,imgUrl);
         if (!TextUtils.isEmpty(imgUrl)) {
             Glide.with(context)
                     .load(imgUrl)

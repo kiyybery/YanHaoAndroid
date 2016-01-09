@@ -10,7 +10,8 @@
         android:id="@+id/item_test_layout"
         android:layout_width="fill_parent"
         android:layout_height="230px"
-        android:layout_marginLeft="34px">
+        android:layout_marginLeft="34px"
+        android:background="@drawable/myprofire_pressed">
 
         <ImageView
             android:id="@+id/img_test"
@@ -27,33 +28,24 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/img_test"
             android:layout_marginLeft="30px"
-            android:layout_marginRight="15dp"
             android:layout_toEndOf="@+id/img_test"
             android:layout_toRightOf="@+id/img_test"
-            android:singleLine="false"
-            android:text="测试题标题"
+            android:maxEms="7"
+            android:singleLine="true"
+            android:text="测试题标题测试题标题测试题标题测试题标题"
             android:textColor="#666666"
             android:textSize="32px" />
 
-        <LinearLayout
-            android:id="@+id/tag_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+        <ImageView
+            android:id="@+id/tag_iv"
+            android:layout_width="50px"
+            android:layout_height="25px"
             android:layout_alignTop="@+id/title_tv"
-            android:layout_toRightOf="@+id/title_tv"
             android:layout_toEndOf="@+id/title_tv"
-            android:layout_marginTop="11px">
-
-            <ImageView
-                android:id="@+id/tag_iv"
-                android:layout_width="50px"
-                android:layout_height="25px"
-                android:layout_alignTop="@+id/title_tv"
-                android:layout_toEndOf="@+id/title_tv"
-                android:layout_toRightOf="@+id/title_tv"
-                android:background="@drawable/ceshi_zuire_icon" />
-
-        </LinearLayout>
+            android:layout_toRightOf="@+id/title_tv"
+            android:layout_marginTop="10px"
+             />
 
         <TextView
             android:id="@+id/time_tv"

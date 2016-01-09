@@ -5,17 +5,17 @@ package com.yanhao.main.yanhaoandroid.bean;
  */
 public class ConstantBean {
 
-    public int userid;
+    public String userid;
     public String imageview;
     public String constantName;
     public int level;
     public String area;
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 

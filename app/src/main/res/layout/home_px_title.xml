@@ -19,7 +19,7 @@
             android:paddingBottom="15px"
             android:paddingLeft="30px"
             android:paddingRight="30px"
-            android:paddingTop="15px">
+            android:paddingTop="25px">
 
             <TextView
                 android:id="@+id/tv_home_title_left"

@@ -25,7 +25,7 @@ public class ConsultListActivity extends AppCompatActivity{
         mItemId = getIntent().getIntExtra("itemId",1);
         mItemName = getIntent().getStringExtra("itemName");
 
-        Toast.makeText(this,"adapter tell activity :"+mItemId+","+mItemName,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"adapter tell activity :"+mItemId+","+mItemName,Toast.LENGTH_LONG).show();
         if (savedInstanceState == null) {
             /*FragmentTransaction ft = fm.beginTransaction();
             Bundle bundle = new Bundle();

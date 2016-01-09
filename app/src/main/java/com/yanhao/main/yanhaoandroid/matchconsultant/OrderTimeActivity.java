@@ -13,9 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.matchconsultant.listener.OnTabSelectListener;
 import com.yanhao.main.yanhaoandroid.util.ViewFindUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -39,6 +46,39 @@ public class OrderTimeActivity extends AppCompatActivity implements OnTabSelectL
             , "10-15", "10-16", "10-17"
     };
 
+    private class GetReservationSchedule extends StringCallback {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                JSONArray reservationArray = jsonObject.getJSONArray("reservationList");
+                for (int i = 0; i < reservationArray.length(); i++) {
+
+                    JSONObject job = (JSONObject) reservationArray.get(i);
+                    String data = job.getString("data");
+                    int timeMillis = job.getInt("timeMillis");
+                    JSONArray scheduleArray = job.getJSONArray("scheduleList");
+                    for (int k = 0; k < scheduleArray.length(); k++) {
+
+                        JSONObject scheduleObj = (JSONObject) scheduleArray.get(k);
+                        String period = scheduleObj.getString("period");
+                        int reservationId = scheduleObj.getInt("reservationId");
+                        int status = scheduleObj.getInt("status");
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,5 +145,17 @@ public class OrderTimeActivity extends AppCompatActivity implements OnTabSelectL
         public Fragment getItem(int position) {
             return fragments.get(position);
         }
+    }
+
+    private void getReservationSchedule() {
+
+        String url = "http://210.51.190.27:8082/getReservationSchedule.jspa";
+
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("userId", "WbqhSt2gqUU=")
+                .build()
+                .execute(new GetReservationSchedule());
     }
 }

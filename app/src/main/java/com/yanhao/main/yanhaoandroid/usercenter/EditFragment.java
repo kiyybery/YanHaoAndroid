@@ -16,12 +16,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
@@ -32,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,12 +43,13 @@ import java.util.Map;
  */
 public class EditFragment extends Fragment implements View.OnClickListener {
 
-    private TextView mTitle, mName_tv, mSex_tv, mCity_tv;
+    private TextView mTitle, mName_tv, mSex_tv, mCity_tv, mFinish_tv;
     private ImageView mBackImage;
     private CircleImageView mCircleImageView;
     private RelativeLayout mName_layout, mSex_layout, mAddress_layout, mProfire_layout;
     private String name;
 
+    String path = "";
     private static final String TAG = EditFragment.class.getSimpleName();
     private static final int REQUEST_MODIFY_AVATAR = 500;
     public static final int REQUEST_MODIFY_AVATAR_CAMERA = 501;
@@ -65,7 +69,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
-    private class MyStringCallBack extends StringCallback {
+    private class UpdateProFileCallBack extends StringCallback {
 
 
         @Override
@@ -76,7 +80,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onResponse(String s) {
 
-            try {
+            /*try {
                 JSONObject jsonObject = new JSONObject(s);
                 String userId = jsonObject.getString("userId");
                 int userType = jsonObject.getInt("userType");
@@ -98,6 +102,22 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+            }*/
+
+            try {
+                T.show(getActivity(), s, 1000);
+                JSONObject jsonObject = new JSONObject(s);
+                int ret = jsonObject.getInt("ret");
+                if (ret == 0) {
+
+                    T.show(getActivity(), jsonObject.getString("info"), 100);
+                } else {
+
+                    T.show(getActivity(), jsonObject.getString("info"), 100);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
         }
@@ -113,9 +133,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit, container, false);
 
-        getUserInfo();
-
         name = getArguments().getString("username");
+        mFinish_tv = (TextView) view.findViewById(R.id.tv_text_title_right);
         mName_tv = (TextView) view.findViewById(R.id.edit_name);
         mSex_tv = (TextView) view.findViewById(R.id.edit_sex);
         mCity_tv = (TextView) view.findViewById(R.id.edit_address);
@@ -126,33 +145,22 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         mAddress_layout = (RelativeLayout) view.findViewById(R.id.address_layout);
         mProfire_layout = (RelativeLayout) view.findViewById(R.id.profire_layout);
         mName_layout.setOnClickListener(this);
+        mFinish_tv.setOnClickListener(this);
         mSex_layout.setOnClickListener(this);
         mAddress_layout.setOnClickListener(this);
         mProfire_layout.setOnClickListener(this);
         mCircleImageView.setOnClickListener(this);
 
-        mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);
+        mBackImage = (ImageView) view.findViewById(R.id.iv_text_title_back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().finish();
             }
         });
-        mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
+        mTitle = (TextView) view.findViewById(R.id.tv_text_title_title);
         mTitle.setText("个人信息");
         return view;
-    }
-
-    public void getUserInfo() {
-
-        String url = YanHao.TEST_URL + "selectUserInfo.jspa?" + "userId=" + "1";
-
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo()))
-                .build()
-                .execute(new MyStringCallBack());
     }
 
     @Override
@@ -163,14 +171,14 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             case R.id.name_layout:
 
                 Intent intent = new Intent();
-                intent.putExtra("type", 1);
+                intent.putExtra("type", "1");
                 intent.setClass(getActivity(), UpdateProfireActivity.class);
                 startActivityForResult(intent, REQUEST_MODIFY_USERNAME);
                 break;
             case R.id.sex_layout:
 
                 intent = new Intent();
-                intent.putExtra("type", 2);
+                intent.putExtra("type", "2");
                 intent.setClass(getActivity(), UpdateProfireActivity.class);
                 startActivityForResult(intent, REQUEST_MODIFY_SEX);
                 break;
@@ -193,6 +201,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 f.setTargetFragment(EditFragment.this, REQUEST_MODIFY_AVATAR);
                 f.show(fm, "avatar");
                 break;
+
+            case R.id.tv_text_title_right:
+
+                updateProfile();
+                break;
             default:
                 break;
         }
@@ -214,7 +227,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                  * 从相册选择后返回，类似于拍照., 暂时先不做裁剪了，有时间再做
                  */
                 int type = data.getIntExtra("avatar", 0);
-                String path = "";
+
                 if (type == 1) {
                     Bundle extras = data.getExtras();
                     path = extras.getString("avatarPath");
@@ -231,8 +244,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                     Glide.with(this).load(imageUri).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
                     path = FileUtilsOfPaul.getPath(getActivity(), imageUri);
                     Log.i(TAG, "从本地Uri解析出的头像地址" + path);
+                    uploadImg(imageUri);
                 }
                 tempUserInfo.put("avatars", path);
+
+
                 break;
 
             case REQUEST_MODIFY_REGION:
@@ -271,5 +287,37 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             Log.d(TAG, tempUserInfo.toString());
         }
         return changed;
+    }
+
+    private void updateProfile() {
+
+        String url = "http://210.51.190.27:8082/updateProfile.jspa";
+        String name = URLEncoder.encode("aaa");
+        String city = URLEncoder.encode("北京");
+        String intro = URLEncoder.encode("12312");
+        T.show(getActivity(), name + city + intro, 100);
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("userId", "2")
+                .addParams("nickName", name)
+                .addParams("gender", "1")
+                .addParams("city", city)
+                .addParams("intro", intro)
+                .addParams("portrait", "/storage/emulated/0/DCIM/Camera/MYXJ_20151225150838_fast.jpg")
+                .build()
+                .execute(new UpdateProFileCallBack());
+    }
+
+    private void uploadImg(Uri imgUri) {
+
+        String imgUrl = "http://210.51.190.27:8082/uploadPortrait.jspa";
+        OkHttpUtils
+                .post()
+                .url(imgUrl)
+                .addParams("userId", "2")
+                .addParams("file", path)
+                .build()
+                .execute(new UpdateProFileCallBack());
     }
 }

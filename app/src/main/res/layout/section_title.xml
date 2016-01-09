@@ -50,7 +50,8 @@
             <ImageView
                 android:id="@+id/iv_section_title_right"
                 android:layout_width="113px"
-                android:layout_height="33px"/>
+                android:layout_height="33px"
+                />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

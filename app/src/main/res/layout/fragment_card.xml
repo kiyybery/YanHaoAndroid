@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="310dp"
-    android:layout_height="212dp"
-    android:layout_margin="40dp"
-    android:background="@drawable/corner"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
-        android:padding="10dp"
         android:id="@+id/area_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:text=""
-        android:textColor="#333333"
-        android:textSize="16dp" />
+        android:background="@drawable/actionsheet_selector"
+        android:paddingTop="25px"
+        android:paddingBottom="25px"
+        android:paddingRight="45px"
+        android:paddingLeft="45px"
+        android:text="10:00 - 11:00"
+        android:textColor="@color/calendar_text_selector"
+        android:textSize="34px" />
 
 </LinearLayout>

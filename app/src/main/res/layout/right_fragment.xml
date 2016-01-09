@@ -91,7 +91,7 @@
             android:id="@+id/rigst_show_pwd"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/pwd_no"
+            android:background="@drawable/show_pwd_select"
             android:layout_marginRight="15dp"
             android:layout_gravity="center_vertical"
             />

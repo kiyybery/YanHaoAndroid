@@ -11,14 +11,20 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class HomePageActivity extends AppCompatActivity{
 
+    private String userId;
     FragmentManager fm = getSupportFragmentManager();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
+
+            userId = getIntent().getStringExtra("userId");
             FragmentTransaction ft = fm.beginTransaction();
             HomePageFragment productionResultFrg = HomePageFragment.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putString("userId", userId);
+            productionResultFrg.setArguments(bundle);
             ft.add(android.R.id.content, productionResultFrg);
             ft.commit();
         }

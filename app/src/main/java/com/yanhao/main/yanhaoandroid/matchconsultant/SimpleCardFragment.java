@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class SimpleCardFragment extends Fragment {
     private String title;
     private GridView mGridView;
+    private CardAdapter mAdapter;
     private List<CardBean> mList = new ArrayList<CardBean>();
     private String[] areatexts = new String[]{
             "10:00 - 11:00", "12:30 - 13:30", "14:00 - 15:00",
@@ -47,7 +49,15 @@ public class SimpleCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fr_simple_card, null);
         mGridView = (GridView) v.findViewById(R.id.cardGridView);
-        mGridView.setAdapter(new CardAdapter(getActivity(), mList));
+        mAdapter = new CardAdapter(getActivity(), mList);
+        mGridView.setAdapter(mAdapter);
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mAdapter.setSelectedPosition(i);
+                mAdapter.notifyDataSetInvalidated();
+            }
+        });
         /*TextView card_title_tv = (TextView) v.findViewById(R.id.card_title_tv);
         card_title_tv.setText(title);*/
 

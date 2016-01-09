@@ -21,9 +21,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.MainActivity;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.http.HttpHeaders;
 import com.yanhao.main.yanhaoandroid.http.NHttpCallback;
 import com.yanhao.main.yanhaoandroid.http.NHttpProxy;
@@ -32,39 +34,79 @@ import com.yanhao.main.yanhaoandroid.http.NHttpResponse;
 import com.yanhao.main.yanhaoandroid.util.CommonUtils;
 import com.yanhao.main.yanhaoandroid.util.CustomProgressDialog;
 import com.yanhao.main.yanhaoandroid.util.LogUtil;
+import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.yanhao.main.yanhaoandroid.util.StringUtil;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Administrator on 2015/10/27 0027.
  */
-public class LoginFragment extends Fragment implements View.OnClickListener{
+public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
     private TextView mFrogetPwdtv;
-    private EditText mLogin_username_et,mLogin_pw_et;
+    private EditText mLogin_username_et, mLogin_pw_et;
     private ImageButton mLogin_show_pwd;
     private Button mLogin_login_btn;
 
-    public static LoginFragment newInstance(){
+    private class MyLoginCallback extends StringCallback {
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                int ret = jsonObject.getInt("ret");
+                if (ret == 1) {
+
+                    String info = jsonObject.getString("info");
+                    T.show(getActivity(), info, 100);
+
+                } else {
+
+                    String userId = jsonObject.getString("userId");
+                    Toast.makeText(getActivity(), SecurityUtil.decrypt(userId), Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    i.putExtra("userId", userId);
+                    startActivity(i);
+                    getActivity().finish();
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static LoginFragment newInstance() {
         LoginFragment loginFragment = new LoginFragment();
         return loginFragment;
     }
 
-    private Handler mHnadler = new Handler(){
+    private Handler mHnadler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
 
-            switch (msg.arg1){
+            switch (msg.arg1) {
 
                 case 1:
-                    Toast.makeText(getActivity(), "login success", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), "login success", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     getActivity().finish();
-                    getLoginUserinfo();
 
-                    SharedPreferences sp = getActivity().getSharedPreferences("userInfo",getActivity().MODE_PRIVATE);
+                    SharedPreferences sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("username", mLogin_username_et.getText().toString());
                     editor.putString("password", mLogin_pw_et.getText().toString());
@@ -91,13 +133,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.login_fragment,container,false);
+        View view = inflater.inflate(R.layout.login_fragment, container, false);
 
         mFrogetPwdtv = (TextView) view.findViewById(R.id.froget_tv);
         mFrogetPwdtv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),FrogetPwdActivity.class);
+                Intent intent = new Intent(getActivity(), FrogetPwdActivity.class);
                 startActivity(intent);
             }
         });
@@ -133,7 +175,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.login_show_pwd:
 
@@ -153,87 +195,44 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.login_login_btn:
-                if(!CommonUtils.isNetWorkConnected(getActivity())){
+                if (!CommonUtils.isNetWorkConnected(getActivity())) {
                     Toast.makeText(getActivity(), R.string.network_isnot_available, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String text = mLogin_username_et.getText().toString();
                 String pwd = mLogin_pw_et.getText().toString();
 
-                if(!StringUtil.isMobileNO(text) || pwd.length() == 0){
+                if (!StringUtil.isMobileNO(text) || pwd.length() == 0) {
 
-                    Toast.makeText(getActivity(),"手机号输入错误或者输入为空!!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "手机号输入错误或者输入为空!!", Toast.LENGTH_LONG).show();
                     return;
-                }else {
+                } else {
 
-                    new Thread(new Runnable() {
+                    /*new Thread(new Runnable() {
                         @Override
                         public void run() {
 
                             login();
                         }
                     }
-                    ).start();
+                    ).start();*/
+
+                    String url = "http://210.51.190.27:8082/login.jspa";
+                    OkHttpUtils
+                            .get()//
+                            .url(url)//
+                            .addParams("mobile", SecurityUtil.encrypt(mLogin_username_et.getText().toString()))//
+                            .addParams("password", SecurityUtil.encrypt(mLogin_pw_et.getText().toString()))//
+                            .build()//
+                            .execute(new MyLoginCallback());
                 }
                 break;
         }
     }
 
-    public void login(){
+    public void login() {
         Message message = new Message();
         message.arg1 = 1;
         mHnadler.sendMessage(message);
-    }
-
-    private void doLogin(){
-
-
-        LoginRespMessage msg = new LoginRespMessage();
-    }
-
-    private void getLoginUserinfo (){
-
-        GetLogininfoCallback callback = new GetLogininfoCallback();
-        LoginReqMessgae reqMessgae = new LoginReqMessgae(YanHao.api_base+"getResp.do?name=login",
-                HttpHeaders.VALUE_CONTENT_TYPE_STREAM);
-        //reqMessgae.setPhone("18101215049");
-        //reqMessgae.setPassword("123456");
-        //reqMessgae.setName("login");
-        NHttpProxy.sendRequest(reqMessgae, callback, getActivity(), true, false);
-        if (LogUtil.DDBG){
-            LogUtil.d(TAG,"requestlogin");
-        }
-    }
-
-    private class GetLogininfoCallback implements NHttpCallback{
-
-        @Override
-        public void onRespond(NHttpRequest req, NHttpResponse resp) {
-
-            if(resp.getRespStatus() == NHttpResponse.RESPONSE_STATUS_OK){
-
-                LoginRespMessage respmsg = (LoginRespMessage) resp;
-                LoginReqMessgae reqMessgae = (LoginReqMessgae) req;
-                if(respmsg.getRespStatus() == YanHao.PROTOCAL_STATUS_OK){
-
-
-                }
-            }
-        }
-
-        @Override
-        public void onNetworkDisable() {
-
-        }
-
-        @Override
-        public void onProgressStatusUpdate(long status) {
-
-        }
-
-        @Override
-        public void onPostProgressUpdate(long postBytes, long totalBytes) {
-
-        }
     }
 }

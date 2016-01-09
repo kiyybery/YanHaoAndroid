@@ -17,10 +17,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.banner.T;
+import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.yanhao.main.yanhaoandroid.util.StringUtil;
 import com.yanhao.main.yanhaoandroid.util.TopBar;
 import com.yanhao.main.yanhaoandroid.util.UIHelper;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 
@@ -30,7 +38,7 @@ import java.lang.ref.WeakReference;
 public class FrogetFragment extends Fragment implements View.OnClickListener {
 
     private EditText mEt_phone, mEt_froget_pwd, mAccount_froget_code_et;
-    private Button mAccount_forget_get_code_btn,mBtnGetPwd;
+    private Button mAccount_forget_get_code_btn, mBtnGetPwd;
     private ImageButton mForget_show_pwd;
     private final static int mMsgCodeRestBtn = 1;
     private final static int mMsgCodeCounting = 2;
@@ -38,6 +46,36 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
     private final static int mMaxTime = 60;
     TopBar mTopBar;
     Dialog mDialog;
+
+    private class ModifyPwdCallBack extends StringCallback {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                int ret = jsonObject.getInt("ret");
+                if (ret == 1) {
+
+                    T.show(getActivity(), jsonObject.getString("info"), 100);
+                } else {
+
+                    T.show(getActivity(), jsonObject.getString("info"), 100);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
 
     MyInnerHandler mHander = new MyInnerHandler(this);
 
@@ -140,11 +178,11 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
                 //控制密码的隐藏与显示
                 if (mEt_froget_pwd.getInputType() != InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
                     mEt_froget_pwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                   // mForget_show_pwd.setImageResource(R.drawable.pwd_yes);
+                    // mForget_show_pwd.setImageResource(R.drawable.pwd_yes);
                     mForget_show_pwd.setBackgroundResource(R.drawable.pwd_yes);
                 } else {
                     mEt_froget_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                   //mForget_show_pwd.setImageResource(R.drawable.pwd_no);
+                    //mForget_show_pwd.setImageResource(R.drawable.pwd_no);
                     mForget_show_pwd.setBackgroundResource(R.drawable.pwd_no);
                 }
                 //变更属性后记得让光标显示在输入框最后
@@ -168,10 +206,10 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
                 String phoneNUM = mEt_phone.getText().toString();
                 String pwd = mEt_froget_pwd.getText().toString();
                 String code = mAccount_froget_code_et.getText().toString();
-                if(!StringUtil.isMobileNO(phoneNUM) || pwd.length() < 6 || code.length() < 0){
+                if (!StringUtil.isMobileNO(phoneNUM) || pwd.length() < 6 || code.length() < 0) {
 
-                    Toast.makeText(getActivity(),"您输入的信息有误，请检查！！",Toast.LENGTH_LONG).show();
-                }else {
+                    Toast.makeText(getActivity(), "您输入的信息有误，请检查！！", Toast.LENGTH_LONG).show();
+                } else {
 
                     getPwd();
                 }
@@ -187,11 +225,21 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
 
         mHander.sendEmptyMessage(mMsgCodeCounting);
 
+        String str = "18101215049";
+        String url = "http://210.51.190.27:8082/sendAuthCode.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)//
+                .addParams("mobile", SecurityUtil.encrypt(mEt_phone.getText().toString()))//
+                        //.addParams("password", "123")//
+                .build()//
+                .execute(new ModifyPwdCallBack());
         Toast.makeText(getActivity(), "正在向用户" + mEt_phone.getText() + "发送验证码，请注意查收！！", Toast.LENGTH_LONG).show();
     }
 
-    public void getPwd(){
+    public void getPwd() {
 
+        modifyPwd();
         mDialog = UIHelper.buildConfirm(
                 getActivity(),
                 "用户" + mEt_phone.getText() + "密码重置！请牢记！！", "确定", "取消",
@@ -210,5 +258,18 @@ public class FrogetFragment extends Fragment implements View.OnClickListener {
                 });
         //Toast.makeText(getActivity(), "用户" + mEt_phone.getText() + "密码重置！请牢记！！", Toast.LENGTH_LONG).show();
 
+    }
+
+    private void modifyPwd() {
+
+        String url = "http://210.51.190.27:8082/modifyPwd.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("mobile", SecurityUtil.encrypt(mEt_phone.getText().toString()))
+                .addParams("code", mAccount_froget_code_et.getText().toString())
+                .addParams("newPwd", SecurityUtil.encrypt(mEt_froget_pwd.getText().toString()))
+                .build()
+                .execute(new ModifyPwdCallBack());
     }
 }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/section_px_title" />
@@ -120,7 +121,7 @@
 
     <include layout="@layout/divider_settings" />
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:id="@+id/wechat_pay_layout"
         android:layout_width="fill_parent"
         android:layout_height="136px"
@@ -147,9 +148,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="35px"
-            android:src="@drawable/zhifu_checked" />
+            android:background="@drawable/pay_select_check"/>
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <include layout="@layout/divider_settings" />
 
@@ -180,7 +181,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="35px"
-            android:src="@drawable/zhifu_check" />
+            android:background="@drawable/pay_select_check" />
     </RelativeLayout>
 
     <Button

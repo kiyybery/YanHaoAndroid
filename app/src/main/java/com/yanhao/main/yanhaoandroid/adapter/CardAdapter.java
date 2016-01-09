@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.yanhao.main.yanhaoandroid.R;
 
+import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.bean.CardBean;
+import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 
 
 import java.util.List;
@@ -23,6 +25,12 @@ public class CardAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<CardBean> mList;
+    boolean isSelect;
+    private int selectedPosition = -1;
+
+    public void setSelectedPosition(int position) {
+        selectedPosition = position;
+    }
 
     public CardAdapter(Context mContext, List<CardBean> mList) {
         this.mContext = mContext;
@@ -48,15 +56,22 @@ public class CardAdapter extends BaseAdapter {
     public View getView(final int i, View view, ViewGroup viewGroup) {
         CardBean card = (CardBean) getItem(i);
         view = LayoutInflater.from(mContext).inflate(R.layout.fragment_card, null);
-        //RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
-        TextView areaTextView = (TextView) view.findViewById(R.id.area_tv);
+        RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
+        final TextView areaTextView = (TextView) view.findViewById(R.id.area_tv);
         areaTextView.setText(card.getText());
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+
+        if (i == selectedPosition) {
+
+            areaTextView.setSelected(true);
+            isSelect = true;
+        } else {
+
+            areaTextView.setSelected(false);
+            isSelect = false;
+        }
+
+
         return view;
     }
 }

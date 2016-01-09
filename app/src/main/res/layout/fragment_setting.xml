@@ -20,7 +20,8 @@
         <RelativeLayout
             android:id="@+id/message_layout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/myprofire_pressed">
 
             <TextView
                 android:id="@+id/alerts_tv"
@@ -28,12 +29,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
                 android:text="消息通知" />
 
             <ImageView
                 android:id="@+id/setting_back"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -47,7 +49,8 @@
             android:id="@+id/safe_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/message_layout">
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
 
             <TextView
                 android:id="@+id/saft_tv"
@@ -55,12 +58,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
                 android:text="隐私与安全" />
 
             <ImageView
                 android:id="@+id/safe_back"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -74,7 +78,8 @@
             android:id="@+id/clear_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/message_layout">
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
 
             <TextView
                 android:id="@+id/clear_tv"
@@ -82,6 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
                 android:text="清除缓存" />
 
             <TextView
@@ -103,7 +109,8 @@
             android:id="@+id/feedback_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/message_layout">
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
 
             <TextView
                 android:id="@+id/feedback_tv"
@@ -111,6 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
                 android:text="意见反馈" />
 
         </RelativeLayout>
@@ -121,7 +129,8 @@
             android:id="@+id/contact_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/message_layout">
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
 
             <TextView
                 android:id="@+id/contact_tv"
@@ -129,6 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
                 android:text="联系我们" />
 
         </RelativeLayout>
@@ -139,7 +149,8 @@
             android:id="@+id/about_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/message_layout">
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
 
             <TextView
                 android:id="@+id/about_tv"
@@ -147,6 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:background="@drawable/myprofire_pressed"
                 android:text="关于我们" />
 
         </RelativeLayout>
@@ -163,7 +175,8 @@
             android:id="@+id/logout_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/message_layout">
+            android:layout_below="@+id/message_layout"
+            android:background="@drawable/myprofire_pressed">
 
             <TextView
                 android:id="@+id/logout_tv"
@@ -172,6 +185,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
+                android:background="@drawable/myprofire_pressed"
                 android:text="退出登录" />
 
         </RelativeLayout>
