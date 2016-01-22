@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yanhao.main.yanhaoandroid.MainActivity;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.util.AlertDialogFrag;
 
@@ -152,6 +153,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     public void logout() {
 
         Toast.makeText(getActivity(), "退出成功", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), MainActivity.class);
+        startActivity(intent);
 
     }
 }

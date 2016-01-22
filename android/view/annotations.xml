@@ -1,0 +1,6 @@
+<root>
+  <item name='android.view.View android.view.View findViewById(int)'>
+    <annotation name='android.support.annotation.Nullable' />
+    <annotation name='java.lang.annotation.Deprecated' />
+  </item>
+</root>
