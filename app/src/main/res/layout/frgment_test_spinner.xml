@@ -11,7 +11,7 @@
         android:layout_width="330px"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@android:color/black"
+        android:background="@color/yr_dialog_title"
         android:orientation="vertical"
         android:layout_marginTop="28px"
         android:layout_marginRight="20px">

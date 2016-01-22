@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/garfieldScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#fff">
+
+                <RelativeLayout
+                    android:id="@+id/uc_background_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="187dp"
+                    android:background="@drawable/uc_my_background"
+                    android:padding="15dp">
+
+                    <RelativeLayout
+                        android:id="@+id/my_prefire_title"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/title_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerInParent="true"
+                            android:text="我的"
+                            android:textColor="#ffffff"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/reupdate_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:text="编辑"
+                            android:textColor="#ffffff"
+                            android:textSize="18dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/content_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.yanhao.main.yanhaoandroid.util.CircleImageView
+                            android:id="@+id/iv_uc_avatar"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="40dp"
+                            android:clickable="true"
+                            android:src="@drawable/avatar_default" />
+
+                        <TextView
+                            android:id="@+id/tv_uc_nickname"
+                            style="@style/UserCenter.Mine.tvNick"
+                            android:layout_below="@+id/iv_uc_avatar"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="6dp"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_uc_address"
+                            style="@style/UserCenter.Mine.tvNick"
+                            android:layout_below="@+id/tv_uc_nickname"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/white" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <include layout="@layout/divider_thick" />
+
+                <FrameLayout
+                    android:id="@+id/profire_frame_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"></FrameLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

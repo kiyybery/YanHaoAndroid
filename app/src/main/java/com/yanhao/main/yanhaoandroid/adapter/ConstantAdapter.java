@@ -1,6 +1,7 @@
 package com.yanhao.main.yanhaoandroid.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,8 +54,8 @@ public class ConstantAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             view = mInflater.inflate(R.layout.fragment_matchitem, null);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.cv_comment_avatar);
-            viewHolder.name_tv = (TextView) view.findViewById(R.id.consultant_name);
-            viewHolder.level_tv = (ImageView) view.findViewById(R.id.consult_level);
+            viewHolder.name_tv = (TextView) view.findViewById(R.id.consultant_name_match);
+            viewHolder.level_tv = (ImageView) view.findViewById(R.id.consult_level_match);
             viewHolder.area_tv = (TextView) view.findViewById(R.id.consult_area);
             view.setTag(viewHolder);
         } else {
@@ -67,19 +68,31 @@ public class ConstantAdapter extends BaseAdapter {
         } else {
             imageLoader.showImageByAsyncTask(viewHolder.imageView, url);
         }*/
+        /*Glide
+                .with(mContext)
+                .load(url)
+                .placeholder(R.drawable.avatar_default)
+                .into(viewHolder.imageView);*/
+        if (url.equals("")) {
 
-        Glide.with(mContext).load(url).into(viewHolder.imageView);
+            viewHolder.imageView.setImageResource(R.drawable.avatar_default);
+        } else {
+            Glide.with(mContext).load(url).into(viewHolder.imageView);
+        }
         viewHolder.name_tv.setText(mList.get(i).constantName);
         //viewHolder.level_tv.setText(mList.get(i).level);
         if (mList.get(i).level == 1) {
-            viewHolder.level_tv.setImageResource(R.drawable.yiji_icon);
+            //viewHolder.level_tv.setImageResource(R.drawable.yiji_icon);
+            Glide.with(mContext).load(R.drawable.level_icon_yiji).into(viewHolder.level_tv);
         } else if (mList.get(i).level == 2) {
-            viewHolder.level_tv.setImageResource(R.drawable.erji_icon);
+            // viewHolder.level_tv.setImageResource(R.drawable.erji_icon);
+            Glide.with(mContext).load(R.drawable.level_icon_erji).into(viewHolder.level_tv);
         } else if (mList.get(i).level == 3) {
-            viewHolder.level_tv.setImageResource(R.drawable.sanji_icon);
+            //viewHolder.level_tv.setImageResource(R.drawable.sanji_icon);
+            Glide.with(mContext).load(R.drawable.level_icon_sanji).into(viewHolder.level_tv);
         }
 
-        viewHolder.area_tv.setText(mList.get(i).area);
+        //viewHolder.area_tv.setText(mList.get(i).area);
         return view;
     }
 

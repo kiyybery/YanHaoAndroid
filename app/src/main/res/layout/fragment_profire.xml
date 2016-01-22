@@ -4,8 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/profire_title"/>
-    <include layout="@layout/divider_settings"/>
+    <include layout="@layout/profire_title" />
+
+    <include layout="@layout/divider_settings" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,27 +17,29 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:gravity="left|top"
-            android:hint="可从资格等级、年限、擅长领域、教育背景等方面描述"
+            android:hint="输入您的个性签名"
+            android:textColorHint="@color/yr_scrollbar"
+            android:maxLength="120"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:singleLine="false"
             android:textColor="@color/yr_text_light"
             android:textSize="13sp"
-            android:maxLength="120"
-            android:singleLine="false"/>
+            android:background="@null"/>
 
         <TextView
             android:id="@+id/num_words"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/etprofireContent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="22dp"
             android:layout_marginEnd="31dp"
             android:layout_marginRight="31dp"
             android:text="120"
             android:textColor="#666666"
-            android:textSize="13dp"
-            android:layout_alignBottom="@+id/etprofireContent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="22dp" />
+            android:textSize="13dp" />
     </RelativeLayout>
 </LinearLayout>

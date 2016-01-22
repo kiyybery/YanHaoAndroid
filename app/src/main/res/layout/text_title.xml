@@ -56,9 +56,9 @@
             <TextView
                 android:id="@+id/tv_text_title_right"
                 android:layout_width="113px"
-                android:layout_height="60px"
+                android:layout_height="50px"
                 android:text="完成"
-                android:textSize="18dp"
+                android:textSize="13dp"
                 android:textColor="#333333"/>
         </LinearLayout>
     </RelativeLayout>

@@ -5,17 +5,17 @@ package com.yanhao.main.yanhaoandroid.bean;
  */
 public class OrderBean {
 
-    public int imageview;
+    public String imageview;
     public String constantName;
     public String level;
     public String area;
     public String data;
 
-    public int getImageview() {
+    public String getImageview() {
         return imageview;
     }
 
-    public void setImageview(int imageview) {
+    public void setImageview(String imageview) {
         this.imageview = imageview;
     }
 

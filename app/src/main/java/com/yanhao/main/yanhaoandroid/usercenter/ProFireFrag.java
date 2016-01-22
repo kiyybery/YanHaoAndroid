@@ -27,7 +27,7 @@ public class ProFireFrag extends Fragment {
 
     private static final int MAX_LENGTH = 120; // 最多支持120字
     private EditText mProfire_et;
-    private TextView feedbackRemainNum;
+    private TextView feedbackRemainNum,mTitle;
 
     public static ProFireFrag newInstance() {
 
@@ -49,6 +49,8 @@ public class ProFireFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profire, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
         feedbackRemainNum = (TextView) view.findViewById(R.id.num_words);
+        mTitle = (TextView) view.findViewById(R.id.tv_profire_title_title);
+        mTitle.setText("个人简介");
         mProfire_et = (EditText) view.findViewById(R.id.etprofireContent);
         mProfire_et.addTextChangedListener(new TextWatcher() {
             @Override

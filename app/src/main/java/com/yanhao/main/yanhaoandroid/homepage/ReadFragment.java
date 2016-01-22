@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -43,6 +44,8 @@ public class ReadFragment extends Fragment {
     private TextView mTitle;
     private LinearLayout mBack;
     private ReadAdapter mAdapter;
+    ProgressBar progressbar;
+    private String titleName;
 
     private class MyReadCallback extends StringCallback {
 
@@ -57,6 +60,7 @@ public class ReadFragment extends Fragment {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                progressbar.setVisibility(View.GONE);
                 JSONArray ja = jsonObject.getJSONArray("readList");
                 for (int i = 0; i < ja.length(); i++) {
 
@@ -107,18 +111,22 @@ public class ReadFragment extends Fragment {
             mBean.setDate("2015年" + i + "月" + i + "日");
             mList.add(mBean);
         }*/
+        progressbar = (ProgressBar) view.findViewById(R.id.progressbar);
         mAdapter = new ReadAdapter(mList, getActivity());
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(),WebViewActivity.class);
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 intent.putExtra("webUrl", mList.get(i).webUrl);
+                intent.putExtra("imageUrl", mList.get(i).imageView);
+                intent.putExtra("title", mList.get(i).title);
                 startActivity(intent);
             }
         });
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
-        mTitle.setText("案例解读");
+        mTitle.setText(titleName);
+
         mBack = (LinearLayout) view.findViewById(R.id.ll_section_title_back);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override

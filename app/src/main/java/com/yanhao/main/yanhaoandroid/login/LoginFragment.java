@@ -1,5 +1,6 @@
 package com.yanhao.main.yanhaoandroid.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,16 +32,24 @@ import com.yanhao.main.yanhaoandroid.http.NHttpCallback;
 import com.yanhao.main.yanhaoandroid.http.NHttpProxy;
 import com.yanhao.main.yanhaoandroid.http.NHttpRequest;
 import com.yanhao.main.yanhaoandroid.http.NHttpResponse;
+import com.yanhao.main.yanhaoandroid.util.ACache;
 import com.yanhao.main.yanhaoandroid.util.CommonUtils;
 import com.yanhao.main.yanhaoandroid.util.CustomProgressDialog;
 import com.yanhao.main.yanhaoandroid.util.LogUtil;
 import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
+import com.yanhao.main.yanhaoandroid.util.SharedPreferencesUtils;
 import com.yanhao.main.yanhaoandroid.util.StringUtil;
+import com.yanhao.main.yanhaoandroid.util.Type;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/10/27 0027.
@@ -52,6 +61,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private EditText mLogin_username_et, mLogin_pw_et;
     private ImageButton mLogin_show_pwd;
     private Button mLogin_login_btn;
+    private String userId;
+
+    ACache mCache;
 
     private class MyLoginCallback extends StringCallback {
 
@@ -63,25 +75,43 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onResponse(String s) {
 
+            //Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 int ret = jsonObject.getInt("ret");
+
                 if (ret == 1) {
 
                     String info = jsonObject.getString("info");
-                    T.show(getActivity(), info, 100);
+                    //T.show(getActivity(), info, 100);
 
-                } else {
+                } else if (ret == 0) {
 
-                    String userId = jsonObject.getString("userId");
-                    Toast.makeText(getActivity(), SecurityUtil.decrypt(userId), Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    userId = jsonObject.getString("userId");
+                    //String nickName = jsonObject.getString("nickName");
+                    //String portraitUrl = jsonObject.getString("portraitUrl");
+                    //Log.i("userId_login", userId);
+
+                    Message message = new Message();
+                    message.arg1 = 1;
+                    mHnadler.sendMessage(message);
+
+                    Toast.makeText(getActivity(), userId, Toast.LENGTH_LONG).show();
+                    /*Intent i = new Intent(getActivity(), MainActivity.class);
                     i.putExtra("userId", userId);
                     startActivity(i);
-                    getActivity().finish();
+
+                    SharedPreferences sp = getActivity().getSharedPreferences("userId", getActivity().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("userId", userId);
+                    editor.putString("nickName", nickName);
+                    //editor.putString("portraitUrl", portraitUrl);
+                    editor.putString("userPhone", mLogin_username_et.getText().toString());
+                    editor.putString("password", mLogin_pw_et.getText().toString());
+                    editor.commit();*/
+
+                    //getActivity().finish();
                 }
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -103,14 +133,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 case 1:
                     //Toast.makeText(getActivity(), "login success", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.putExtra("userId", userId);
+                    finish(Activity.RESULT_OK, intent);
+
+                    /*Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.putExtra("userId", userId);
                     startActivity(intent);
-                    getActivity().finish();
+                    getActivity().finish();*/
 
                     SharedPreferences sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("username", mLogin_username_et.getText().toString());
                     editor.putString("password", mLogin_pw_et.getText().toString());
+                    editor.putString("userId", userId);
                     editor.commit();
+
+                    EventBus.getDefault().post(new Type(mLogin_username_et.getText().toString(),mLogin_pw_et.getText().toString()));
                     break;
 
                 case 2:
@@ -135,6 +173,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
 
+        mCache = ACache.get(getActivity());
         mFrogetPwdtv = (TextView) view.findViewById(R.id.froget_tv);
         mFrogetPwdtv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +184,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         });
 
         mLogin_username_et = (EditText) view.findViewById(R.id.login_username_et);
+        mLogin_username_et.setInputType(InputType.TYPE_CLASS_NUMBER);
         mLogin_pw_et = (EditText) view.findViewById(R.id.login_pw_et);
 
         // 如果用户名改变，清空密码
@@ -217,12 +257,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     }
                     ).start();*/
 
+                    String user = mLogin_username_et.getText().toString();
+                    String des_user = SecurityUtil.encrypt(user);
+                    String url_user = null;
+                    try {
+                        url_user = URLEncoder.encode(des_user, "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                     String url = "http://210.51.190.27:8082/login.jspa";
                     OkHttpUtils
                             .get()//
                             .url(url)//
-                            .addParams("mobile", SecurityUtil.encrypt(mLogin_username_et.getText().toString()))//
+                            .addParams("mobile", url_user)//
                             .addParams("password", SecurityUtil.encrypt(mLogin_pw_et.getText().toString()))//
+                                    //.addParams("mobile", "q6Zz8HYfnrSZtEm6oS/b1w==")
+                                    //.addParams("password", "jGvZ4024/fI=")
                             .build()//
                             .execute(new MyLoginCallback());
                 }
@@ -234,5 +284,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         Message message = new Message();
         message.arg1 = 1;
         mHnadler.sendMessage(message);
+    }
+
+    protected void finish(int resultCode, Intent data) {
+        if (getActivity() != null) {
+            getActivity().setResult(resultCode, data);
+            getActivity().finish();
+        }
     }
 }

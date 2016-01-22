@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +39,14 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/2 0002.
  */
-public class MatchConstantFragment extends Fragment {
+public class MatchConstantFragment extends Fragment implements
+        android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     private ListView mConstantListView;
     private List<ConstantBean> mList;
@@ -61,6 +65,11 @@ public class MatchConstantFragment extends Fragment {
     private ImageView mBackImage;
     private TextView mTitle;
     private ConstantAdapter constantAdapter;
+
+    SwipeRefreshLayout swipe;
+
+    String titleName;
+    String itemName;
 
     Handler handler = new Handler() {
         @Override
@@ -86,7 +95,7 @@ public class MatchConstantFragment extends Fragment {
 
         @Override
         public void onResponse(String s) {
-
+            //Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONArray jsonArray = jsonObject.getJSONArray("counselorList");
@@ -94,8 +103,16 @@ public class MatchConstantFragment extends Fragment {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     mConstantBean = new ConstantBean();
                     JSONObject jo = (JSONObject) jsonArray.get(i);
-                    int level = jo.getInt("level");
+                    // T.show(getActivity(), jo.keys() + "", 1000);
+                    /*Iterator<String> iterator = jo.keys();
+                    while(iterator.hasNext()){
+                        Log.i("keys",iterator.next());
+                    }*/
+
+                    /*Log.i("level=",level+"");
+                    Toast.makeText(getActivity(), level+"", Toast.LENGTH_LONG).show();*/
                     String name = jo.getString("name");
+                    int level = jo.getInt("level");
                     String photo = jo.getString("portraitUrl");
                     userId = jo.getString("userId");
                     JSONArray speciality = jo.getJSONArray("speciality");
@@ -136,9 +153,9 @@ public class MatchConstantFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_matchconsultant, container, false);
-        String titleName = getArguments().getString("titlename");
-        String itemName = getArguments().getString("item");
-        Toast.makeText(getActivity(), titleName + " " + itemName, Toast.LENGTH_LONG).show();
+        titleName = getArguments().getString("titlename");
+        itemName = getArguments().getString("item");
+        //Toast.makeText(getActivity(), titleName + " " + itemName, Toast.LENGTH_LONG).show();
         //getContants();
         //getConstants();
         getCounselor(titleName, itemName);
@@ -178,6 +195,14 @@ public class MatchConstantFragment extends Fragment {
         setLeft = (AnimationSet) AnimationUtils.loadAnimation(getActivity(), R.anim.gear_anim_left);
         setRight = (AnimationSet) AnimationUtils.loadAnimation(getActivity(), R.anim.gear_anim_right);
 
+        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe_match);
+        swipe.setOnRefreshListener(this);
+        // 顶部刷新的样式
+        swipe.setColorSchemeResources(android.R.color.holo_red_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_orange_light);
+
         ImageView gearIV = (ImageView) view.findViewById(R.id.gear_iv);
         ImageView gearIVLeft = (ImageView) view.findViewById(R.id.gear_iv_left);
         ImageView gearIVRight = (ImageView) view.findViewById(R.id.gear_iv_right);
@@ -199,28 +224,6 @@ public class MatchConstantFragment extends Fragment {
         return view;
     }
 
-    public void getContants() {
-
-        String url = YanHao.TEST_URL + "matchCounselor.jspa?" +
-                "firstMatchInfo=liveQuestion" + "&&" + "secondMatchInfo=maryQuestion";
-        OkHttpUtils.postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo()))
-                .build()
-                .execute(new GetContantsCallBack());
-    }
-
-    private void getConstants() {
-
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/json_constant.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new GetContantsCallBack());
-    }
-
     private void getCounselor(String category, String item) {
 
         String url = "http://210.51.190.27:8082/matchCounselor.jspa";
@@ -232,5 +235,17 @@ public class MatchConstantFragment extends Fragment {
                         //.addParams("code","283454")
                 .build()//
                 .execute(new GetContantsCallBack());
+    }
+
+    @Override
+    public void onRefresh() {
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                mList.clear();
+                getCounselor(titleName, itemName);
+                swipe.setRefreshing(false);
+            }
+        }, 1500);
     }
 }

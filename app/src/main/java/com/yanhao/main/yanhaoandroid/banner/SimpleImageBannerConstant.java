@@ -43,7 +43,7 @@ public class SimpleImageBannerConstant extends BaseIndicaorBanner<BannerItem, Si
 
         final BannerItem item = list.get(position);
         int itemWidth = dm.widthPixels;
-        int itemHeight = (int) (itemWidth * 360 / 1.4f / 640);
+        int itemHeight = (int) (itemWidth * 360 / 1.3f / 640);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setLayoutParams(new LinearLayout.LayoutParams(itemWidth, itemHeight));
 
@@ -54,7 +54,7 @@ public class SimpleImageBannerConstant extends BaseIndicaorBanner<BannerItem, Si
                     .load(imgUrl)
                     .override(itemWidth, itemHeight)
                     .centerCrop()
-                    .placeholder(colorDrawable)
+                    .placeholder(R.drawable.default_banner_commend)
                     .into(iv);
         } else {
             iv.setImageDrawable(colorDrawable);

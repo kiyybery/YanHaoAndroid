@@ -4,157 +4,234 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
-        android:id="@+id/garfieldScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:visibility="visible">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/garfieldScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:scrollbars="none"
+            android:visibility="visible">
 
-            <RelativeLayout
-                android:id="@+id/uc_background_title"
-                android:layout_width="fill_parent"
-                android:layout_height="187dp"
-                android:background="@drawable/uc_my_background"
-                android:padding="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/my_prefire_title"
+                    android:id="@+id/uc_background_title"
                     android:layout_width="fill_parent"
+                    android:layout_height="187dp"
+                    android:background="@drawable/uc_my_background"
+                    android:padding="15dp">
+
+                    <RelativeLayout
+                        android:id="@+id/my_prefire_title"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/title_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerInParent="true"
+                            android:text="我的"
+                            android:textColor="#ffffff"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/reupdate_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:text="编辑"
+                            android:textColor="#ffffff"
+                            android:textSize="18dp"
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/content_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.yanhao.main.yanhaoandroid.util.CircleImageView
+                            android:id="@+id/iv_uc_avatar"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="40dp"
+                            android:clickable="true"
+                            android:src="@drawable/avatar_default" />
+
+                        <TextView
+                            android:id="@+id/tv_uc_nickname"
+                            style="@style/UserCenter.Mine.tvNick"
+                            android:layout_below="@+id/iv_uc_avatar"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="6dp"
+                            android:text="徐慧盈"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tv_uc_address"
+                            style="@style/UserCenter.Mine.tvNick"
+                            android:layout_below="@+id/tv_uc_nickname"
+                            android:layout_centerHorizontal="true"
+                            android:text="北京"
+                            android:textColor="@color/white" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <include layout="@layout/divider_thick" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/title_tv"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerInParent="true"
-                        android:text="我的"
-                        android:textColor="#ffffff"
-                        android:textSize="20dp" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/reupdate_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="15dp"
-                        android:text="编辑"
-                        android:textColor="#ffffff"
-                        android:textSize="18dp" />
+                        <include layout="@layout/divider_settings" />
+
+                        <TextView
+                            android:id="@+id/my_profile_order"
+                            style="@style/MyProfile.Text.UC"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/myprofire_pressed"
+                            android:text="我的预约" />
+
+                        <include layout="@layout/divider_settings" />
+
+                        <TextView
+                            android:id="@+id/my_profile_test"
+                            style="@style/MyProfile.Text.UC1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/myprofire_pressed"
+                            android:text="我的测试" />
+
+                        <include layout="@layout/divider_settings" />
+
+                        <TextView
+                            android:id="@+id/my_profile_collection"
+                            style="@style/MyProfile.Text.UC2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/myprofire_pressed"
+                            android:text="我的收藏" />
+
+                        <include layout="@layout/divider_settings" />
+
+                        <TextView
+                            android:id="@+id/my_profile_note"
+                            style="@style/MyProfile.Text.UC3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/myprofire_pressed"
+                            android:text="咨询记录" />
+
+                        <include layout="@layout/divider_settings" />
+
+                        <include layout="@layout/divider_thick" />
+
+                        <TextView
+                            android:id="@+id/my_profile_inYanhao"
+                            style="@style/MyProfile.Text.UC3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/myprofire_pressed"
+                            android:text="进驻咨询师" />
+
+                        <include layout="@layout/divider_settings" />
+
+                        <TextView
+                            android:id="@+id/my_profile_setting"
+                            style="@style/MyProfile.Text.UC3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/myprofire_pressed"
+                            android:text="设置" />
+
+                        <include layout="@layout/divider_settings" />
+
+                        <TextView
+                            android:id="@+id/my_profile_share"
+                            style="@style/MyProfile.Text.UC3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/myprofire_pressed"
+                            android:text="分享应用给好友" />
+
+                        <include layout="@layout/divider_settings" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/unlogin_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="400dp"
+                        android:background="#ffffff"
+                        android:visibility="visible">
+
+                        <RelativeLayout
+                            android:id="@+id/relativeLayout2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:padding="20dp">
+
+                            <TextView
+                                android:id="@+id/unlogin_my_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/unlogin_tv"
+                                android:textColor="#666666"
+                                android:textSize="17dp" />
+
+                        </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_my_unlogin"
+                            android:layout_width="277dp"
+                            android:layout_height="42dp"
+                            android:layout_below="@+id/relativeLayout2"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="72dp"
+                            android:background="@drawable/corner"
+                            android:paddingLeft="100.5dp"
+                            android:paddingRight="12.5dp"
+                            android:paddingTop="10dp"
+                            android:text="登录/注册"
+                            android:textColor="#479de2"
+                            android:textSize="16dp" />
+
+                    </RelativeLayout>
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/content_layout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                <include layout="@layout/divider_thick" />
+            </LinearLayout>
 
-                    <com.yanhao.main.yanhaoandroid.util.CircleImageView
-                        android:id="@+id/iv_uc_avatar"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="40dp"
-                        android:clickable="true"
-                        android:src="@drawable/avatar_default" />
+        </ScrollView>
 
-                    <TextView
-                        android:id="@+id/tv_uc_nickname"
-                        style="@style/UserCenter.Mine.tvNick"
-                        android:layout_below="@+id/iv_uc_avatar"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="6dp"
-                        android:text="徐慧盈"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_uc_address"
-                        style="@style/UserCenter.Mine.tvNick"
-                        android:layout_below="@+id/tv_uc_nickname"
-                        android:layout_centerHorizontal="true"
-                        android:text="北京"
-                        android:textColor="@color/white" />
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <include layout="@layout/divider_thick" />
-
-            <include layout="@layout/divider_settings" />
-
-            <TextView
-                android:id="@+id/my_profile_order"
-                style="@style/MyProfile.Text.UC"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/myprofire_pressed"
-                android:text="我的预约" />
-
-            <include layout="@layout/divider_settings" />
-
-            <TextView
-                android:id="@+id/my_profile_test"
-                style="@style/MyProfile.Text.UC1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/myprofire_pressed"
-                android:text="我的测试" />
-
-            <include layout="@layout/divider_settings" />
-
-            <TextView
-                android:id="@+id/my_profile_collection"
-                style="@style/MyProfile.Text.UC2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/myprofire_pressed"
-                android:text="我的收藏" />
-
-            <include layout="@layout/divider_settings" />
-
-            <TextView
-                android:id="@+id/my_profile_note"
-                style="@style/MyProfile.Text.UC3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/myprofire_pressed"
-                android:text="咨询记录" />
-
-            <include layout="@layout/divider_settings" />
-
-            <include layout="@layout/divider_thick" />
-
-            <TextView
-                android:id="@+id/my_profile_setting"
-                style="@style/MyProfile.Text.UC3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/myprofire_pressed"
-                android:text="设置" />
-
-            <include layout="@layout/divider_settings" />
-
-            <TextView
-                android:id="@+id/my_profile_share"
-                style="@style/MyProfile.Text.UC3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/myprofire_pressed"
-                android:text="分享" />
-        </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

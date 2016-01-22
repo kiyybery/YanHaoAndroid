@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollbars="none">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -71,8 +70,8 @@
                         android:layout_width="79px"
                         android:layout_height="30px"
                         android:layout_alignTop="@+id/iv_homepage_avatar"
-                        android:layout_marginLeft="56dp"
-                        android:layout_marginStart="56dp"
+                        android:layout_marginLeft="35px"
+                        android:layout_marginStart="35px"
                         android:layout_marginTop="28dp"
                         android:layout_toEndOf="@+id/iv_homepage_avatar"
                         android:layout_toRightOf="@+id/iv_homepage_avatar"
@@ -243,7 +242,8 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/id_recycleView"
                         android:layout_width="match_parent"
-                        android:layout_height="64px" />
+                        android:layout_height="64px"
+                        android:layout_marginRight="25px" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -320,5 +320,16 @@
                 android:textSize="38px" />
 
         </LinearLayout>
-    </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressbar_ConsultHome"
+            style="@android:style/Widget.ProgressBar"
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:layout_centerInParent="true"
+            android:indeterminate="false"
+            android:indeterminateDrawable="@drawable/loading"
+            android:padding="10px"
+            android:visibility="visible" />
+    </RelativeLayout>
 </ScrollView>

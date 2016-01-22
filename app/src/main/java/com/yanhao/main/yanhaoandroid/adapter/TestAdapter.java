@@ -19,13 +19,13 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/11/20 0020.
  */
-public class TestAdapter extends BaseAdapter{
+public class TestAdapter extends BaseAdapter {
 
     private List<TestBean> mList;
     private LayoutInflater mInflater;
     private Context mContext;
 
-    public TestAdapter(List<TestBean> list,Context context) {
+    public TestAdapter(List<TestBean> list, Context context) {
         this.mList = list;
         this.mInflater = LayoutInflater.from(context);
         mContext = context;
@@ -49,26 +49,28 @@ public class TestAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
-        if(view == null){
+        if (view == null) {
             viewHolder = new ViewHolder();
-            view = mInflater.inflate(R.layout.fragment_test_item,null);
+            view = mInflater.inflate(R.layout.fragment_test_item, null);
             RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
             viewHolder.left_iv = (ImageView) view.findViewById(R.id.img_test);
             viewHolder.title_tv = (TextView) view.findViewById(R.id.title_tv);
             viewHolder.time_tv = (TextView) view.findViewById(R.id.answer_num);
             viewHolder.tag_iv = (ImageView) view.findViewById(R.id.tag_iv);
             view.setTag(viewHolder);
-        }else {
+        } else {
 
             viewHolder = (ViewHolder) view.getTag();
         }
 
         Glide.with(mContext).load(mList.get(i).img).into(viewHolder.left_iv);
         //viewHolder.left_iv.setImageResource(R.drawable.uc_my_background);
-        if(mList.get(i).test_tag == 1){
-            viewHolder.tag_iv.setImageResource(R.drawable.ceshi_zuire_icon);
-        }else if(mList.get(i).test_tag == 2){
-            viewHolder.tag_iv.setImageResource(R.drawable.ceshi_zuixin_icon);
+        if (mList.get(i).test_tag == 1) {
+            //viewHolder.tag_iv.setImageResource(R.drawable.ceshi_zuire_icon);
+            Glide.with(mContext).load(R.drawable.ceshi_zuire_icon).into(viewHolder.tag_iv);
+        } else if (mList.get(i).test_tag == 0) {
+            //viewHolder.tag_iv.setImageResource(R.drawable.ceshi_zuixin_icon);
+            Glide.with(mContext).load(R.drawable.ceshi_zuixin_icon).into(viewHolder.tag_iv);
         }
         viewHolder.title_tv.setText(mList.get(i).test_title);
         viewHolder.time_tv.setText(mList.get(i).peopleNum);
@@ -76,9 +78,9 @@ public class TestAdapter extends BaseAdapter{
         return view;
     }
 
-    class ViewHolder{
+    class ViewHolder {
 
-        ImageView left_iv,tag_iv;
-        TextView title_tv,time_tv;
+        ImageView left_iv, tag_iv;
+        TextView title_tv, time_tv;
     }
 }

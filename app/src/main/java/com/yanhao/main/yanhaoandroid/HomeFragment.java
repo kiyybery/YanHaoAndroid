@@ -4,15 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,10 +25,13 @@ import com.flyco.banner.widget.Banner.base.BaseBanner;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.adapter.HomeListViewAapter;
+import com.yanhao.main.yanhaoandroid.banner.BannerItem;
 import com.yanhao.main.yanhaoandroid.banner.DataProvider;
 import com.yanhao.main.yanhaoandroid.banner.SimpleImageBanner;
 import com.yanhao.main.yanhaoandroid.banner.SimpleImageBannerConstant;
 import com.yanhao.main.yanhaoandroid.banner.T;
+import com.yanhao.main.yanhaoandroid.bean.BannerBean;
+import com.yanhao.main.yanhaoandroid.bean.CounselorListBean;
 import com.yanhao.main.yanhaoandroid.bean.HomeActivityBean;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
@@ -49,7 +56,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/10/30 0030.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     private TopBar mTopBar;
 
@@ -61,10 +68,19 @@ public class HomeFragment extends Fragment {
     private ListView mListview;
     private List<HomeActivityBean> mList;
     private HomeActivityBean mBean;
+    private List<BannerBean> mBannerList = new ArrayList<>();
+    private BannerBean mBanner;
+    private List<CounselorListBean> mCounselorList = new ArrayList<>();
+    private CounselorListBean mCounselor;
+    private List<String> scrollBannerList = new ArrayList<>();
+    ArrayList list;
     private RelativeLayout mTitle, mRecommended_layout, mReadEvery;
     private TextView mTitle_tv, mTitle_tv_left, recommended_tv_right;
     private ImageView mIv_section_title_right;
     private HomeListViewAapter homeListViewAapter;
+    private ProgressBar progressBar;
+    SwipeRefreshLayout swipe;
+
 
     private class MyHomePageCallback extends StringCallback {
 
@@ -89,19 +105,44 @@ public class HomeFragment extends Fragment {
 
             try {
                 JSONObject jo = new JSONObject(s);
+                progressBar.setVisibility(View.GONE);
+                JSONArray bannerArray = jo.getJSONArray("bannerList");
+                for (int b = 0; b < bannerArray.length(); b++) {
+
+                    mBanner = new BannerBean();
+                    JSONObject banner_obj = (JSONObject) bannerArray.get(b);
+                    mBanner.setBannerParam(banner_obj.getString("actionParam"));
+                    mBanner.setBannerType(banner_obj.getInt("actionType"));
+                    mBanner.setBannerUrl(banner_obj.getString("bannerUrl"));
+                    mBanner.setActionUrl(banner_obj.getString("actionUrl"));
+
+                    mBannerList.add(mBanner);
+                    scrollBannerList.add(mBanner.getBannerUrl());
+                    Log.i("scrollBannerList", scrollBannerList.size() + "");
+                }
+
+                JSONArray counselorArray = jo.getJSONArray("counselorList");
+                for (int j = 0; j < counselorArray.length(); j++) {
+
+                    mCounselor = new CounselorListBean();
+                    JSONObject counselor_obj = (JSONObject) counselorArray.get(j);
+                    mCounselor.setUserId(counselor_obj.getString("userId"));
+                    mCounselor.setImageUrl(counselor_obj.getString("imageUrl"));
+
+                    mCounselorList.add(mCounselor);
+                }
+
                 JSONArray ja = jo.getJSONArray("actiList");
                 for (int i = 0; i < ja.length(); i++) {
 
                     mBean = new HomeActivityBean();
                     JSONObject jsobj = (JSONObject) ja.get(i);
-                    int id = jsobj.getInt("id");
-                    String photoUrl = jsobj.getString("photoUrl");
+                    String photoUrl = jsobj.getString("imageUrl");
                     String name = jsobj.getString("name");
                     String speaker = jsobj.getString("speaker");
                     String webUrl = jsobj.getString("webUrl");
                     String charges = jsobj.getString("charges");
 
-                    mBean.id = id;
                     mBean.title = name;
                     mBean.teacher = speaker;
                     mBean.image = photoUrl;
@@ -131,8 +172,10 @@ public class HomeFragment extends Fragment {
 
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
-        postString();
+        //postString();
+        postHomeInfo();
 
+        progressBar = (ProgressBar) view.findViewById(R.id.progressbar_home);
         mList = new ArrayList<>();
         mTitle = (RelativeLayout) view.findViewById(R.id.rl_home_title);
         mTitle.setBackgroundColor(0xff0a82e1);
@@ -146,16 +189,17 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        mTitle_tv_left = (TextView) view.findViewById(R.id.tv_home_title_left);
+        /*mTitle_tv_left = (TextView) view.findViewById(R.id.tv_home_title_left);
         mTitle_tv_left.setText("进驻");
         mTitle_tv_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent();
+                *//*Intent i = new Intent();
                 i.setClass(getActivity(), InYanHaoActivity.class);
-                startActivity(i);
+                startActivity(i);*//*
+                T.show(getActivity(), "敬请期待！", 1000);
             }
-        });
+        });*/
         mTitle_tv = (TextView) view.findViewById(R.id.tv_home_title_title);
         mTitle_tv.setText("燕好");
         mIv_section_title_right = (ImageView) view.findViewById(R.id.iv_home_title_right);
@@ -167,6 +211,8 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), SerachActivity.class);
                 startActivity(intent);
+
+                //T.show(getActivity(), "敬请期待！", 1000);
             }
         });
 
@@ -177,6 +223,19 @@ public class HomeFragment extends Fragment {
         sib.setOnItemClickL(new SimpleImageBanner.OnItemClickL() {
             @Override
             public void onItemClick(int position) {
+
+                if (mBannerList.get(position).getBannerType() == 0) {
+
+                    Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                    intent.putExtra("webUrl", mBannerList.get(position).getActionUrl());
+                    startActivity(intent);
+                } else {
+
+                    Intent intent = new Intent();
+                    intent.putExtra("userId", mBannerList.get(position).getBannerParam());
+                    intent.setClass(getActivity(), HomePageActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -186,6 +245,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(int i) {
                 Intent intent = new Intent();
+                intent.putExtra("userId", mCounselorList.get(i).getUserId());
                 intent.setClass(getActivity(), HomePageActivity.class);
                 startActivity(intent);
             }
@@ -208,7 +268,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(getActivity(),WebViewActivity.class);
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 intent.putExtra("webUrl", mList.get(i).webUrl);
                 startActivity(intent);
             }
@@ -241,11 +301,18 @@ public class HomeFragment extends Fragment {
         mTopBar.setButtonVisable(0, false);
         mTopBar.setButtonVisable(1, true);*/
 
+        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        swipe.setOnRefreshListener(this);
+        // 顶部刷新的样式
+        swipe.setColorSchemeResources(android.R.color.holo_red_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_orange_light);
 
-        SharedPreferences sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
-        sp.getString("username", "");
-        sp.getString("password", "");
-        Toast.makeText(getActivity(), "name" + sp.getString("username", "") + "password" + sp.getString("password", ""), Toast.LENGTH_LONG).show();
+
+        SharedPreferences sp = getActivity().getSharedPreferences("userId", getActivity().MODE_PRIVATE);
+        sp.getString("userId", "");
+        //Toast.makeText(getActivity(), "userId" + sp.getString("userId", ""), Toast.LENGTH_LONG).show();
 
         return view;
     }
@@ -259,15 +326,44 @@ public class HomeFragment extends Fragment {
                 .execute(new MyHomePageCallback());
     }
 
-    public void postString()
-    {
+    public void postString() {
         String url = "http://7xop51.com1.z0.glb.clouddn.com/json_home_1_05.txt";
         OkHttpUtils
-            .postString()
-            .url(url)
-            .content(new Gson().toJson(new UserInfo("zhy", "123")))
-            .build()
-            .execute(new MyHomePageCallback());
+                .postString()
+                .url(url)
+                .content(new Gson().toJson(new UserInfo("zhy", "123")))
+                .build()
+                .execute(new MyHomePageCallback());
 
+    }
+
+    public void postHomeInfo() {
+
+        String url = "http://210.51.190.27:8082/getHome.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("userId", "1")
+                .build()
+                .execute(new MyHomePageCallback());
+    }
+
+    public ArrayList<BannerItem> getScrollList() {
+
+        ArrayList list = new ArrayList();
+
+        BannerItem bannerItem = new BannerItem();
+        return list;
+    }
+
+    @Override
+    public void onRefresh() {
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                postHomeInfo();
+                swipe.setRefreshing(false);
+            }
+        }, 1500);
     }
 }

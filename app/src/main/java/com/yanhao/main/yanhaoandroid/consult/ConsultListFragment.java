@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class ConsultListFragment extends Fragment {
     private ImageView mBackImage;
     private TextView mTitle;
     private ConsultListAdapter consultListAdapter;
+    private ProgressBar progressBar;
 
     public static ConsultListFragment newInstance() {
 
@@ -66,6 +68,7 @@ public class ConsultListFragment extends Fragment {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                progressBar.setVisibility(View.GONE);
                 JSONArray ja = jsonObject.getJSONArray("wordsList");
                 for (int i = 0; i < ja.length(); i++) {
                     mList.add(ja.optString(i));
@@ -123,6 +126,8 @@ public class ConsultListFragment extends Fragment {
             Intent intent = new Intent(getActivity(), MatchConsultantActivity.class);
             startActivity(intent);
         }
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progressbar_Consult);
 
         mConsultListView = (ListView) view.findViewById(R.id.consult_listview);
         consultListAdapter = new ConsultListAdapter(mList, getActivity());

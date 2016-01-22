@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        layout="@layout/section_title"/>
-
-    <ListView
-        android:id="@+id/consult_listview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:scrollbars="none"
-        android:background="@drawable/myprofire_pressed"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <include layout="@layout/section_title" />
+
+        <ListView
+            android:id="@+id/consult_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/myprofire_pressed"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressbar_Consult"
+        style="@android:style/Widget.ProgressBar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="false"
+        android:indeterminateDrawable="@drawable/loading"
+        android:padding="5dp"
+        android:visibility="visible" />
+</RelativeLayout>

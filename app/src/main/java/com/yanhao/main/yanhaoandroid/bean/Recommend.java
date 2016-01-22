@@ -1,22 +1,24 @@
 package com.yanhao.main.yanhaoandroid.bean;
 
+import com.yanhao.main.yanhaoandroid.adapter.SerachAdapter;
+
 /**
  * Created by Administrator on 2015/12/7 0007.
  */
 public class Recommend {
 
-    public int userId;
+    public String userId;
     public String pic;
     public String subName;
     public int level_pic;
     public String distence;
     public String describe;
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

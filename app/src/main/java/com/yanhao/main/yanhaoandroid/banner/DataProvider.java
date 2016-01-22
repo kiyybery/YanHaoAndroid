@@ -1,5 +1,15 @@
 package com.yanhao.main.yanhaoandroid.banner;
 
+import android.support.v4.view.ViewPager;
+
+import com.flyco.banner.transform.DepthTransformer;
+import com.flyco.banner.transform.FadeSlideTransformer;
+import com.flyco.banner.transform.FlowTransformer;
+import com.flyco.banner.transform.RotateDownTransformer;
+import com.flyco.banner.transform.RotateUpTransformer;
+import com.flyco.banner.transform.ZoomOutSlideTransformer;
+import com.yanhao.main.yanhaoandroid.R;
+
 import java.util.ArrayList;
 
 public class DataProvider {
@@ -72,4 +82,22 @@ public class DataProvider {
             RotateUpTransformer.class,
             ZoomOutSlideTransformer.class,
     };*/
+
+    public static ArrayList<Integer> geUsertGuides() {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(R.mipmap.guide_img_1);
+        list.add(R.mipmap.guide_img_2);
+        list.add(R.mipmap.guide_img_3);
+
+        return list;
+    }
+
+    public static Class<? extends ViewPager.PageTransformer> transformers[] = new Class[]{
+            DepthTransformer.class,
+            FadeSlideTransformer.class,
+            FlowTransformer.class,
+            RotateDownTransformer.class,
+            RotateUpTransformer.class,
+            ZoomOutSlideTransformer.class,
+    };
 }

@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".WelcomeActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,9 +32,10 @@
             </intent-filter>
         </activity>
 
-
-        <activity android:name=".login.FrogetPwdActivity" />
+        <activity android:name=".UserGuideActivity" />
         <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.FrogetPwdActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".consult.ConsultListActivity" />
         <activity android:name=".matchconsultant.MatchConsultantActivity" />
         <activity android:name=".usercenter.EditActivity" />
@@ -66,7 +67,6 @@
         <activity android:name=".homepage.InYanHaoActivity" />
         <activity android:name=".homepage.RecommendActivity" />
         <activity android:name=".homepage.ReadActivity" />
-        <activity android:name=".matchconsultant.OrderTimeActivity" />
         <activity android:name=".serach.SerachActivity" />
         <activity
             android:name=".share.ShareActivity"
@@ -75,6 +75,8 @@
         <activity android:name=".alipay.PayActivity" />
         <activity android:name=".WebViewActivity" />
         <activity android:name=".test.TestWebViewActivity" />
+        <activity android:name=".matchconsultant.TimeMainActivity" />
+        <activity android:name=".test.WebViewTest" />
     </application>
 
 </manifest>

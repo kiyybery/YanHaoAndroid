@@ -1,41 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bilibg"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.yanhao.main.yanhaoandroid.util.TopBar
-        android:id="@+id/topBar_consult"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        custom:costumLeftText="返回"
-        custom:costumLeftTextBackground="@drawable/blue_button"
-        custom:costumLeftTextColor="@color/white"
-        custom:costumRightText="北京"
-        custom:costumRightTextBackground="@drawable/blue_button"
-        custom:costumRightTextColor="@color/white"
-        custom:costumTitle="咨询"
-        custom:costumTitleTextColor="@color/white"
-        custom:costumTitleTextSize="6sp" />
-
-    <GridView
-        android:id="@+id/AreaGridView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="15dp"
-        android:columnWidth="15dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:numColumns="2"
-        android:scrollbarStyle="outsideInset"
-        android:verticalSpacing="8dp">
+        android:orientation="vertical">
 
-    </GridView>
+        <com.yanhao.main.yanhaoandroid.util.TopBar
+            android:id="@+id/topBar_consult"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            custom:costumLeftText="返回"
+            custom:costumLeftTextBackground="@drawable/blue_button"
+            custom:costumLeftTextColor="@color/white"
+            custom:costumRightTextBackground="@drawable/blue_button"
+            custom:costumRightTextColor="@color/white"
+            custom:costumTitle="咨询"
+            custom:costumTitleTextColor="@color/white"
+            custom:costumTitleTextSize="7.5dp" />
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bilibg"
+            android:orientation="vertical">
+
+            <GridView
+                android:id="@+id/AreaGridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="15dp"
+                android:columnWidth="15dp"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:numColumns="2"
+                android:scrollbarStyle="outsideInset"
+                android:verticalSpacing="8dp">
+
+            </GridView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/subarea_unlogin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="#fff"
+        android:visibility="gone"
+        android:layout_marginTop="60dp">
+
+        <TextView
+            android:id="@+id/tv_subarea_unlogin"
+            android:layout_width="277dp"
+            android:layout_height="42dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="154dp"
+            android:background="@drawable/corner"
+            android:paddingLeft="100.5dp"
+            android:paddingRight="12.5dp"
+            android:paddingTop="10dp"
+            android:text="登录/注册"
+            android:textColor="#479de2"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/unlogin_subarea_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/unlogin_tv_subarea"
+            android:textColor="#666666"
+            android:textSize="17dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

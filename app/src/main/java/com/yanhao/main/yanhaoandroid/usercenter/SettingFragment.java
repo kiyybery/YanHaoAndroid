@@ -2,6 +2,7 @@ package com.yanhao.main.yanhaoandroid.usercenter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     private ImageView mBackImage;
     private RelativeLayout mClear_layout, mLogout_layout, mNotification_layout, mSafe_layout, mFeedback_layout,
             mAbout_layout;
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     public static SettingFragment newInstance() {
         SettingFragment fragment = new SettingFragment();
@@ -47,6 +50,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+
+        sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
+        editor = sp.edit();
 
         mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +99,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 f = AlertDialogFrag.newInstance(data);
                 f.setTargetFragment(SettingFragment.this, FLAG_LOGOUT);
                 f.show(getChildFragmentManager(), "logout");
+                editor.clear();
+                editor.commit();
                 break;
             case R.id.message_layout:
                 Intent intent = new Intent();
@@ -144,5 +152,6 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     public void logout() {
 
         Toast.makeText(getActivity(), "退出成功", Toast.LENGTH_LONG).show();
+
     }
 }

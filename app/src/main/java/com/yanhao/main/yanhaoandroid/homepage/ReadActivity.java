@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 public class ReadActivity extends AppCompatActivity{
 
     FragmentManager fm = getSupportFragmentManager();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

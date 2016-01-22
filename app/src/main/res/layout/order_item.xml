@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/item_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="120dp">
 
         <com.yanhao.main.yanhaoandroid.util.CircleImageView
             android:id="@+id/cv_order_avatar"
@@ -26,17 +26,17 @@
             <TextView
                 android:id="@+id/order_name"
                 style="@style/Snapchat.Detail.Comment.Item2"
-                android:paddingTop="10dp"
+                android:paddingTop="25dp"
                 android:text="张晓梅"
                 android:textColor="#333333"/>
 
             <ImageView
                 android:id="@+id/order_level"
                 style="@style/Snapchat.Detail.Comment.Item2"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="18dp"
                 android:layout_toRightOf="@+id/order_name"
-                android:paddingTop="10dp"
+                android:paddingTop="13dp"
                 android:src="@drawable/erji_icon"
                 android:layout_height="25dp"
                 android:layout_width="25dp"/>

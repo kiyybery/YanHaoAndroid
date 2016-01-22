@@ -1,5 +1,7 @@
 package com.yanhao.main.yanhaoandroid.login;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Request;
+import com.yanhao.main.yanhaoandroid.MainActivity;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.banner.T;
@@ -35,7 +38,9 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
+import java.net.URLEncoder;
 
 /**
  * Created by Administrator on 2015/10/27 0027.
@@ -49,6 +54,40 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
     private final static int mMsgCodeCounting = 2;
     private static int mResendTime = 60;
     private final static int mMaxTime = 60;
+    String user;
+    String rigstCode;
+    String pwd;
+
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.arg1) {
+
+                case 1:
+                    //Toast.makeText(getActivity(), "login success", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+
+                    /*SharedPreferences sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("username", mLogin_username_et.getText().toString());
+                    editor.putString("password", mLogin_pw_et.getText().toString());
+                    editor.commit();*/
+                    break;
+
+                case 2:
+
+                    break;
+
+                default:
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     private class MyRightCallback extends StringCallback {
 
@@ -61,7 +100,7 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onResponse(String s) {
 
-            Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -78,16 +117,24 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
             try {
 
                 JSONObject jsonObject = new JSONObject(s);
-                String ret = jsonObject.getString("ret");
-                if (ret.equals("0")) {
+                int ret = jsonObject.getInt("ret");
+                if (ret == 0) {
 
                     String des_userId = jsonObject.getString("userId");
                     String userId = SecurityUtil.decrypt(des_userId);
-                    Toast.makeText(getActivity(), userId, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), "userId=" + des_userId, Toast.LENGTH_LONG).show();
+
+                    Message message = new Message();
+                    message.arg1 = 1;
+                    mHandler.sendMessage(message);
                 } else {
 
                     String info = jsonObject.getString("info");
                     T.show(getActivity(), info, 100);
+
+                    /*Message message = new Message();
+                    message.arg1 = 1;
+                    mHandler.sendMessage(message);*/
                 }
 
             } catch (JSONException e) {
@@ -148,7 +195,6 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
         mEt_regist_username.setInputType(InputType.TYPE_CLASS_NUMBER);
         mEt_regist_pwd = (EditText) view.findViewById(R.id.et_regist_pwd);
         mAccount_register_code_et = (EditText) view.findViewById(R.id.account_register_code_et);
-        mAccount_register_code_et.setInputType(InputType.TYPE_CLASS_NUMBER);
         mAccount_register_get_code_btn = (Button) view.findViewById(R.id.account_register_get_code_btn);
         btnRegister = (Button) view.findViewById(R.id.btnRegister);
         mRigst_show_pwd = (ImageButton) view.findViewById(R.id.rigst_show_pwd);
@@ -168,10 +214,10 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
                 //控制密码的隐藏与显示
                 if (mAccount_register_code_et.getInputType() != InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
                     mAccount_register_code_et.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    mRigst_show_pwd.setImageResource(R.drawable.pwd_yes);
+                    mRigst_show_pwd.setBackgroundResource(R.drawable.pwd_yes);
                 } else {
                     mAccount_register_code_et.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    mRigst_show_pwd.setImageResource(R.drawable.pwd_no);
+                    mRigst_show_pwd.setBackgroundResource(R.drawable.pwd_no);
                 }
                 //变更属性后记得让光标显示在输入框最后
                 Editable editable = mAccount_register_code_et.getText();
@@ -189,9 +235,10 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.btnRegister:
-                String user = mEt_regist_username.getText().toString();
-                String rigstCode = mEt_regist_pwd.getText().toString();
-                String pwd = mAccount_register_code_et.getText().toString();
+                user = mEt_regist_username.getText().toString();
+                rigstCode = mEt_regist_pwd.getText().toString();
+                pwd = mAccount_register_code_et.getText().toString();
+                Toast.makeText(getActivity(), user + rigstCode + pwd, Toast.LENGTH_LONG).show();
                 if (!StringUtil.isMobileNO(user) || rigstCode.length() < 4 || pwd.length() < 6) {
                     Toast.makeText(getActivity(), "您的信息填写不准确，请检查！！", Toast.LENGTH_LONG).show();
                     return;
@@ -213,7 +260,7 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
         OkHttpUtils
                 .post()
                 .url(url)//
-                .addParams("mobile", result)//
+                .addParams("mobile", SecurityUtil.encrypt(mEt_regist_username.getText().toString()))//
                         //.addParams("password", "123")//
                 .build()//
                 .execute(new MyRightCallback());
@@ -222,14 +269,24 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
     public void rigst() {
 
         //Toast.makeText(getActivity(), "注册。。。", Toast.LENGTH_LONG).show();
+        String user_input = mEt_regist_username.getText().toString();
+        String username = SecurityUtil.encrypt(user_input);
+        String url_username = null;
+        try {
+            url_username = URLEncoder.encode(username,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String regist_url = "http://210.51.190.27:8082/register.jspa";
         OkHttpUtils
                 .post()
                 .url(regist_url)
-                .addParams("mobile", SecurityUtil.encrypt(mEt_regist_username.getText().toString()))
-                .addParams("password", SecurityUtil.encrypt(mAccount_register_code_et.getText().toString()))
-                .addParams("code", mEt_regist_pwd.getText().toString())
+                .addParams("mobile", SecurityUtil.encrypt(user_input))
+                .addParams("password", SecurityUtil.encrypt(pwd))
+                .addParams("code", rigstCode)
                 .build()
                 .execute(new RigstCallBack());
+
+
     }
 }

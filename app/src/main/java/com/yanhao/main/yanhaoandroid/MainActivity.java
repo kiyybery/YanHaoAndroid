@@ -1,28 +1,22 @@
 package com.yanhao.main.yanhaoandroid;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
-import com.yanhao.main.yanhaoandroid.bottomBar.Adapter;
 import com.yanhao.main.yanhaoandroid.bottomBar.library.PagerBottomTabStrip;
 import com.yanhao.main.yanhaoandroid.consult.ConsultFragment;
-import com.yanhao.main.yanhaoandroid.test.ActionItem;
 import com.yanhao.main.yanhaoandroid.test.ClassifyWindow;
 import com.yanhao.main.yanhaoandroid.test.TestFragment;
 import com.yanhao.main.yanhaoandroid.usercenter.MyPrefireFragment;
+import com.yanhao.main.yanhaoandroid.util.ViewFindUtils;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,10 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
     private ClassifyWindow mClassifyWindow;
 
+    private String userId;
+    private View decorView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_home);
+
+        userId = getIntent().getStringExtra("userId");
 
         for (int i = 0; i < titles.length; i++) {
             tabs.add(new TabEntity(titles[i], iconResidClick[i], iconResid[i]));
@@ -80,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
         fragments2.add(new TestFragment());
         fragments2.add(new MyPrefireFragment());
 
-        tl = (CommonTabLayout) findViewById(R.id.tl_2);
+        decorView = getWindow().getDecorView();
+        tl = ViewFindUtils.find(decorView, R.id.tl_2);
+        //tl = (CommonTabLayout) findViewById(R.id.tl_2);
         tl.setTabData(tabs, this, R.id.fl_change, fragments2);
     }
 
@@ -115,4 +116,11 @@ public class MainActivity extends AppCompatActivity {
             hideNavigationBar();
         }
     }*/
+
+    @Override
+    protected void onResume() {
+
+
+        super.onResume();
+    }
 }

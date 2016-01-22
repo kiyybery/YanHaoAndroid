@@ -1,5 +1,7 @@
 package com.yanhao.main.yanhaoandroid;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import java.io.File;
 
 /**
@@ -27,8 +29,12 @@ public class YanHao extends YanHaoApplication {
 
     public static final String KEY = "zhipengapp!@#$%^&*";
 
+
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LeakCanary.install(this);
     }
 }

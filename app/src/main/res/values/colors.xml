@@ -23,6 +23,8 @@
 
     -->
     <!--历史遗留的color-->
+    <color name="guide_select">#00a0e8</color>
+    <color name="guide_unselect">#989898</color>
     <color name="B_black">#ff000000</color>
     <color name="C_white">#ffffffff</color>
     <color name="transparent">#00000000</color>

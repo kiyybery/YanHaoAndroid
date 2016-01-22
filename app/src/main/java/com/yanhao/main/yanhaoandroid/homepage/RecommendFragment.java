@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -44,8 +45,9 @@ public class RecommendFragment extends Fragment {
     private TextView mTitle;
     private LinearLayout mBack;
     private RecommendAdapter mAdapter;
+    private ProgressBar progressBar;
 
-    private class MyRecommedCallback extends StringCallback{
+    private class MyRecommedCallback extends StringCallback {
 
 
         @Override
@@ -58,12 +60,13 @@ public class RecommendFragment extends Fragment {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                progressBar.setVisibility(View.GONE);
                 JSONArray jsonArray = jsonObject.getJSONArray("recommedList");
                 for (int i = 0; i < jsonArray.length(); i++) {
 
                     mRecommendBean = new Recommend();
                     JSONObject job = (JSONObject) jsonArray.get(i);
-                    mRecommendBean.userId = job.getInt("userId");
+                    mRecommendBean.userId = job.getString("userId");
                     mRecommendBean.pic = job.getString("photoUrl");
                     mRecommendBean.subName = job.getString("name");
                     mRecommendBean.level_pic = job.getInt("level");
@@ -105,8 +108,9 @@ public class RecommendFragment extends Fragment {
 
         mList = new ArrayList<>();
 
+        progressBar = (ProgressBar) view.findViewById(R.id.progressbar_recommed);
         mListView = (ListView) view.findViewById(R.id.recommend_listview);
-        mAdapter = new RecommendAdapter(getActivity(),mList);
+        mAdapter = new RecommendAdapter(getActivity(), mList);
         mListView.setAdapter(mAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,7 +118,7 @@ public class RecommendFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), HomePageActivity.class);
-                intent.putExtra("userId",mList.get(i).userId);
+                intent.putExtra("userId", mList.get(i).userId);
                 startActivity(intent);
             }
         });
@@ -155,9 +159,9 @@ public class RecommendFragment extends Fragment {
         }
     }
 
-    private void getCommendData(){
+    private void getCommendData() {
 
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/home_recommed_constant.txt";
+        String url = "http://7xop51.com1.z0.glb.clouddn.com/home_recommed_constant_new.txt";
         OkHttpUtils
                 .postString()
                 .url(url)

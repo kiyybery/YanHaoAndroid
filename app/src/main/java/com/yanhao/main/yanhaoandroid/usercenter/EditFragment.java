@@ -2,8 +2,10 @@ package com.yanhao.main.yanhaoandroid.usercenter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,12 +23,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
+import com.yanhao.main.yanhaoandroid.MainActivity;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
+import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -48,6 +52,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private CircleImageView mCircleImageView;
     private RelativeLayout mName_layout, mSex_layout, mAddress_layout, mProfire_layout;
     private String name;
+    private String userId;
+    private String password;
 
     String path = "";
     private static final String TAG = EditFragment.class.getSimpleName();
@@ -59,6 +65,12 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     public static final int REQUEST_MODIFY_SEX = 506;
     public static final int REQUEST_MODIFY_CITY = 507;
     private Map<String, String> tempUserInfo = new HashMap<>();
+
+    SharedPreferences sp;
+
+    SharedPreferences.Editor editor;
+
+    private String img_path;
 
     public static EditFragment newInstance() {
 
@@ -74,7 +86,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void onError(Request request, Exception e) {
-
+            T.show(getActivity(), e + "", 1000000);
         }
 
         @Override
@@ -109,13 +121,51 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(s);
                 int ret = jsonObject.getInt("ret");
                 if (ret == 0) {
-
+                    img_path = jsonObject.getString("path");
                     T.show(getActivity(), jsonObject.getString("info"), 100);
                 } else {
 
                     T.show(getActivity(), jsonObject.getString("info"), 100);
                 }
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private class MyStringCallback extends StringCallback {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            try {
+                //Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+                JSONObject jsonObject = new JSONObject(s);
+                int ret = jsonObject.getInt("ret");
+                if (ret == 1) {
+
+                    String info = jsonObject.getString("info");
+                    T.show(getActivity(), info, 100);
+
+                } else {
+
+                    String userId = jsonObject.getString("userId");
+                    String nickName = jsonObject.getString("nickName");
+                    String portraitUrl = jsonObject.getString("portraitUrl");
+                    Log.i("userId_login", userId);
+                    //Toast.makeText(getActivity(), userId, Toast.LENGTH_LONG).show();
+
+                    mName_tv.setText(nickName);
+                    Glide.with(EditFragment.this).load(portraitUrl).into(mCircleImageView);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -131,15 +181,26 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
+        editor = sp.edit();
+        userId = sp.getString("userId", "");
+        name = sp.getString("username", "");
+        password = sp.getString("password", "");
+
+        //T.show(getActivity(), userId + name, 100);
         View view = inflater.inflate(R.layout.fragment_edit, container, false);
 
+        getUserInfo(name, password);
+
         name = getArguments().getString("username");
+        //mShowError = (TextView) view.findViewById(R.id.show_error);
         mFinish_tv = (TextView) view.findViewById(R.id.tv_text_title_right);
         mName_tv = (TextView) view.findViewById(R.id.edit_name);
+        mName_tv.setText(name);
         mSex_tv = (TextView) view.findViewById(R.id.edit_sex);
         mCity_tv = (TextView) view.findViewById(R.id.edit_address);
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar_edit);
-        mCircleImageView.setImageResource(R.drawable.imgmengmengava);
         mName_layout = (RelativeLayout) view.findViewById(R.id.name_layout);
         mSex_layout = (RelativeLayout) view.findViewById(R.id.sex_layout);
         mAddress_layout = (RelativeLayout) view.findViewById(R.id.address_layout);
@@ -235,6 +296,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                         Log.i(TAG, "从相机返回的头像地址" + path);
                         Glide.with(this).load(Uri.fromFile(new File(path))).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
                     }
+                    multiFileUpload();
                 } else if (type == 2) {
                     Uri imageUri = data.getData();
                     Log.i(TAG, "imageUri.toString=" + imageUri.toString() +
@@ -244,7 +306,9 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                     Glide.with(this).load(imageUri).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
                     path = FileUtilsOfPaul.getPath(getActivity(), imageUri);
                     Log.i(TAG, "从本地Uri解析出的头像地址" + path);
-                    uploadImg(imageUri);
+                    //uploadImg(imageUri);
+
+                    multiFileUpload();
                 }
                 tempUserInfo.put("avatars", path);
 
@@ -261,6 +325,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             case REQUEST_MODIFY_USERNAME:
                 String name = data.getStringExtra("username");
                 mName_tv.setText(name);
+                editor.putString("nickName", name);
                 tempUserInfo.put("username", name);
                 break;
             case REQUEST_MODIFY_SEX:
@@ -291,33 +356,57 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     private void updateProfile() {
 
+        File file = new File(path);
+        if (!file.exists()) {
+            Toast.makeText(getActivity(), "文件不存在，请修改文件路径", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String url = "http://210.51.190.27:8082/updateProfile.jspa";
-        String name = URLEncoder.encode("aaa");
-        String city = URLEncoder.encode("北京");
-        String intro = URLEncoder.encode("12312");
-        T.show(getActivity(), name + city + intro, 100);
+        String intro = URLEncoder.encode("12312akiu");
+
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", "2")
-                .addParams("nickName", name)
+                .addParams("userId", userId)
+                .addParams("nickName", mName_tv.getText().toString())
                 .addParams("gender", "1")
-                .addParams("city", city)
+                .addParams("city", mCity_tv.getText().toString())
                 .addParams("intro", intro)
-                .addParams("portrait", "/storage/emulated/0/DCIM/Camera/MYXJ_20151225150838_fast.jpg")
+                .addParams("portrait", img_path)
                 .build()
                 .execute(new UpdateProFileCallBack());
     }
 
-    private void uploadImg(Uri imgUri) {
+    private void multiFileUpload() {
 
-        String imgUrl = "http://210.51.190.27:8082/uploadPortrait.jspa";
-        OkHttpUtils
-                .post()
-                .url(imgUrl)
-                .addParams("userId", "2")
-                .addParams("file", path)
-                .build()
+        File file = new File(path);
+        if (!file.exists()) {
+            Toast.makeText(getActivity(), "文件不存在，请修改文件路径", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", userId);
+
+        String url = "http://210.51.190.27:8082/uploadPortrait.jspa";
+        OkHttpUtils.post()//
+                .addFile("file", "MYXJ_20151225150838_fast.jpg", file)//
+                .url(url)
+                .params(params)//
+                .build()//
                 .execute(new UpdateProFileCallBack());
+    }
+
+    private void getUserInfo(String userName, String passWord) {
+
+        String url = "http://210.51.190.27:8082/login.jspa";
+        OkHttpUtils
+                .post()//
+                .url(url)//
+                .addParams("mobile", SecurityUtil.encrypt(userName))//
+                .addParams("password", SecurityUtil.encrypt(passWord))//
+                .build()//
+                .execute(new MyStringCallback());
     }
 }

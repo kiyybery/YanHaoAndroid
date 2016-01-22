@@ -45,7 +45,7 @@ public class EditActivity extends AppCompatActivity{
         }
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         final Fragment fEdit = fm.findFragmentById(android.R.id.content);
 
@@ -70,5 +70,5 @@ public class EditActivity extends AppCompatActivity{
             Log.i(TAG, "super.onBackPressed();");
             super.onBackPressed();
         }
-    }
+    }*/
 }

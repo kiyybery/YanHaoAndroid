@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.bean.ConstantBean;
 import com.yanhao.main.yanhaoandroid.bean.OrderBean;
@@ -18,14 +19,16 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/11/9 0009.
  */
-public class MyOrderAdapter extends BaseAdapter{
+public class MyOrderAdapter extends BaseAdapter {
 
     private List<OrderBean> mList;
     private LayoutInflater mInflater;
+    private Context mContext;
 
-    public MyOrderAdapter (Context ctx,List<OrderBean> list){
+    public MyOrderAdapter(Context ctx, List<OrderBean> list) {
         mInflater = LayoutInflater.from(ctx);
         mList = list;
+        mContext = ctx;
     }
 
     @Override
@@ -46,19 +49,27 @@ public class MyOrderAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
-        if(view == null){
+        if (view == null) {
             viewHolder = new ViewHolder();
-            view = mInflater.inflate(R.layout.order_item,null);
+            view = mInflater.inflate(R.layout.order_item, null);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.cv_order_avatar);
             viewHolder.name_tv = (TextView) view.findViewById(R.id.order_name);
             viewHolder.level_tv = (ImageView) view.findViewById(R.id.order_level);
             viewHolder.area_tv = (TextView) view.findViewById(R.id.order_area_tv);
             viewHolder.date_tv = (TextView) view.findViewById(R.id.order_date_tv);
             view.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.imageView.setImageResource(R.drawable.imgmengmengava);
+        String url = mList.get(i).imageview;
+        if (!url.equals("")) {
+
+            Glide.with(mContext).load(url).placeholder(R.drawable.avatar_default).into(viewHolder.imageView);
+        } else {
+
+            Glide.with(mContext).load(R.drawable.avatar_default).into(viewHolder.imageView);
+        }
+        //viewHolder.imageView.setImageResource(R.drawable.imgmengmengava);
         viewHolder.name_tv.setText(mList.get(i).constantName);
         //viewHolder.level_tv.setText(mList.get(i).level);
         viewHolder.area_tv.setText(mList.get(i).area);
@@ -67,7 +78,7 @@ public class MyOrderAdapter extends BaseAdapter{
     }
 
     class ViewHolder {
-        ImageView imageView,level_tv;
-        TextView name_tv,area_tv,date_tv;
+        ImageView imageView, level_tv;
+        TextView name_tv, area_tv, date_tv;
     }
 }

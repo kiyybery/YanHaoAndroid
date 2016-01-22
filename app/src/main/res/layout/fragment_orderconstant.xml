@@ -36,12 +36,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/consultant_name"
@@ -52,15 +51,18 @@
                             android:textColor="#333333"
                             android:textSize="38px" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/consult_level"
-                            style="@style/Snapchat.Detail.Comment.Item3"
-                            android:layout_weight="1"
-                            android:text="国家二级"
-                            android:textColor="#636363"
-                            android:textSize="30px" />
+                            android:layout_width="60px"
+                            android:layout_height="35px"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="40px"
+                            android:layout_marginLeft="15px"
+                            android:layout_toEndOf="@+id/consultant_name"
+                            android:layout_toRightOf="@+id/consultant_name"
+                            android:src="@drawable/erji_icon" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -158,12 +160,12 @@
                         android:id="@+id/type_gradview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="@null"
-                        android:numColumns="2"
-                        android:scrollbars="none"
-                        android:horizontalSpacing="1px"
                         android:layout_marginRight="215px"
-                        android:listSelector="@android:color/transparent"/>
+                        android:divider="@null"
+                        android:horizontalSpacing="1px"
+                        android:listSelector="@android:color/transparent"
+                        android:numColumns="2"
+                        android:scrollbars="none" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -188,14 +190,26 @@
                     android:textSize="38px" />
 
                 <TextView
+                    android:id="@+id/asktime_data"
+                    style="@style/MyProfile.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="7px"
+                    android:layout_toLeftOf="@+id/asktime_time"
+                    android:layout_toStartOf="@+id/asktime_time"
+                    android:textColor="#479de2"
+                    android:textSize="32px" />
+
+                <TextView
                     android:id="@+id/asktime_time"
                     style="@style/MyProfile.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="45px"
                     android:layout_marginTop="5px"
-                    android:text="10月11日 14：00"
                     android:textColor="#479de2"
                     android:textSize="32px" />
 

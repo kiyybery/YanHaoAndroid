@@ -15,6 +15,7 @@
         android:paddingRight="45px"
         android:paddingLeft="45px"
         android:text="10:00 - 11:00"
+        android:layout_marginTop="25px"
         android:textColor="@color/calendar_text_selector"
         android:textSize="34px" />
 

@@ -1,5 +1,6 @@
 package com.yanhao.main.yanhaoandroid.matchconsultant;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,12 +32,15 @@ import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
 import com.yanhao.main.yanhaoandroid.homepage.PayPageActivity;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
+import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +51,7 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
 
     private Button mCommitBtn;
     private RelativeLayout mAsktime_layout;
-    private TextView mAsk_tv_face, mAsk_tv_phone, mName, mAddress, mTitle;
+    private TextView mAsk_tv_face, mAsk_tv_phone, mName, mAddress, mTitle, mAskTime, mAskData;
     private LinearLayout mLayout_face, mLayout_phone;
     private int status = 0;
     private String userId;
@@ -53,9 +59,14 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
     boolean isSelect;
     private GridView mGridView;
     private List<Type> mList = new ArrayList<>();
+    private ImageView mLevel;
+    private EditText mPhoneNum_et, mIssue_et, mNote_et;
+
+    public static final int REQUEST_MODIFY_TIME = 100;
 
     private String[] types = new String[]{"当面咨询", "电话咨询"};
     private GridViewAdapter mAdapter;
+    private int reservationId;
 
     private class MyStringCallback extends StringCallback {
 
@@ -79,9 +90,20 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String nickname = jsonObject.getString("name");
-                String address = jsonObject.getString("address");
-                String url = jsonObject.getString("photoUrl");
+                String address = jsonObject.getString("city");
+                String url = jsonObject.getString("portraitUrl");
+                int level = jsonObject.getInt("level");
 
+                if (level == 1) {
+
+                    Glide.with(OrderContantFragment.this).load(R.drawable.yiji_icon).into(mLevel);
+                } else if (level == 2) {
+
+                    Glide.with(OrderContantFragment.this).load(R.drawable.erji_icon).into(mLevel);
+                } else if (level == 3) {
+
+                    Glide.with(OrderContantFragment.this).load(R.drawable.sanji_icon).into(mLevel);
+                }
                 mName.setText(nickname);
                 mAddress.setText(address);
                 Glide.with(OrderContantFragment.this).load(url).into(mImg);
@@ -93,6 +115,26 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
         @Override
         public void inProgress(float progress) {
 
+        }
+    }
+
+    private class ReverveCallback extends StringCallback {
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            //T.show(getActivity(), s, 100);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                Toast.makeText(getActivity(), jsonObject.getString("info"), Toast.LENGTH_LONG).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -118,9 +160,10 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
         userId = getArguments().getString("userId");
-        Toast.makeText(getActivity(), "id =" + userId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "id =" + userId, Toast.LENGTH_SHORT).show();
         //getinfo(userId);
-        if (userId.equals("1")) {
+        getUserInfo(userId);
+        /*if (userId.equals("1")) {
             getinfobai();
         } else if (userId.equals("2")) {
             getinfohu();
@@ -131,15 +174,20 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
         } else if (userId.equals("4")) {
 
             getinfosong();
-        }
+        }*/
 
+        mPhoneNum_et = (EditText) view.findViewById(R.id.callstyle_time);
+        mIssue_et = (EditText) view.findViewById(R.id.problem_time);
+        mNote_et = (EditText) view.findViewById(R.id.note_time);
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
         mTitle.setText("预约咨询师");
         mImg = (CircleImageView) view.findViewById(R.id.cv_comment_avatar);
         mName = (TextView) view.findViewById(R.id.consultant_name);
         mAddress = (TextView) view.findViewById(R.id.consult_area);
+        mLevel = (ImageView) view.findViewById(R.id.consult_level);
 
-
+        mAskTime = (TextView) view.findViewById(R.id.asktime_time);
+        mAskData = (TextView) view.findViewById(R.id.asktime_data);
         /*mLayout_face = (LinearLayout) view.findViewById(R.id.tv1_layout);
         mLayout_phone = (LinearLayout) view.findViewById(R.id.tv2_layout);*/
         /*mLayout_phone.setOnClickListener(this);
@@ -185,13 +233,16 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
                 intent.setClass(getActivity(), PayPageActivity.class);
                 startActivity(intent);
 
+                Reverve(userId);
+
                 break;
 
             case R.id.asktime_layout:
 
                 intent = new Intent();
-                intent.setClass(getActivity(), OrderTimeActivity.class);
-                startActivity(intent);
+                intent.putExtra("userId", userId);
+                intent.setClass(getActivity(), TimeMainActivity.class);
+                startActivityForResult(intent, REQUEST_MODIFY_TIME);
                 break;
 
             /*case R.id.ask_tv_1:
@@ -225,59 +276,73 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    private void getinfo(String userId) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (data != null) {
+            Log.i("tag", "data=" + data.toString());
+        }
 
-        String url = YanHao.TEST_URL + "selectCounselorInfo.jspa";
+        switch (requestCode) {
+
+            case REQUEST_MODIFY_TIME:
+
+                String ask_data = data.getStringExtra("data");
+                String ask_time = data.getStringExtra("time");
+                reservationId = data.getIntExtra("reservationId", 2);
+
+                mAskData.setText(ask_data);
+                mAskTime.setText(ask_time);
+                break;
+        }
+    }
+
+    public void getUserInfo(String userid) {
+
+        String url = "http://210.51.190.27:8082/getCounselorHome.jspa";
+        /*OkHttpUtils.postString()
+                .url(url)
+                .content(new Gson().toJson(new UserInfo()))
+                .build()
+                .execute(new MyStringCallBack());*/
+
         OkHttpUtils
-                .get()//
+                .post()//
                 .url(url)//
-                .addParams("userId", userId)//
-                        //.addParams("password", "123")//
+                .addParams("userId", userid)//
                 .build()//
                 .execute(new MyStringCallback());
     }
 
-    private void getinfobai() {
+    private void Reverve(String userid) {
 
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/constator_info_bai.txt";
+        String url = "http://210.51.190.27:8082/reserve.jspa";
+        String mobile = mPhoneNum_et.getText().toString();
+        String issue = mIssue_et.getText().toString();
+        String note = mNote_et.getText().toString();
+
+        String sec_mobile = SecurityUtil.encrypt(mobile);
+
+        String encoder_issue = null;
+        String encoder_note = null;
+
+        try {
+            encoder_issue = URLEncoder.encode(issue, "utf-8");
+            encoder_note = URLEncoder.encode(note, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         OkHttpUtils
-                .postString()
+                .post()
                 .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
+                .addParams("userId", userid)
+                .addParams("reservationId", "2")
+                .addParams("mobile", sec_mobile)
+                .addParams("issue", encoder_issue)
+                .addParams("note", encoder_note)
                 .build()
-                .execute(new MyStringCallback());
-    }
-
-    private void getinfohu() {
-
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/constator_info_huhong.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyStringCallback());
-    }
-
-    private void getinfolilu() {
-
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/constator_info_lilu.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyStringCallback());
-    }
-
-    private void getinfosong() {
-
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/constator_info_song.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyStringCallback());
+                .execute(new ReverveCallback());
     }
 }

@@ -54,7 +54,7 @@ public class SimpleImageBanner extends BaseIndicaorBanner<BannerItem, SimpleImag
                     .load(imgUrl)
                     .override(itemWidth, itemHeight)
                     .centerCrop()
-                    .placeholder(colorDrawable)
+                    .placeholder(R.drawable.default_banner)
                     .into(iv);
         } else {
             iv.setImageDrawable(colorDrawable);

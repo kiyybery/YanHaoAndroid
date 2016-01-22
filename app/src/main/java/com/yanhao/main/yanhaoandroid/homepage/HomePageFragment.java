@@ -2,16 +2,20 @@ package com.yanhao.main.yanhaoandroid.homepage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +27,12 @@ import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
+import com.yanhao.main.yanhaoandroid.consult.ConsultFragment;
+import com.yanhao.main.yanhaoandroid.login.LoginActivity;
 import com.yanhao.main.yanhaoandroid.matchconsultant.OrderContantActivity;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
+import com.yanhao.main.yanhaoandroid.util.Type;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -36,6 +43,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Administrator on 2015/12/1 0001.
  */
@@ -43,6 +52,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
     private Button mOrderbtn;
     private RelativeLayout mBackGround_layout;
+    private LinearLayout mBack_layout;
     private CircleImageView mTitleImg;
     private TextView mName, mAddress, mMyProfire, mEduction, mText1;
     private List<String> specialityList = new ArrayList();
@@ -51,6 +61,10 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     String userId;
     MyAdapter myAdapter;
     ChargeAdapter myAdapter_charge;
+    private ProgressBar progressBar;
+    private SharedPreferences sp;
+    private String sub_userId;
+    private final static int REQUEST_MODIFY_NOLOGIN = 7001;
 
 
     public static HomePageFragment newInstance() {
@@ -75,6 +89,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                progressBar.setVisibility(View.GONE);
                 userId = jsonObject.getString("userId");
                 //int userType = jsonObject.getInt("userType");
                 String nick_name = jsonObject.getString("name");
@@ -84,14 +99,26 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
                 //String education = jsonObject.getString("education");
                 JSONArray jsonArray = jsonObject.getJSONArray("specialityList");
                 String str = jsonArray.toString();
-                Log.i("str_list",str+"");
+                Log.i("str_list", str + "");
+
+
                 for (int i = 0; i < jsonArray.length(); i++) {
                     //specialityList.add(jsonArray.optString(i));
                     String[] str_list = jsonArray.optString(i).split(",");
-                    Log.i("str_list",str_list.length+"");
+
+                    for (int a = 0; a < str_list.length; a++) {
+
+                        String[] a1 = str_list[0].split(",");
+                        Log.i("a1", a1 + "");
+                    }
+                    Log.i("str_list", str_list.length + "");
                     for (int k = 0; k < str_list.length; k++) {
                         specialityList.add(str_list[k]);
                     }
+
+                    String[] a = jsonArray.get(i).toString().split(",");
+
+                    Log.i("string_a", a.toString() + "");
                     //Toast.makeText(getActivity(), "list" + jsonArray.optString(i), Toast.LENGTH_LONG).show();
                 }
 
@@ -109,7 +136,20 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
                         "speciality" + str +
                         "charge" + str1, Toast.LENGTH_LONG).show();*/
 
-                Glide.with(HomePageFragment.this).load(photoUrl).into(mTitleImg);
+                if (!TextUtils.isEmpty(photoUrl)) {
+
+                    Glide
+                            .with(HomePageFragment.this)
+                            .load(photoUrl)
+                                    //.placeholder(R.drawable.avatar_default)
+                            .into(mTitleImg);
+                } else {
+
+                    //mTitleImg.setBackgroundResource(R.drawable.avatar_default);
+                    mTitleImg.setImageResource(R.drawable.avatar_default);
+                }
+
+                //Glide.with(HomePageFragment.this).load(photoUrl).into(mTitleImg);
                 mName.setText(nick_name);
                 mAddress.setText(address);
                 /*mMyProfire.setText(intro);
@@ -132,10 +172,13 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        EventBus.getDefault().register(HomePageFragment.this);
+        sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
+        sub_userId = sp.getString("userId", "");
         View view = inflater.inflate(R.layout.fragment_homepage_consultant, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
-        String userId = getArguments().getString("userId");
+        userId = getArguments().getString("userId");
 
         getUserInfo(userId);
 
@@ -153,8 +196,17 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
             postStringsong();
         }*/
 
+        mBack_layout = (LinearLayout) view.findViewById(R.id.ll_homepage_title_back);
+        mBack_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
         mOrderbtn = (Button) view.findViewById(R.id.btnOrder);
         mOrderbtn.setOnClickListener(this);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progressbar_ConsultHome);
 
         mBackGround_layout = (RelativeLayout) view.findViewById(R.id.homepage_consultant_title_layout);
         mBackGround_layout.setBackgroundResource(R.drawable.homepage_bg);
@@ -185,15 +237,44 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(HomePageFragment.this);
+    }
+
+    public void onEventMainThread(Type type) {
+        String msg = "onEventMainThread收到了消息：" + type.getMsg();
+        Log.d("harvic", msg);
+        if (type.getMsg().equals("11111")) {
+
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), OrderContantActivity.class);
+            intent.putExtra("userId", userId);
+            startActivity(intent);
+            getActivity().finish();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
 
             case R.id.btnOrder:
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), OrderContantActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
+                if (sub_userId.equals("")) {
+
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), LoginActivity.class);
+                    startActivityForResult(intent, REQUEST_MODIFY_NOLOGIN);
+
+                } else {
+
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), OrderContantActivity.class);
+                    intent.putExtra("userId", userId);
+                    startActivity(intent);
+                }
+
                 break;
 
             default:
@@ -204,62 +285,12 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     public void getUserInfo(String userid) {
 
         String url = "http://210.51.190.27:8082/getCounselorHome.jspa";
-        /*OkHttpUtils.postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo()))
-                .build()
-                .execute(new MyStringCallBack());*/
-
         OkHttpUtils
                 .post()//
                 .url(url)//
-                .addParams("userId", "WbqhSt2gqUU=")//
+                .addParams("userId", userid)//
                 .build()//
                 .execute(new MyStringCallBack());
-    }
-
-    public void postString() {
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/constator_info_bai.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyStringCallBack());
-
-    }
-
-    public void postStringhu() {
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/constator_info_huhong.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyStringCallBack());
-
-    }
-
-    public void postStringlilu() {
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/constator_info_lilu.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyStringCallBack());
-
-    }
-
-    public void postStringsong() {
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/constator_info_song.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyStringCallBack());
-
     }
 
     public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements View.OnClickListener {

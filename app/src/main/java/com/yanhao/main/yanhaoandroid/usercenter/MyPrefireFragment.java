@@ -2,18 +2,22 @@ package com.yanhao.main.yanhaoandroid.usercenter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +26,16 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
+import com.yanhao.main.yanhaoandroid.homepage.ReadActivity;
+import com.yanhao.main.yanhaoandroid.login.LoginActivity;
 import com.yanhao.main.yanhaoandroid.share.ShareActivity;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
+import com.yanhao.main.yanhaoandroid.util.NewFeature;
+import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
+import com.yanhao.main.yanhaoandroid.util.Type;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -36,20 +46,39 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.Inflater;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/11/9 0009.
  */
-public class MyPrefireFragment extends Fragment implements View.OnClickListener {
+public class MyPrefireFragment extends Fragment implements View.OnClickListener, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
-    private TextView mOrder_tv, mTest_tv, mCollection_tv, mNote_tv, mSetting_tv, mShare_tv, mUpdate_tv,
-            mName_tv, mAddress_tv;
+    private TextView mOrder_tv, mTest_tv, mCollection_tv, mNote_tv, mIn_tv, mSetting_tv, mShare_tv, mUpdate_tv,
+            mName_tv, mAddress_tv, mUnLogin_tv;
     private CircleImageView mCircleImageView;
     String nick_name, loaction, photourl;
 
     private static final int REQUEST_MODIFY_AVATAR = 500;
 
     private Map<String, String> tempUserInfo = new HashMap<>();
+
+    private String userName, userId, userPhone, passWord;
+
+    public static final int REQUEST_MODIFY_LOGIN = 701;
+
+    SwipeRefreshLayout swipe;
+
+    View view;
+
+    LayoutInflater inflater;
+
+    SharedPreferences sp;
+
+    RelativeLayout mUnLoginLayout;
+
+    boolean isLogin = NewFeature.LOGIN_STATUS;
 
     public static MyPrefireFragment newInstance() {
 
@@ -59,6 +88,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         fragment.setArguments(data);
         return fragment;
     }
+
 
     public class MyStringCallback extends StringCallback {
 
@@ -81,20 +111,14 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         public void onResponse(String s) {
 
             try {
+                //T.show(getActivity(), s, 100);
                 JSONObject jsonObject = new JSONObject(s);
                 String userId = jsonObject.getString("userId");
-                int userType = jsonObject.getInt("userType");
-                int gender = jsonObject.getInt("gender");
-                String name = jsonObject.getString("name");
                 String nick_name = jsonObject.getString("nickName");
-                String address = jsonObject.getString("address");
-                String imgUrl = jsonObject.getString("photoUrl");
+                String imgUrl = jsonObject.getString("portraitUrl");
 
                 mName_tv.setText(nick_name);
-                mAddress_tv.setText(address);
                 Glide.with(MyPrefireFragment.this).load(imgUrl).into(mCircleImageView);
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -116,47 +140,120 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
+        userId = sp.getString("userId", "");
+        userName = sp.getString("username", "");
+        userPhone = sp.getString("userPhone", "");
+        passWord = sp.getString("password", "");
+        EventBus.getDefault().register(MyPrefireFragment.this);
+        //Toast.makeText(getActivity(), "profire uid = " + userId, Toast.LENGTH_LONG).show();
         //透明状态栏
         //getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        View view = inflater.inflate(R.layout.prefire_fragment, container, false);
+        //if (!userId.equals("")) {
 
-        getUserInfo();
+        view = inflater.inflate(R.layout.prefire_fragment, container, false);
+        //getUserInfo(userPhone, passWord);
 
         mName_tv = (TextView) view.findViewById(R.id.tv_uc_nickname);
-
+        mName_tv.setText(userName);
         mAddress_tv = (TextView) view.findViewById(R.id.tv_uc_address);
 
+        mUpdate_tv = (TextView) view.findViewById(R.id.reupdate_tv);
+        mUnLoginLayout = (RelativeLayout) view.findViewById(R.id.unlogin_layout);
+        if (!userId.equals("")) {
+
+            mUnLoginLayout.setVisibility(View.GONE);
+            mUpdate_tv.setVisibility(View.VISIBLE);
+            getUserInfo(userName, passWord);
+        } else {
+
+            mUpdate_tv.setVisibility(View.GONE);
+            mUnLoginLayout.setVisibility(View.VISIBLE);
+        }
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar);
-        mCircleImageView.setImageResource(R.drawable.imgmengmengava);
+        //mCircleImageView.setImageResource(R.drawable.imgmengmengava);
         //mCircleImageView.setOnClickListener(this);
         mOrder_tv = (TextView) view.findViewById(R.id.my_profile_order);
         mTest_tv = (TextView) view.findViewById(R.id.my_profile_test);
         mCollection_tv = (TextView) view.findViewById(R.id.my_profile_collection);
         mNote_tv = (TextView) view.findViewById(R.id.my_profile_note);
+        mIn_tv = (TextView) view.findViewById(R.id.my_profile_inYanhao);
         mSetting_tv = (TextView) view.findViewById(R.id.my_profile_setting);
         mShare_tv = (TextView) view.findViewById(R.id.my_profile_share);
-        mUpdate_tv = (TextView) view.findViewById(R.id.reupdate_tv);
+
+
+        mUnLogin_tv = (TextView) view.findViewById(R.id.tv_my_unlogin);
+        mUnLogin_tv.setOnClickListener(this);
+        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        swipe.setOnRefreshListener(this);
+        // 顶部刷新的样式
+        swipe.setColorSchemeResources(android.R.color.holo_red_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_orange_light);
 
         mUpdate_tv.setOnClickListener(this);
         mOrder_tv.setOnClickListener(this);
         mNote_tv.setOnClickListener(this);
+        mIn_tv.setOnClickListener(this);
         mSetting_tv.setOnClickListener(this);
         mCollection_tv.setOnClickListener(this);
         mShare_tv.setOnClickListener(this);
         setTVDrawable();
 
-
         return view;
+        /*} else {
+
+            view = inflater.inflate(R.layout.fragment_my_unlogin, container, false);
+            initUnloginView();
+            return view;
+        }*/
     }
 
-    public void getUserInfo() {
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
-        String url = YanHao.TEST_URL + "selectUserInfo.jspa?" + "userId=" + "1";
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(MyPrefireFragment.this);
+    }
+
+    //该方法接受上一个activity传递来的消息。目测是映射机制。
+    // （!!这里需要一个Bean来完成收发，也就是get方法）
+    public void onEventMainThread(Type type) {
+        String msg = "onEventMainThread收到了消息：" + type.getMsg() + "第二条信息: " + type.getPwd();
+
+        Log.d("harvic", msg);
+        if (!type.getMsg().equals("")) {
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            mUnLoginLayout.setVisibility(View.GONE);
+            getUserInfo(type.getMsg(), type.getPwd());
+            mUpdate_tv.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    public void getUserInfo(String phone, String pwd) {
+
+        String url = "http://210.51.190.27:8082/login.jspa";
+        String mobile = SecurityUtil.encrypt(phone);
+        String password = SecurityUtil.encrypt(pwd);
         OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo()))
-                .build()
+                .post()//
+                .url(url)//
+                .addParams("mobile", mobile)//
+                .addParams("password", password)//
+                        //.addParams("mobile", SecurityUtil.encrypt(userPhone))
+                        //.addParams("password", SecurityUtil.encrypt(passWord))
+                .build()//
                 .execute(new MyStringCallback());
     }
 
@@ -179,6 +276,10 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
         Drawable drawable_note_left = getResources().getDrawable(R.drawable.uc_asknote);
         drawable_note_left.setBounds(0, 0, 70, 70);
         mNote_tv.setCompoundDrawables(drawable_note_left, null, drawable_order_right, null);
+
+        Drawable drawable_in_left = getResources().getDrawable(R.drawable.uc_setting);
+        drawable_in_left.setBounds(0, 0, 70, 70);
+        mIn_tv.setCompoundDrawables(drawable_in_left, null, drawable_order_right, null);
 
         Drawable drawable_setting_left = getResources().getDrawable(R.drawable.uc_setting);
         drawable_setting_left.setBounds(0, 0, 70, 70);
@@ -210,9 +311,9 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
 
                 break;
             case R.id.my_profile_collection:
-               /* intent = new Intent();
-                intent.setClass(getActivity(), MyCollectionActivity.class);
-                startActivity(intent);*/
+                intent = new Intent();
+                intent.setClass(getActivity(), ReadActivity.class);
+                startActivity(intent);
                 break;
             case R.id.my_profile_note:
 
@@ -238,6 +339,12 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
                 f.setTargetFragment(MyPrefireFragment.this, REQUEST_MODIFY_AVATAR);
                 f.show(fm, "avatar");
                 break;
+
+            case R.id.tv_my_unlogin:
+
+                intent = new Intent();
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivityForResult(intent, REQUEST_MODIFY_LOGIN);
             default:
                 break;
         }
@@ -280,8 +387,28 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener 
                 }
                 tempUserInfo.put("avatars", path);
                 break;
+
+            case REQUEST_MODIFY_LOGIN:
+
+                isLogin = true;
+                if (!userId.equals("")) {
+
+                    view = inflater.inflate(R.layout.prefire_fragment, null);
+                }
+                break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                getUserInfo(userPhone, passWord);
+                swipe.setRefreshing(false);
+            }
+        }, 1500);
     }
 }

@@ -1,187 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sv_home"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none">
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:banner="http://schemas.android.com/tools"
-        xmlns:custom="http://schemas.android.com/apk/res-auto"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/sv_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <!--<com.yanhao.main.yanhaoandroid.util.TopBar
-            android:id="@+id/topBar_home"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            custom:costumLeftText="返回"
-            custom:costumLeftTextBackground="@drawable/blue_button"
-            custom:costumLeftTextColor="@color/white"
-            custom:costumRightText="搜索"
-            custom:costumRightTextBackground="@drawable/blue_button"
-            custom:costumRightTextColor="@color/white"
-            custom:costumTitle="首页"
-            custom:costumTitleTextColor="@color/white"
-            custom:costumTitleTextSize="6sp" />-->
-
-        <include layout="@layout/home_px_title" />
-
-        <com.yanhao.main.yanhaoandroid.banner.SimpleImageBanner
-            android:id="@+id/sib_simple_usage"
-            android:layout_width="fill_parent"
-            android:layout_height="256px"
-            banner:bb_scale="0.5625" />
-
-        <include layout="@layout/divider_settings" />
-
-        <include layout="@layout/divider_px_thick" />
-
-        <LinearLayout
-            android:id="@+id/pull_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:id="@+id/read_everyday"
-                android:layout_width="360px"
-                android:layout_height="204px"
-                android:layout_gravity="center_horizontal"
-                android:background="#ffffff">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/read_everyday_iv"
-                        android:layout_width="110px"
-                        android:layout_height="110px"
-                        android:layout_gravity="center"
-                        android:src="@drawable/shouye_meiriyidu_icon" />
-
-                    <TextView
-                        android:id="@+id/read_everyday_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15px"
-                        android:text="每日一读"
-                        android:textColor="#666666"
-                        android:textSize="36px" />
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/medical_everyday"
-                android:layout_width="360px"
-                android:layout_height="204px"
-                android:layout_marginLeft="1px"
-                android:background="#ffffff">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/medical_everyday_iv"
-                        android:layout_width="110px"
-                        android:layout_height="110px"
-                        android:layout_gravity="center"
-                        android:src="@drawable/shouye_xinlijiankangtijian_icon" />
-
-                    <TextView
-                        android:id="@+id/medical_everyday_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15px"
-                        android:text="心理健康体检"
-                        android:textColor="#666666"
-                        android:textSize="36px" />
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-
-        <include layout="@layout/divider_px_thick" />
+        android:scrollbars="none">
 
         <RelativeLayout
-            android:id="@+id/recommended_layout"
             android:layout_width="match_parent"
-            android:layout_height="74px"
-            android:background="#ffffff">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/recommended_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="35px"
-                android:text="专家推荐"
-                android:textColor="#666666"
-                android:textSize="36px" />
+            <LinearLayout xmlns:banner="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/recommended_tv_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="35px"
-                android:text="更多"
-                android:textColor="#666666"
-                android:textSize="28px" />
+                <!--<com.yanhao.main.yanhaoandroid.util.TopBar
+                    android:id="@+id/topBar_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    custom:costumLeftText="返回"
+                    custom:costumLeftTextBackground="@drawable/blue_button"
+                    custom:costumLeftTextColor="@color/white"
+                    custom:costumRightText="搜索"
+                    custom:costumRightTextBackground="@drawable/blue_button"
+                    custom:costumRightTextColor="@color/white"
+                    custom:costumTitle="首页"
+                    custom:costumTitleTextColor="@color/white"
+                    custom:costumTitleTextSize="6sp" />-->
+
+                <include layout="@layout/home_px_title" />
+
+                <com.yanhao.main.yanhaoandroid.banner.SimpleImageBanner
+                    android:id="@+id/sib_simple_usage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="256px"
+                    android:background="@drawable/default_banner"
+                    banner:bb_scale="0.5625" />
+
+                <include layout="@layout/divider_settings" />
+
+                <include layout="@layout/divider_px_thick" />
+
+                <LinearLayout
+                    android:id="@+id/pull_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/read_everyday"
+                        android:layout_width="360px"
+                        android:layout_height="204px"
+                        android:layout_gravity="center_horizontal"
+                        android:background="#ffffff">
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/read_everyday_iv"
+                                android:layout_width="110px"
+                                android:layout_height="110px"
+                                android:layout_gravity="center"
+                                android:src="@drawable/shouye_meiriyidu_icon" />
+
+                            <TextView
+                                android:id="@+id/read_everyday_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15px"
+                                android:text="每日一读"
+                                android:textColor="#666666"
+                                android:textSize="36px" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/lecture_everyday"
+                        android:layout_width="360px"
+                        android:layout_height="204px"
+                        android:layout_marginLeft="1px"
+                        android:background="#ffffff">
+
+
+                        <LinearLayout
+                            android:id="@+id/lecture_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/medical_everyday_iv"
+                                android:layout_width="110px"
+                                android:layout_height="110px"
+                                android:layout_gravity="center"
+                                android:src="@drawable/shouye_xinlijiankangtijian_icon" />
+
+                            <TextView
+                                android:id="@+id/medical_everyday_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15px"
+                                android:text="心理健康测试"
+                                android:textColor="#666666"
+                                android:textSize="36px" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <include layout="@layout/divider_px_thick" />
+
+                <RelativeLayout
+                    android:id="@+id/recommended_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="74px"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:id="@+id/recommended_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="35px"
+                        android:text="专家推荐"
+                        android:textColor="#666666"
+                        android:textSize="36px" />
+
+                    <TextView
+                        android:id="@+id/recommended_tv_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="35px"
+                        android:text="更多"
+                        android:textColor="#666666"
+                        android:textSize="28px" />
+                </RelativeLayout>
+
+                <include layout="@layout/divider_settings" />
+
+                <com.yanhao.main.yanhaoandroid.banner.SimpleImageBannerConstant
+                    android:id="@+id/sib_simple_usage_recommended"
+                    android:layout_width="fill_parent"
+                    android:layout_height="335px"
+                    android:background="#ffffff"
+                    banner:bb_isAutoScrollEnable="false"
+                    banner:bb_scale="0.5625" />
+
+                <include layout="@layout/divider_px_thick" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="74px"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:id="@+id/activity_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="35px"
+                        android:text="热门活动"
+                        android:textColor="#666666"
+                        android:textSize="36px" />
+
+                </RelativeLayout>
+
+                <include layout="@layout/divider_settings" />
+
+                <ListView
+                    android:id="@+id/home_activity_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="516px"
+                    android:background="@drawable/myprofire_pressed"
+                    android:scrollbars="none"
+                    android:stackFromBottom="true" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressbar_home"
+                style="@android:style/Widget.ProgressBar"
+                android:layout_width="120px"
+                android:layout_height="120px"
+                android:layout_marginLeft="300px"
+                android:layout_marginTop="500px"
+                android:indeterminate="false"
+                android:indeterminateDrawable="@drawable/loading"
+                android:padding="10px"
+                android:visibility="visible" />
         </RelativeLayout>
-
-        <include layout="@layout/divider_settings" />
-
-        <com.yanhao.main.yanhaoandroid.banner.SimpleImageBannerConstant
-            android:id="@+id/sib_simple_usage_recommended"
-            android:layout_width="fill_parent"
-            android:layout_height="335px"
-            banner:bb_scale="0.5625"
-            android:background="#ffffff"/>
-
-        <include layout="@layout/divider_px_thick" />
-
-        <RelativeLayout
-            android:id="@+id/activity_layout"
-            android:layout_width="match_parent"
-            android:layout_height="74px"
-            android:background="#ffffff">
-
-            <TextView
-                android:id="@+id/activity_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="35px"
-                android:text="热门活动"
-                android:textColor="#666666"
-                android:textSize="36px" />
-
-        </RelativeLayout>
-
-        <include layout="@layout/divider_settings" />
-
-        <ListView
-            android:id="@+id/home_activity_listview"
-            android:layout_width="match_parent"
-            android:layout_height="516px"
-            android:scrollbars="none"
-            android:stackFromBottom="true"
-            android:background="@drawable/myprofire_pressed"/>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>
