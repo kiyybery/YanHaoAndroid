@@ -1,5 +1,6 @@
 package com.yanhao.main.yanhaoandroid;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.banner.T;
+import com.yanhao.main.yanhaoandroid.share.ShareActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -29,8 +31,8 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
     private WebView mWebView;
     private ImageView mBackImg;
     private TextView titletv;
-    private String webUrl, imageUrl, title;
-    private ImageView mBack_img, mShare_img, mLike_img, mStar_img;
+    private String webUrl, imageUrl, title, shareTitle, shareDesp, shareImageUrl, shareWebUrl;
+    private ImageView mBack_img, mShare_img, mStar_img;
 
     private class addFavorCallback extends StringCallback {
 
@@ -61,14 +63,16 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         mBack_img.setOnClickListener(this);
         mShare_img = (ImageView) findViewById(R.id.share_img);
         mShare_img.setOnClickListener(this);
-        mLike_img = (ImageView) findViewById(R.id.like_img);
-        mLike_img.setOnClickListener(this);
         mStar_img = (ImageView) findViewById(R.id.star_img);
         mStar_img.setOnClickListener(this);
 
         webUrl = getIntent().getStringExtra("webUrl");
         imageUrl = getIntent().getStringExtra("imageUrl");
         title = getIntent().getStringExtra("title");
+        shareTitle = getIntent().getStringExtra("shareTitle");
+        shareDesp = getIntent().getStringExtra("shareDesp");
+        shareImageUrl = getIntent().getStringExtra("shareImageUrl");
+        shareWebUrl = getIntent().getStringExtra("shareWebUrl");
 
         mWebView = (WebView) findViewById(R.id.webView);
         //mWebView.loadData(html, "text/html", "UTF-8");
@@ -157,10 +161,14 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.share_img:
 
-                break;
-            case R.id.like_img:
-
-                Toast.makeText(WebViewActivity.this, "已经点赞！", Toast.LENGTH_LONG).show();
+                //onShareRead(shareTitle, shareDesp, shareImageUrl, shareWebUrl);
+                Intent intent = new Intent();
+                intent.putExtra("shareTitle", shareTitle);
+                intent.putExtra("shareDesp", shareDesp);
+                intent.putExtra("shareImageUrl", shareImageUrl);
+                intent.putExtra("shareWebUrl", shareWebUrl);
+                intent.setClass(WebViewActivity.this, ShareActivity.class);
+                startActivity(intent);
                 break;
             case R.id.star_img:
                 addFavorContent();
@@ -183,5 +191,15 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                 .addParams("title", title)
                 .build()
                 .execute(new addFavorCallback());
+    }
+
+    private void onShareRead(String shareTitle, String shareDesp, String shareImageUrl, String shareWebUrl) {
+
+        Intent intent = new Intent();
+        intent.putExtra("shareTitle", shareTitle);
+        intent.putExtra("shareDesp", shareDesp);
+        intent.putExtra("shareImageUrl", shareImageUrl);
+        intent.putExtra("shareWebUrl", shareWebUrl);
+        intent.setClass(WebViewActivity.this, ShareActivity.class);
     }
 }

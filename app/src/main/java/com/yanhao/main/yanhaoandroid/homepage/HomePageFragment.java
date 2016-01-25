@@ -96,7 +96,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
                 String photoUrl = jsonObject.getString("portraitUrl");
                 String address = jsonObject.getString("city");
                 //String intro = jsonObject.getString("intro");
-                //String education = jsonObject.getString("education");
+                String education = jsonObject.getString("education");
                 JSONArray jsonArray = jsonObject.getJSONArray("specialityList");
                 String str = jsonArray.toString();
                 Log.i("str_list", str + "");
@@ -152,8 +152,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
                 //Glide.with(HomePageFragment.this).load(photoUrl).into(mTitleImg);
                 mName.setText(nick_name);
                 mAddress.setText(address);
-                /*mMyProfire.setText(intro);
-                mEduction.setText(education);*/
+                /*mMyProfire.setText(intro);*/
+                mEduction.setText(education);
 
                 myAdapter.notifyDataSetChanged();
                 myAdapter_charge.notifyDataSetChanged();

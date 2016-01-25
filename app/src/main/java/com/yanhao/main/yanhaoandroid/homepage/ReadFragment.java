@@ -61,16 +61,19 @@ public class ReadFragment extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 progressbar.setVisibility(View.GONE);
-                JSONArray ja = jsonObject.getJSONArray("readList");
+                JSONArray ja = jsonObject.getJSONArray("dailyCaseList");
                 for (int i = 0; i < ja.length(); i++) {
 
                     mBean = new CollectionBean();
                     JSONObject job = (JSONObject) ja.get(i);
-                    mBean.id = job.getInt("userId");
                     mBean.title = job.getString("title");
-                    mBean.imageView = job.getString("photoUrl");
+                    mBean.imageView = job.getString("imageUrl");
                     mBean.webUrl = job.getString("webUrl");
                     mBean.date = job.getString("createTime");
+                    mBean.shareTitle = job.getString("shareTitle");
+                    mBean.shareDesp = job.getString("shareDesp");
+                    mBean.shareImageUrl = job.getString("shareImageUrl");
+                    mBean.shareWebUrl = job.getString("shareWebUrl");
 
                     mList.add(mBean);
                 }
@@ -97,11 +100,12 @@ public class ReadFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragemnt_read, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
-        getReadInfo();
+        //getReadInfo();
+        getDailyCase();
         mListView = (ListView) view.findViewById(R.id.read_listview);
 
         mList = new ArrayList<>();
@@ -121,6 +125,10 @@ public class ReadFragment extends Fragment {
                 intent.putExtra("webUrl", mList.get(i).webUrl);
                 intent.putExtra("imageUrl", mList.get(i).imageView);
                 intent.putExtra("title", mList.get(i).title);
+                intent.putExtra("shareTitle", mList.get(i).shareTitle);
+                intent.putExtra("shareDesp", mList.get(i).shareDesp);
+                intent.putExtra("shareImageUrl", mList.get(i).shareImageUrl);
+                intent.putExtra("shareWebUrl", mList.get(i).shareWebUrl);
                 startActivity(intent);
             }
         });
@@ -137,13 +145,12 @@ public class ReadFragment extends Fragment {
         return view;
     }
 
-    private void getReadInfo() {
+    private void getDailyCase() {
 
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/home_read.txt";
+        String url = "http://210.51.190.27:8082/getDailyCase.jspa";
         OkHttpUtils
-                .postString()
+                .post()
                 .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
                 .build()
                 .execute(new MyReadCallback());
     }

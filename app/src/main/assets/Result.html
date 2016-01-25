@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>测试结果</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<link type="text/css" rel="stylesheet" href="../css/Result.css">
+<script type="text/javascript" src="../js/zepto.js"></script>
+</head>
+
+<body>
+<div class="wrap">
+	<!--<div class="opa"></div>-->
+    <div class="cont"></div>
+    <div class="main">
+   		<i></i>
+        <p>测试结果:威胁敏感性：较低-倾向于忽略威胁而不是发现威胁</p>
+    </div>
+    <div class="txt">
+    	<i></i>
+        <div>
+            <p>你拥有一些发现潜在威胁的能力但面对眼前的利益你通常会在权衡之后忽略掉利益后面隐藏的潜在威胁你比较擅长于去争取更多的利益但同后忽略掉利益后面隐藏的潜在威胁你比较擅长于去争取更多的时也可能会让自己收到更绪反但同利益但同时也可能会让自己收到更多的伤害当遭遇到明显v的危机的时候你会表现出很高的情绪反控局面将威胁排除掉而非逃离那个场合</p>
+        </div>
+    </div>
+    <div class="footer">
+    	<a href="javascript:;" id="shareBtn" onClick="sendInfoToJava()">邀请好友测试</a>
+    </div>
+</div>
+
+</body>
+<script>
+	function sendInfoToJava() {
+			window.AndroidWebView.showInfoFromJs('www.baidu.com');
+			}
+			
+			
+			
+    $(function() {
+        var clickEvent = 'ontouchmove' in window ? 'tap' : 'click';
+        var resizeEvent = 'orientationchange' in window ? 'orientationchange':'resize';
+        var resizeFunc = function() {
+            var html= document.documentElement;
+            html.style.fontSize= html.clientWidth/32+'px'; 
+        }
+        $(window).on(resizeEvent, resizeFunc);
+        resizeFunc();
+    	
+		
+    });  
+
+	
+	
+</script>
+</html>

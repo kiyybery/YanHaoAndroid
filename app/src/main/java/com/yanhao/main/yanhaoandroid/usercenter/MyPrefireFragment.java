@@ -78,6 +78,8 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
 
     RelativeLayout mUnLoginLayout;
 
+    String shareTitle, shareDesp, shareImageUrl, shareWebUrl;
+
     boolean isLogin = NewFeature.LOGIN_STATUS;
 
     public static MyPrefireFragment newInstance() {
@@ -146,6 +148,11 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
         userPhone = sp.getString("userPhone", "");
         passWord = sp.getString("password", "");
         EventBus.getDefault().register(MyPrefireFragment.this);
+
+        shareTitle = "燕好";
+        shareDesp = "来自燕好的分享";
+        shareImageUrl = "http://7xop51.com1.z0.glb.clouddn.com/yanhao_icon_72.png";
+        shareWebUrl = "";
         //Toast.makeText(getActivity(), "profire uid = " + userId, Toast.LENGTH_LONG).show();
         //透明状态栏
         //getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -329,6 +336,10 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
                 break;
             case R.id.my_profile_share:
                 intent = new Intent();
+                intent.putExtra("shareTitle", shareTitle);
+                intent.putExtra("shareDesp", shareDesp);
+                intent.putExtra("shareImageUrl", shareImageUrl);
+                intent.putExtra("shareWebUrl", shareWebUrl);
                 intent.setClass(getActivity(), ShareActivity.class);
                 startActivity(intent);
                 break;

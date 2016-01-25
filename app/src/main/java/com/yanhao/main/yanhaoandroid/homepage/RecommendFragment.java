@@ -67,7 +67,7 @@ public class RecommendFragment extends Fragment {
                     mRecommendBean = new Recommend();
                     JSONObject job = (JSONObject) jsonArray.get(i);
                     mRecommendBean.userId = job.getString("userId");
-                    mRecommendBean.pic = job.getString("photoUrl");
+                    mRecommendBean.pic = job.getString("imageUrl");
                     mRecommendBean.subName = job.getString("name");
                     mRecommendBean.level_pic = job.getInt("level");
                     mRecommendBean.distence = job.getString("address");
@@ -96,7 +96,8 @@ public class RecommendFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getData();
-        getCommendData();
+        //getCommendData();
+        getRecommendCounselor();
     }
 
     @Nullable
@@ -166,6 +167,16 @@ public class RecommendFragment extends Fragment {
                 .postString()
                 .url(url)
                 .content(new Gson().toJson(new UserInfo("zhy", "123")))
+                .build()
+                .execute(new MyRecommedCallback());
+    }
+
+    private void getRecommendCounselor(){
+
+        String url = "http://210.51.190.27:8082/getRecommendCounselor.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)
                 .build()
                 .execute(new MyRecommedCallback());
     }

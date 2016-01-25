@@ -35,6 +35,5 @@ public class YanHao extends YanHaoApplication {
     public void onCreate() {
         super.onCreate();
 
-        LeakCanary.install(this);
     }
 }

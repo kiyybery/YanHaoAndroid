@@ -5,11 +5,14 @@ package com.yanhao.main.yanhaoandroid.bean;
  */
 public class CollectionBean {
 
-    public int id;
     public String imageView;
     public String title;
     public String date;
     public String webUrl;
+    public String shareTitle;
+    public String shareDesp;
+    public String shareImageUrl;
+    public String shareWebUrl;
 
     public String getImageView() {
         return imageView;
@@ -41,6 +44,38 @@ public class CollectionBean {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getShareTitle() {
+        return shareTitle;
+    }
+
+    public void setShareTitle(String shareTitle) {
+        this.shareTitle = shareTitle;
+    }
+
+    public String getShareDesp() {
+        return shareDesp;
+    }
+
+    public void setShareDesp(String shareDesp) {
+        this.shareDesp = shareDesp;
+    }
+
+    public String getShareImageUrl() {
+        return shareImageUrl;
+    }
+
+    public void setShareImageUrl(String shareImageUrl) {
+        this.shareImageUrl = shareImageUrl;
+    }
+
+    public String getShareWebUrl() {
+        return shareWebUrl;
+    }
+
+    public void setShareWebUrl(String shareWebUrl) {
+        this.shareWebUrl = shareWebUrl;
     }
 
     @Override
