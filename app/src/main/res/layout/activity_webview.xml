@@ -25,7 +25,7 @@
     <RelativeLayout
         android:id="@+id/icon_line_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:layout_below="@+id/webView"
         android:background="#fff"
         android:orientation="horizontal">
@@ -45,9 +45,18 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="170dp"
+            android:layout_marginLeft="120dp"
             android:layout_toRightOf="@+id/back_img"
             android:src="@drawable/case_share_select" />
+
+        <ImageView
+            android:id="@+id/like_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="38dp"
+            android:layout_toRightOf="@+id/share_img"
+            android:src="@drawable/case_like_select" />
 
         <ImageView
             android:id="@+id/star_img"
@@ -55,7 +64,7 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="38dp"
-            android:layout_toRightOf="@+id/share_img"
+            android:layout_toRightOf="@+id/like_img"
             android:src="@drawable/case_star_select" />
 
     </RelativeLayout>

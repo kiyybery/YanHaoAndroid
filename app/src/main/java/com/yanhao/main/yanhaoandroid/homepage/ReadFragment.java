@@ -70,6 +70,7 @@ public class ReadFragment extends Fragment {
                     mBean.imageView = job.getString("imageUrl");
                     mBean.webUrl = job.getString("webUrl");
                     mBean.date = job.getString("createTime");
+
                     mBean.shareTitle = job.getString("shareTitle");
                     mBean.shareDesp = job.getString("shareDesp");
                     mBean.shareImageUrl = job.getString("shareImageUrl");
@@ -125,6 +126,7 @@ public class ReadFragment extends Fragment {
                 intent.putExtra("webUrl", mList.get(i).webUrl);
                 intent.putExtra("imageUrl", mList.get(i).imageView);
                 intent.putExtra("title", mList.get(i).title);
+
                 intent.putExtra("shareTitle", mList.get(i).shareTitle);
                 intent.putExtra("shareDesp", mList.get(i).shareDesp);
                 intent.putExtra("shareImageUrl", mList.get(i).shareImageUrl);

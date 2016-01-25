@@ -32,7 +32,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView mBackImg;
     private TextView titletv;
     private String webUrl, imageUrl, title, shareTitle, shareDesp, shareImageUrl, shareWebUrl;
-    private ImageView mBack_img, mShare_img, mStar_img;
+    private ImageView mBack_img, mShare_img, mLike_img, mStar_img;
 
     private class addFavorCallback extends StringCallback {
 
@@ -63,6 +63,8 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         mBack_img.setOnClickListener(this);
         mShare_img = (ImageView) findViewById(R.id.share_img);
         mShare_img.setOnClickListener(this);
+        mLike_img = (ImageView) findViewById(R.id.like_img);
+        mLike_img.setOnClickListener(this);
         mStar_img = (ImageView) findViewById(R.id.star_img);
         mStar_img.setOnClickListener(this);
 
@@ -161,14 +163,18 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.share_img:
 
-                //onShareRead(shareTitle, shareDesp, shareImageUrl, shareWebUrl);
-                Intent intent = new Intent();
+                onShareRead(shareTitle, shareDesp, shareImageUrl, shareWebUrl);
+                /*Intent intent = new Intent();
                 intent.putExtra("shareTitle", shareTitle);
                 intent.putExtra("shareDesp", shareDesp);
                 intent.putExtra("shareImageUrl", shareImageUrl);
                 intent.putExtra("shareWebUrl", shareWebUrl);
                 intent.setClass(WebViewActivity.this, ShareActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                break;
+            case R.id.like_img:
+
+                Toast.makeText(WebViewActivity.this, "已经点赞！", Toast.LENGTH_LONG).show();
                 break;
             case R.id.star_img:
                 addFavorContent();
@@ -184,7 +190,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", "H+csS/mcKCU=")
+                .addParams("userId", "WbqhSt2gqUU=")
                 .addParams("type", "1")
                 .addParams("imageUrl", imageUrl)
                 .addParams("contentUrl", webUrl)
@@ -201,5 +207,6 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("shareImageUrl", shareImageUrl);
         intent.putExtra("shareWebUrl", shareWebUrl);
         intent.setClass(WebViewActivity.this, ShareActivity.class);
+        startActivity(intent);
     }
 }
