@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yanhao.main.yanhaoandroid.R;
@@ -23,7 +24,7 @@ public class GridViewAdapter extends BaseAdapter {
     private Context mContext;
     private List<Type> mList;
     boolean isSelect;
-    private int selectedPosition = -1;
+    private int selectedPosition = 0;
 
     public void setSelectedPosition(int position) {
         selectedPosition = position;
@@ -57,15 +58,18 @@ public class GridViewAdapter extends BaseAdapter {
         view = LayoutInflater.from(mContext).inflate(R.layout.item, null);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
         final TextView textView = (TextView) view.findViewById(R.id.ask_tv_item);
+        ImageView imageView = (ImageView) view.findViewById(R.id.check_img);
         textView.setText(type.text);
 
         if (i == selectedPosition) {
 
             textView.setSelected(true);
+            imageView.setVisibility(View.VISIBLE);
             isSelect = true;
         } else {
 
             textView.setSelected(false);
+            imageView.setVisibility(View.GONE);
             isSelect = false;
         }
         return view;

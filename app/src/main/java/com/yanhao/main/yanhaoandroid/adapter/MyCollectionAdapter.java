@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
-import com.yanhao.main.yanhaoandroid.bean.CollectionBean;
+import com.yanhao.main.yanhaoandroid.bean.MyCollection;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.yanhao.main.yanhaoandroid.util.XCRoundRectImageView;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -22,18 +22,19 @@ import com.zhy.http.okhttp.callback.BitmapCallback;
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/12/7 0007.
+ * Created by Administrator on 2016/1/26 0026.
  */
-public class ReadAdapter extends BaseAdapter {
+public class MyCollectionAdapter extends BaseAdapter {
 
-    private List<CollectionBean> mList;
-    private LayoutInflater mInflater;
     private Context mContext;
+    private List<MyCollection> mList;
+    private LayoutInflater mInflater;
 
-    public ReadAdapter(List<CollectionBean> mList, Context context) {
+    public MyCollectionAdapter(List<MyCollection> mList, Context context) {
+
         this.mList = mList;
         this.mInflater = LayoutInflater.from(context);
-        mContext = context;
+        this.mContext = context;
     }
 
     @Override
@@ -53,48 +54,30 @@ public class ReadAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
         final ViewHolder viewHolder;
         if (view == null) {
             viewHolder = new ViewHolder();
-            view = mInflater.inflate(R.layout.fragment_read_item, null);
+            view = mInflater.inflate(R.layout.mycollection_item, null);
             RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
-            viewHolder.imageView = (ImageView) view.findViewById(R.id.read_pic);
-            viewHolder.title_tv = (TextView) view.findViewById(R.id.title_name);
-            viewHolder.time_tv = (TextView) view.findViewById(R.id.read_time_tv);
+
+            viewHolder.imageView = (ImageView) view.findViewById(R.id.mycollection_img);
+            viewHolder.textView = (TextView) view.findViewById(R.id.title_tv);
             view.setTag(viewHolder);
         } else {
 
             viewHolder = (ViewHolder) view.getTag();
         }
-        String url = mList.get(i).imageView;
-        /*OkHttpUtils.get()
-                .url(url)
-                .tag(this)
-                .build()
-                .connTimeOut(20000)
-                .readTimeOut(20000)
-                .writeTimeOut(20000)
-                .execute(new BitmapCallback(){
-                    @Override
-                    public void onError(Request request, Exception e) {
 
-                    }
-
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-
-                        viewHolder.imageView.setImageBitmap(bitmap);
-                    }
-                });*/
-        Glide.with(mContext).load(url).into(viewHolder.imageView);
-        viewHolder.title_tv.setText(mList.get(i).getTitle());
-        viewHolder.time_tv.setText(mList.get(i).getDate());
+        String imageUrl = mList.get(i).imageUrl;
+        Glide.with(mContext).load(imageUrl).into(viewHolder.imageView);
+        viewHolder.textView.setText(mList.get(i).title);
         return view;
     }
 
     class ViewHolder {
 
         ImageView imageView;
-        TextView title_tv, time_tv;
+        TextView textView;
     }
 }

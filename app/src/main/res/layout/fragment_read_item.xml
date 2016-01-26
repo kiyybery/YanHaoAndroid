@@ -12,7 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="230px">
 
-        <com.yanhao.main.yanhaoandroid.util.XCRoundRectImageView
+        <!--<com.yanhao.main.yanhaoandroid.util.XCRoundRectImageView
+            android:id="@+id/read_pic"
+            android:layout_width="240px"
+            android:layout_height="180px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="35px"
+            android:src="@drawable/uc_my_background" />-->
+        <ImageView
             android:id="@+id/read_pic"
             android:layout_width="240px"
             android:layout_height="180px"

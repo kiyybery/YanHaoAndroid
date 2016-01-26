@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/area_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="230px"
+        android:layout_height="90px"
         android:background="@drawable/actionsheet_selector"
-        android:paddingTop="25px"
-        android:paddingBottom="25px"
-        android:paddingRight="45px"
-        android:paddingLeft="45px"
-        android:text="10:00 - 11:00"
-        android:layout_marginTop="25px"
-        android:textColor="@color/calendar_text_selector"
-        android:textSize="34px" />
+        android:gravity="center"
+        android:padding="25px"
+        android:text="11:00-12:00"
+        android:textSize="28px"
+        android:layout_marginLeft="15px"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/check_img_icon"
+        android:layout_width="40px"
+        android:layout_height="40px"
+        android:layout_alignBottom="@+id/area_tv"
+        android:layout_alignEnd="@+id/area_tv"
+        android:layout_alignRight="@+id/area_tv"
+        android:background="@drawable/icon_select_check"
+        android:visibility="visible" />
+
+</RelativeLayout>

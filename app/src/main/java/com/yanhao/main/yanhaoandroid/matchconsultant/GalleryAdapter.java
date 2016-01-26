@@ -24,7 +24,7 @@ public class GalleryAdapter extends
     private Context mContext;
     private boolean isSelect;
 
-    private int selectedPosition = -1;
+    private int selectedPosition = 0;
 
     public void setSelectedPosition(int position) {
         selectedPosition = position;

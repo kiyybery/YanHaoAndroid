@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.Selection;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Request;
@@ -28,6 +30,8 @@ import com.yanhao.main.yanhaoandroid.http.NHttpCallback;
 import com.yanhao.main.yanhaoandroid.http.NHttpProxy;
 import com.yanhao.main.yanhaoandroid.http.NHttpRequest;
 import com.yanhao.main.yanhaoandroid.http.NHttpResponse;
+import com.yanhao.main.yanhaoandroid.test.TestWebViewActivity;
+import com.yanhao.main.yanhaoandroid.test.WebViewTest;
 import com.yanhao.main.yanhaoandroid.util.Des;
 import com.yanhao.main.yanhaoandroid.util.LogUtil;
 import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
@@ -57,6 +61,7 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
     String user;
     String rigstCode;
     String pwd;
+    private TextView action_tv;
 
     private Handler mHandler = new Handler() {
 
@@ -198,7 +203,10 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
         mAccount_register_get_code_btn = (Button) view.findViewById(R.id.account_register_get_code_btn);
         btnRegister = (Button) view.findViewById(R.id.btnRegister);
         mRigst_show_pwd = (ImageButton) view.findViewById(R.id.rigst_show_pwd);
+        action_tv = (TextView) view.findViewById(R.id.action_tv);
+        action_tv.setText(Html.fromHtml("<u>" + "使用条款和隐私政策" + "</u>"));
 
+        action_tv.setOnClickListener(this);
         mAccount_register_get_code_btn.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         mRigst_show_pwd.setOnClickListener(this);
@@ -246,6 +254,17 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
                     rigst();
                 }
                 break;
+
+            case R.id.action_tv:
+
+                Intent intent = new Intent();
+                intent.putExtra("webUrl", "http://210.51.190.23/html/userrule.html");
+                intent.setClass(getActivity(), WebViewTest.class);
+                startActivity(intent);
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -273,7 +292,7 @@ public class RigstFragment extends Fragment implements View.OnClickListener {
         String username = SecurityUtil.encrypt(user_input);
         String url_username = null;
         try {
-            url_username = URLEncoder.encode(username,"utf-8");
+            url_username = URLEncoder.encode(username, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

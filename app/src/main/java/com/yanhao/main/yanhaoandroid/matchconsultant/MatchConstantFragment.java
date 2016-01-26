@@ -226,7 +226,8 @@ public class MatchConstantFragment extends Fragment implements
 
     private void getCounselor(String category, String item) {
 
-        String url = "http://210.51.190.27:8082/matchCounselor.jspa";
+        //String url = "http://210.51.190.27:8082/matchCounselor.jspa";
+        String url = YanHao.api_base + "matchCounselor.jspa";
         OkHttpUtils
                 .post()//
                 .url(url)//

@@ -43,6 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,6 +62,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
     String nick_name, loaction, photourl;
 
     private static final int REQUEST_MODIFY_AVATAR = 500;
+    private static final int REQUEST_MODIFY_LOGOUT = 501;
 
     private Map<String, String> tempUserInfo = new HashMap<>();
 
@@ -240,10 +242,16 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
 
         Log.d("harvic", msg);
         if (!type.getMsg().equals("")) {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
             mUnLoginLayout.setVisibility(View.GONE);
             getUserInfo(type.getMsg(), type.getPwd());
             mUpdate_tv.setVisibility(View.VISIBLE);
+        } else if (type.getPwd().equals("logout")) {
+            Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            mUnLoginLayout.setVisibility(View.VISIBLE);
+            mUpdate_tv.setVisibility(View.GONE);
+            mName_tv.setText(nick_name);
+            Glide.with(MyPrefireFragment.this).load(R.drawable.avatar_default).into(mCircleImageView);
         }
     }
 
@@ -284,7 +292,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
         drawable_note_left.setBounds(0, 0, 70, 70);
         mNote_tv.setCompoundDrawables(drawable_note_left, null, drawable_order_right, null);
 
-        Drawable drawable_in_left = getResources().getDrawable(R.drawable.uc_setting);
+        Drawable drawable_in_left = getResources().getDrawable(R.drawable.inall_conutor);
         drawable_in_left.setBounds(0, 0, 70, 70);
         mIn_tv.setCompoundDrawables(drawable_in_left, null, drawable_order_right, null);
 
@@ -319,7 +327,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
                 break;
             case R.id.my_profile_collection:
                 intent = new Intent();
-                intent.setClass(getActivity(), ReadActivity.class);
+                intent.setClass(getActivity(), CollectionActivity.class);
                 startActivity(intent);
                 break;
             case R.id.my_profile_note:
@@ -332,7 +340,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
 
                 intent = new Intent();
                 intent.setClass(getActivity(), SettingActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_MODIFY_LOGOUT);
                 break;
             case R.id.my_profile_share:
                 intent = new Intent();
@@ -406,6 +414,11 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
 
                     view = inflater.inflate(R.layout.prefire_fragment, null);
                 }
+                break;
+
+            case REQUEST_MODIFY_LOGOUT:
+
+                view = inflater.inflate(R.layout.prefire_fragment, null);
                 break;
             default:
                 break;

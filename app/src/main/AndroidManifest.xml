@@ -33,7 +33,7 @@
     <application
         android:name=".YanHao"
         android:allowBackup="true"
-        android:icon="@mipmap/yanhao_icon_72"
+        android:icon="@mipmap/yanhao_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
@@ -90,6 +90,7 @@
         <activity android:name=".test.TestWebViewActivity" />
         <activity android:name=".matchconsultant.TimeMainActivity" />
         <activity android:name=".test.WebViewTest" />
+        <activity android:name=".usercenter.CollectionActivity"/>
 
 
         <!-- ###################友盟相关的注册SDK使用的Activity###################### -->

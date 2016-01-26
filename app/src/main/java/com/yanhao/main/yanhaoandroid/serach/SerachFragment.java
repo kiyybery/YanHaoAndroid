@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
         public void onResponse(String s) {
             //Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
 
+            mContent.clear();
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONArray array = jsonObject.getJSONArray("counselorList");
@@ -146,6 +148,21 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+        serach_et.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                if (KeyEvent.KEYCODE_ENTER == i && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+
+                    try {
+                        serach();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return true;
             }
         });
         mListView = (ListView) view.findViewById(R.id.history_serach_list);

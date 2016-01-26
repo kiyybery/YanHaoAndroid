@@ -135,7 +135,7 @@ public class ReadFragment extends Fragment {
             }
         });
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
-        mTitle.setText(titleName);
+        mTitle.setText("案例分析");
 
         mBack = (LinearLayout) view.findViewById(R.id.ll_section_title_back);
         mBack.setOnClickListener(new View.OnClickListener() {

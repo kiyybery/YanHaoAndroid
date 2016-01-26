@@ -96,7 +96,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mRigstFragment = new RigstFragment();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, mRigstFragment).commit();
-                Toast.makeText(LoginActivity.this, "rigst", Toast.LENGTH_LONG).show();
                 mPinnedIndicator.animate().x(mSlidrigst);
                 mPinnedIndicator.setX(mSlidrigst);
                 isRight = false;

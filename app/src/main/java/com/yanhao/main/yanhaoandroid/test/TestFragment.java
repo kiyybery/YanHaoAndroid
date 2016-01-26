@@ -227,6 +227,14 @@ public class TestFragment extends Fragment implements View.OnClickListener {
         pw.setFocusable(true);
         pw.setBackgroundDrawable(new BitmapDrawable());
         pw.showAsDropDown(getActivity().findViewById(R.id.iv_section_title_right));
+        TextView all_tv = (TextView) v.findViewById(R.id.all_tv);
+        all_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getTestItem();
+                pw.dismiss();
+            }
+        });
         TextView marry_tv = (TextView) v.findViewById(R.id.marry_tv);
         marry_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,7 +335,8 @@ public class TestFragment extends Fragment implements View.OnClickListener {
 
     private void getTestItem() {
 
-        String url = "http://210.51.190.27:8082/getTestHome.jspa";
+        //String url = "http://210.51.190.27:8082/getTestHome.jspa";
+        String url = YanHao.api_base + "getTestHome.jspa";
         OkHttpUtils
                 .post()
                 .url(url)
@@ -341,7 +350,8 @@ public class TestFragment extends Fragment implements View.OnClickListener {
 
         progressBar.setVisibility(View.VISIBLE);
         mList.clear();
-        String url = "http://210.51.190.27:8082/getCategoryScale.jspa";
+        //String url = "http://210.51.190.27:8082/getCategoryScale.jspa";
+        String url = YanHao.api_base + "getCategoryScale.jspa";
         OkHttpUtils
                 .post()
                 .url(url)

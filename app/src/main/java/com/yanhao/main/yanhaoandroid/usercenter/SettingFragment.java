@@ -17,6 +17,9 @@ import android.widget.Toast;
 import com.yanhao.main.yanhaoandroid.MainActivity;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.util.AlertDialogFrag;
+import com.yanhao.main.yanhaoandroid.util.Type;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/11/9 0009.
@@ -155,7 +158,14 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         Toast.makeText(getActivity(), "退出成功", Toast.LENGTH_LONG).show();
         Intent intent = new Intent();
         intent.setClass(getActivity(), MainActivity.class);
-        startActivity(intent);
+        finish(Activity.RESULT_OK, intent);
+        EventBus.getDefault().post(new Type("", "logout"));
+    }
 
+    protected void finish(int resultCode, Intent data) {
+        if (getActivity() != null) {
+            getActivity().setResult(resultCode, data);
+            getActivity().finish();
+        }
     }
 }

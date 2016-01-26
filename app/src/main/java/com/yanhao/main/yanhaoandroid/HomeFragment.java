@@ -317,29 +317,10 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
         return view;
     }
 
-    private void getHomePageInfo() {
-
-        String url = YanHao.QINIU_URL + "json_home_1.txt";
-        OkHttpUtils.postString()
-                .url(url)
-                .build()
-                .execute(new MyHomePageCallback());
-    }
-
-    public void postString() {
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/json_home_1_05.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyHomePageCallback());
-
-    }
-
     public void postHomeInfo() {
 
-        String url = "http://210.51.190.27:8082/getHome.jspa";
+        //String url = "http://210.51.190.27:8082/getHome.jspa";
+        String url = YanHao.api_base + "getHome.jspa";
         OkHttpUtils
                 .post()
                 .url(url)

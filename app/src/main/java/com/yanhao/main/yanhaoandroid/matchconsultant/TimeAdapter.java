@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yanhao.main.yanhaoandroid.R;
@@ -21,7 +22,7 @@ public class TimeAdapter extends BaseAdapter {
     private Context mContext;
     private List<ScheduleData> mList;
     boolean isSelect;
-    private int selectedPosition = -1;
+    private int selectedPosition = 0;
 
     public void setSelectedPosition(int position) {
         selectedPosition = position;
@@ -60,16 +61,19 @@ public class TimeAdapter extends BaseAdapter {
         view = LayoutInflater.from(mContext).inflate(R.layout.fragment_card, null);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
         final TextView areaTextView = (TextView) view.findViewById(R.id.area_tv);
+        ImageView select_img = (ImageView) view.findViewById(R.id.check_img_icon);
         areaTextView.setText(data.period);
 
 
         if (i == selectedPosition) {
 
             areaTextView.setSelected(true);
+            select_img.setVisibility(View.VISIBLE);
             isSelect = true;
         } else {
 
             areaTextView.setSelected(false);
+            select_img.setVisibility(View.GONE);
             isSelect = false;
         }
 

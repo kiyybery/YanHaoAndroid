@@ -96,13 +96,13 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
 
                 if (level == 1) {
 
-                    Glide.with(OrderContantFragment.this).load(R.drawable.yiji_icon).into(mLevel);
+                    Glide.with(OrderContantFragment.this).load(R.drawable.level_icon_yiji).into(mLevel);
                 } else if (level == 2) {
 
-                    Glide.with(OrderContantFragment.this).load(R.drawable.erji_icon).into(mLevel);
+                    Glide.with(OrderContantFragment.this).load(R.drawable.level_icon_erji).into(mLevel);
                 } else if (level == 3) {
 
-                    Glide.with(OrderContantFragment.this).load(R.drawable.sanji_icon).into(mLevel);
+                    Glide.with(OrderContantFragment.this).load(R.drawable.level_icon_sanji).into(mLevel);
                 }
                 mName.setText(nickname);
                 mAddress.setText(address);

@@ -19,7 +19,6 @@ public class YanHao extends YanHaoApplication {
 
     //测试地址
     public static final String HOST_URL = "http://118.144.79.221:8080";
-    public static final String api_base = HOST_URL + File.separator;
     public static final String URL = "http://210.51.190.27:8082/";
 
     public static final String QINIU_URL = "http://7xop51.com1.z0.glb.clouddn.com/";
@@ -29,7 +28,8 @@ public class YanHao extends YanHaoApplication {
 
     public static final String KEY = "zhipengapp!@#$%^&*";
 
-
+    public static final String MAIN_URL = "http://yh.izhipeng.com";
+    public static final String api_base = MAIN_URL + File.separator;
 
     @Override
     public void onCreate() {
