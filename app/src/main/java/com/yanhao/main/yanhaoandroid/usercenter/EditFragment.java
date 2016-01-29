@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -54,6 +56,9 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private String name;
     private String userId;
     private String password;
+    private String intro;
+    private int gender;
+    private LinearLayout mFinish;
 
     String path = "";
     private static final String TAG = EditFragment.class.getSimpleName();
@@ -64,6 +69,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     public static final int REQUEST_MODIFY_USERNAME = 505;
     public static final int REQUEST_MODIFY_SEX = 506;
     public static final int REQUEST_MODIFY_CITY = 507;
+    public static final int REQUEST_MODIFY_PROFIRE = 508;
     private Map<String, String> tempUserInfo = new HashMap<>();
 
     SharedPreferences sp;
@@ -191,16 +197,23 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         //T.show(getActivity(), userId + name, 100);
         View view = inflater.inflate(R.layout.fragment_edit, container, false);
 
-        getUserInfo(name, password);
+        //getUserInfo(name, password);
 
         name = getArguments().getString("username");
         //mShowError = (TextView) view.findViewById(R.id.show_error);
         mFinish_tv = (TextView) view.findViewById(R.id.tv_text_title_right);
         mName_tv = (TextView) view.findViewById(R.id.edit_name);
-        mName_tv.setText(name);
+        mName_tv.setText(PrefHelper.get().getString("username", ""));
         mSex_tv = (TextView) view.findViewById(R.id.edit_sex);
+        mSex_tv.setText(PrefHelper.get().getString("sex", ""));
         mCity_tv = (TextView) view.findViewById(R.id.edit_address);
+        mCity_tv.setText(PrefHelper.get().getString("city_name", ""));
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar_edit);
+        Glide.with(EditFragment.this)
+                .load(Uri.fromFile(new File(PrefHelper.get().getString("avatars", ""))))
+                .dontTransform()
+                .error(R.drawable.kuangge)
+                .into(mCircleImageView);
         mName_layout = (RelativeLayout) view.findViewById(R.id.name_layout);
         mSex_layout = (RelativeLayout) view.findViewById(R.id.sex_layout);
         mAddress_layout = (RelativeLayout) view.findViewById(R.id.address_layout);
@@ -253,7 +266,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
                 intent = new Intent();
                 intent.setClass(getActivity(), ProFireActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_MODIFY_PROFIRE);
                 break;
             case R.id.iv_uc_avatar_edit:
 
@@ -266,6 +279,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_text_title_right:
 
                 updateProfile();
+                getActivity().finish();
                 break;
             default:
                 break;
@@ -311,7 +325,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                     multiFileUpload();
                 }
                 tempUserInfo.put("avatars", path);
-
+                PrefHelper.get().put("avatars", path);
+                Log.i("avatars_path", path);
 
                 break;
 
@@ -324,19 +339,36 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 break;
             case REQUEST_MODIFY_USERNAME:
                 String name = data.getStringExtra("username");
+                PrefHelper.get().put("username", data.getStringExtra("username"));
                 mName_tv.setText(name);
                 editor.putString("nickName", name);
                 tempUserInfo.put("username", name);
                 break;
             case REQUEST_MODIFY_SEX:
                 String sex = data.getStringExtra("sex");
+                if (sex.equals("男")) {
+
+                    gender = 1;
+                } else {
+
+                    gender = 0;
+                }
+                PrefHelper.get().put("sex", data.getStringExtra("sex"));
                 mSex_tv.setText(sex);
                 tempUserInfo.put("sex", sex);
                 break;
             case REQUEST_MODIFY_CITY:
                 String cityname = data.getStringExtra("city_name");
+                PrefHelper.get().put("city_name", data.getStringExtra("city_name"));
                 mCity_tv.setText(cityname);
                 tempUserInfo.put("cityname", cityname);
+                break;
+
+            case REQUEST_MODIFY_PROFIRE:
+                intro = data.getStringExtra("intro");
+                PrefHelper.get().put("intro", data.getStringExtra("intro"));
+                Log.i("intro_profire", intro);
+                break;
             default:
                 break;
         }
@@ -363,14 +395,14 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         }
 
         String url = "http://210.51.190.27:8082/updateProfile.jspa";
-        String intro = URLEncoder.encode("12312akiu");
+        //String intro = URLEncoder.encode("12312akiu");
 
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", userId)
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
                 .addParams("nickName", mName_tv.getText().toString())
-                .addParams("gender", "1")
+                .addParams("gender", gender + "")
                 .addParams("city", mCity_tv.getText().toString())
                 .addParams("intro", intro)
                 .addParams("portrait", img_path)
@@ -398,7 +430,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 .execute(new UpdateProFileCallBack());
     }
 
-    private void getUserInfo(String userName, String passWord) {
+    /*private void getUserInfo(String userName, String passWord) {
 
         String url = "http://210.51.190.27:8082/login.jspa";
         OkHttpUtils
@@ -408,5 +440,5 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 .addParams("password", SecurityUtil.encrypt(passWord))//
                 .build()//
                 .execute(new MyStringCallback());
-    }
+    }*/
 }

@@ -8,17 +8,29 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by Administrator on 2016/1/26 0026.
  */
-public class CollectionActivity extends AppCompatActivity{
+public class CollectionActivity extends AppCompatActivity {
     FragmentManager fm = getSupportFragmentManager();
+    String type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            FragmentTransaction ft = fm.beginTransaction();
-            CollectionFragment productionResultFrg = CollectionFragment.newInstance();
-            ft.add(android.R.id.content, productionResultFrg);
-            ft.commit();
+            type = getIntent().getStringExtra("type");
+            if (type.equals("1")) {
+
+                FragmentTransaction ft = fm.beginTransaction();
+                MyTestFragment productionResultFrg = MyTestFragment.newInstance();
+                ft.add(android.R.id.content, productionResultFrg);
+                ft.commit();
+            } else {
+
+                FragmentTransaction ft = fm.beginTransaction();
+                CollectionFragment productionResultFrg = CollectionFragment.newInstance();
+                ft.add(android.R.id.content, productionResultFrg);
+                ft.commit();
+            }
+
         }
     }
 

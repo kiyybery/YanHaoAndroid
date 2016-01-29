@@ -8,22 +8,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/section_title" />
+        <include layout="@layout/section_px_title" />
 
         <ListView
-            android:id="@+id/consult_listview"
+            android:id="@+id/my_test_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/myprofire_pressed"
             android:scrollbars="none" />
+
+        <include layout="@layout/divider_settings" />
 
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/progressbar_Consult"
+        android:id="@+id/progressbar_my_test"
         style="@android:style/Widget.ProgressBar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="120px"
+        android:layout_height="120px"
         android:layout_centerInParent="true"
         android:indeterminate="false"
         android:indeterminateDrawable="@drawable/loading"

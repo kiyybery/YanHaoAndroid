@@ -56,11 +56,11 @@
                             android:layout_width="60px"
                             android:layout_height="35px"
                             android:layout_alignParentTop="true"
-                            android:layout_marginTop="40px"
                             android:layout_marginLeft="15px"
+                            android:layout_marginTop="40px"
                             android:layout_toEndOf="@+id/consultant_name"
                             android:layout_toRightOf="@+id/consultant_name"
-                            android:src="@drawable/erji_icon" />
+                            android:src="@drawable/level_icon_erji" />
 
                     </RelativeLayout>
 

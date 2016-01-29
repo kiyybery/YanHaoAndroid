@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@drawable/myprofire_pressed"
+    android:orientation="horizontal"
+    android:padding="15px">
 
     <RelativeLayout
         android:id="@+id/relativeLayout_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15px"
         android:layout_marginLeft="15px"
-        android:layout_marginTop="15px">
+        android:layout_marginTop="10px">
 
         <!--<com.yanhao.main.yanhaoandroid.util.XCRoundRectImageView
             android:id="@+id/mycollection_img"
@@ -20,8 +21,7 @@
         <ImageView
             android:id="@+id/mycollection_img"
             android:layout_width="240px"
-            android:layout_height="180px"
-             />
+            android:layout_height="180px" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -36,17 +36,18 @@
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="111"
+            android:text="______"
             android:textSize="28px" />
 
         <TextView
             android:id="@+id/time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="185px"
+            android:layout_marginLeft="175px"
             android:layout_marginTop="125px"
             android:text="2015年12月12日"
             android:textSize="28px" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <include layout="@layout/divider_settings" />
+</LinearLayout>

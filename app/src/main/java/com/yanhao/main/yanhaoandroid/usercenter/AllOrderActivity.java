@@ -8,16 +8,34 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by Administrator on 2015/11/11 0011.
  */
-public class AllOrderActivity extends AppCompatActivity{
+public class AllOrderActivity extends AppCompatActivity {
+
+    private String consultTypeName, counselorName, reservationTime, portraitUrl, address, serviceTel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState == null){
+        counselorName = getIntent().getStringExtra("counselorName");
+        consultTypeName = getIntent().getStringExtra("consultTypeName");
+        reservationTime = getIntent().getStringExtra("reservationTime");
+        portraitUrl = getIntent().getStringExtra("portraitUrl");
+        address = getIntent().getStringExtra("address");
+        serviceTel = getIntent().getStringExtra("servicetel");
+
+        if (savedInstanceState == null) {
+
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            PersonalOrderFragment productionResultFrg = PersonalOrderFragment.newInstance();
+            ConsultantOrderFragment productionResultFrg = ConsultantOrderFragment.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putString("counselorName", counselorName);
+            bundle.putString("consultTypeName", consultTypeName);
+            bundle.putString("reservationTime", reservationTime);
+            bundle.putString("portraitUrl", portraitUrl);
+            bundle.putString("address", address);
+            bundle.putString("servicetel", serviceTel);
+            productionResultFrg.setArguments(bundle);
             ft.add(android.R.id.content, productionResultFrg);
             ft.commit();
 

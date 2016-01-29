@@ -10,6 +10,42 @@ public class OrderBean {
     public String level;
     public String area;
     public String data;
+    public String address;
+    public String servicetel;
+    public int reservationId;
+    public int payStatus;
+
+    public int getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public int getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(int payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getServicetel() {
+        return servicetel;
+    }
+
+    public void setServicetel(String servicetel) {
+        this.servicetel = servicetel;
+    }
 
     public String getImageview() {
         return imageview;

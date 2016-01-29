@@ -33,7 +33,9 @@ import com.yanhao.main.yanhaoandroid.login.LoginActivity;
 import com.yanhao.main.yanhaoandroid.share.ShareActivity;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
+import com.yanhao.main.yanhaoandroid.util.GetUid;
 import com.yanhao.main.yanhaoandroid.util.NewFeature;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.yanhao.main.yanhaoandroid.util.Type;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -84,6 +86,8 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
 
     boolean isLogin = NewFeature.LOGIN_STATUS;
 
+    String path = PrefHelper.get().getString("portraitUrl", "");
+
     public static MyPrefireFragment newInstance() {
 
         MyPrefireFragment fragment = new MyPrefireFragment();
@@ -119,10 +123,11 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
                 JSONObject jsonObject = new JSONObject(s);
                 String userId = jsonObject.getString("userId");
                 String nick_name = jsonObject.getString("nickName");
-                String imgUrl = jsonObject.getString("portraitUrl");
+                final String imgUrl = jsonObject.getString("portraitUrl");
 
-                mName_tv.setText(nick_name);
-                Glide.with(MyPrefireFragment.this).load(imgUrl).into(mCircleImageView);
+                //mName_tv.setText(nick_name);
+                //Glide.with(MyPrefireFragment.this).load(imgUrl).placeholder(R.drawable.avatar_default).into(mCircleImageView);
+                EventBus.getDefault().post(new GetUid(userId));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -163,8 +168,17 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
         view = inflater.inflate(R.layout.prefire_fragment, container, false);
         //getUserInfo(userPhone, passWord);
 
+
         mName_tv = (TextView) view.findViewById(R.id.tv_uc_nickname);
-        mName_tv.setText(userName);
+
+
+        if (!PrefHelper.get().getString("username", "").equals("")) {
+
+            mName_tv.setText(PrefHelper.get().getString("username", ""));
+        } else {
+
+            mName_tv.setText("燕好用户");
+        }
         mAddress_tv = (TextView) view.findViewById(R.id.tv_uc_address);
 
         mUpdate_tv = (TextView) view.findViewById(R.id.reupdate_tv);
@@ -173,13 +187,16 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
 
             mUnLoginLayout.setVisibility(View.GONE);
             mUpdate_tv.setVisibility(View.VISIBLE);
-            getUserInfo(userName, passWord);
+            //getUserInfo(userName, passWord);
         } else {
 
             mUpdate_tv.setVisibility(View.GONE);
             mUnLoginLayout.setVisibility(View.VISIBLE);
         }
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar);
+
+        Log.i("avatars_path", path);
+        Glide.with(MyPrefireFragment.this).load(path).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
         //mCircleImageView.setImageResource(R.drawable.imgmengmengava);
         //mCircleImageView.setOnClickListener(this);
         mOrder_tv = (TextView) view.findViewById(R.id.my_profile_order);
@@ -208,6 +225,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
         mSetting_tv.setOnClickListener(this);
         mCollection_tv.setOnClickListener(this);
         mShare_tv.setOnClickListener(this);
+        mTest_tv.setOnClickListener(this);
         setTVDrawable();
 
         return view;
@@ -244,10 +262,11 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
         if (!type.getMsg().equals("")) {
             //Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
             mUnLoginLayout.setVisibility(View.GONE);
-            getUserInfo(type.getMsg(), type.getPwd());
+            //getUserInfo(type.getMsg(), type.getPwd());
             mUpdate_tv.setVisibility(View.VISIBLE);
+            Glide.with(MyPrefireFragment.this).load(path).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
         } else if (type.getPwd().equals("logout")) {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
             mUnLoginLayout.setVisibility(View.VISIBLE);
             mUpdate_tv.setVisibility(View.GONE);
             mName_tv.setText(nick_name);
@@ -256,7 +275,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
     }
 
 
-    public void getUserInfo(String phone, String pwd) {
+    /*public void getUserInfo(String phone, String pwd) {
 
         String url = "http://210.51.190.27:8082/login.jspa";
         String mobile = SecurityUtil.encrypt(phone);
@@ -270,7 +289,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
                         //.addParams("password", SecurityUtil.encrypt(passWord))
                 .build()//
                 .execute(new MyStringCallback());
-    }
+    }*/
 
     public void setTVDrawable() {
 
@@ -324,9 +343,14 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
                 break;
             case R.id.my_profile_test:
 
+                intent = new Intent();
+                intent.putExtra("type", "1");
+                intent.setClass(getActivity(), CollectionActivity.class);
+                startActivity(intent);
                 break;
             case R.id.my_profile_collection:
                 intent = new Intent();
+                intent.putExtra("type", "2");
                 intent.setClass(getActivity(), CollectionActivity.class);
                 startActivity(intent);
                 break;
@@ -430,7 +454,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                getUserInfo(userPhone, passWord);
+                //getUserInfo(userPhone, passWord);
                 swipe.setRefreshing(false);
             }
         }, 1500);

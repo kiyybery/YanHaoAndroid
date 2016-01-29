@@ -64,7 +64,7 @@ public class MyOrderAdapter extends BaseAdapter {
         String url = mList.get(i).imageview;
         if (!url.equals("")) {
 
-            Glide.with(mContext).load(url).placeholder(R.drawable.avatar_default).into(viewHolder.imageView);
+            Glide.with(mContext).load(url).dontTransform().error(R.drawable.kuangge).into(viewHolder.imageView);
         } else {
 
             Glide.with(mContext).load(R.drawable.avatar_default).into(viewHolder.imageView);

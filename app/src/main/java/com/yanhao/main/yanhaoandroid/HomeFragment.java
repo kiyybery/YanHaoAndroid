@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -34,6 +36,7 @@ import com.yanhao.main.yanhaoandroid.bean.BannerBean;
 import com.yanhao.main.yanhaoandroid.bean.CounselorListBean;
 import com.yanhao.main.yanhaoandroid.bean.HomeActivityBean;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
+import com.yanhao.main.yanhaoandroid.homepage.DailyTestActivity;
 import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
 import com.yanhao.main.yanhaoandroid.homepage.InYanHaoActivity;
 import com.yanhao.main.yanhaoandroid.homepage.ReadActivity;
@@ -41,6 +44,7 @@ import com.yanhao.main.yanhaoandroid.homepage.RecommendActivity;
 import com.yanhao.main.yanhaoandroid.homepage.RecommendFragment;
 import com.yanhao.main.yanhaoandroid.serach.SerachActivity;
 import com.yanhao.main.yanhaoandroid.serach.SerachFragment;
+import com.yanhao.main.yanhaoandroid.test.WebViewTest;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.yanhao.main.yanhaoandroid.util.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -56,7 +60,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/10/30 0030.
  */
-public class HomeFragment extends Fragment implements android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends Fragment {
 
     private TopBar mTopBar;
 
@@ -74,12 +78,15 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
     private CounselorListBean mCounselor;
     private List<String> scrollBannerList = new ArrayList<>();
     ArrayList list;
-    private RelativeLayout mTitle, mRecommended_layout, mReadEvery;
+    private RelativeLayout mTitle, mRecommended_layout, mReadEvery, mTestEvery;
     private TextView mTitle_tv, mTitle_tv_left, recommended_tv_right;
     private ImageView mIv_section_title_right;
     private HomeListViewAapter homeListViewAapter;
     private ProgressBar progressBar;
     SwipeRefreshLayout swipe;
+    private ViewPager viewPager;
+    private ArrayList<View> pageview;
+    private String constorId;
 
 
     private class MyHomePageCallback extends StringCallback {
@@ -112,6 +119,7 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
                     mBanner = new BannerBean();
                     JSONObject banner_obj = (JSONObject) bannerArray.get(b);
                     mBanner.setBannerParam(banner_obj.getString("actionParam"));
+                    Log.i("actionParam", banner_obj.getString("actionParam"));
                     mBanner.setBannerType(banner_obj.getInt("actionType"));
                     mBanner.setBannerUrl(banner_obj.getString("bannerUrl"));
                     mBanner.setActionUrl(banner_obj.getString("actionUrl"));
@@ -126,7 +134,8 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
 
                     mCounselor = new CounselorListBean();
                     JSONObject counselor_obj = (JSONObject) counselorArray.get(j);
-                    mCounselor.setUserId(counselor_obj.getString("userId"));
+                    constorId = counselor_obj.getString("userId");
+                    mCounselor.setUserId(constorId);
                     mCounselor.setImageUrl(counselor_obj.getString("imageUrl"));
 
                     mCounselorList.add(mCounselor);
@@ -189,6 +198,16 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
                 startActivity(intent);
             }
         });
+        mTestEvery = (RelativeLayout) view.findViewById(R.id.lecture_everyday);
+        mTestEvery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), DailyTestActivity.class);
+                startActivity(intent);
+            }
+        });
         /*mTitle_tv_left = (TextView) view.findViewById(R.id.tv_home_title_left);
         mTitle_tv_left.setText("进驻");
         mTitle_tv_left.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +245,7 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
 
                 if (mBannerList.get(position).getBannerType() == 0) {
 
-                    Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                    Intent intent = new Intent(getActivity(), WebViewTest.class);
                     intent.putExtra("webUrl", mBannerList.get(position).getActionUrl());
                     startActivity(intent);
                 } else {
@@ -239,7 +258,7 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
             }
         });
 
-        sib_recommended = (SimpleImageBannerConstant) view.findViewById(R.id.sib_simple_usage_recommended);
+        /*sib_recommended = (SimpleImageBannerConstant) view.findViewById(R.id.sib_simple_usage_recommended);
         sib_recommended.setSource(DataProvider.getConstantList()).startScroll();
         sib_recommended.setOnItemClickL(new BaseBanner.OnItemClickL() {
             @Override
@@ -249,7 +268,73 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
                 intent.setClass(getActivity(), HomePageActivity.class);
                 startActivity(intent);
             }
+        });*/
+
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        //inflater = getLayoutInflater()
+
+        View view1 = inflater.inflate(R.layout.item01, null);
+        ImageView img = (ImageView) view1.findViewById(R.id.view1_img);
+        img.setImageResource(R.drawable.zhuanjia_lilu);
+        view1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(getActivity(), "view1", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.putExtra("userId", "pqOPSaXVE7o=");
+                intent.setClass(getActivity(), HomePageActivity.class);
+                startActivity(intent);
+            }
         });
+
+        View view2 = inflater.inflate(R.layout.item02, null);
+        ImageView img2 = (ImageView) view2.findViewById(R.id.view2_img);
+        img2.setImageResource(R.drawable.zhuanjia_songyumei);
+        view2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(getActivity(), "view2", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.putExtra("userId", "HPveYa90QW4=");
+                intent.setClass(getActivity(), HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
+        pageview = new ArrayList<View>();
+        pageview.add(view1);
+        pageview.add(view2);
+
+        PagerAdapter mPagerAdapter = new PagerAdapter() {
+
+            @Override
+            // ???????????????
+            public int getCount() {
+                // TODO Auto-generated method stub
+                return pageview.size();
+            }
+
+            @Override
+            // ????????????????
+            public boolean isViewFromObject(View arg0, Object arg1) {
+                // TODO Auto-generated method stub
+                return arg0 == arg1;
+            }
+
+            // ???ViewGroup????????View
+            public void destroyItem(View arg0, int arg1, Object arg2) {
+                ((ViewPager) arg0).removeView(pageview.get(arg1));
+            }
+
+            // ???????????????????????PagerAdapter???????????????????????ViewPager??
+            public Object instantiateItem(View arg0, int arg1) {
+                ((ViewPager) arg0).addView(pageview.get(arg1));
+                return pageview.get(arg1);
+            }
+
+        };
+
+        // ????????
+        viewPager.setAdapter(mPagerAdapter);
 
         /*mList = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
@@ -268,7 +353,7 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                Intent intent = new Intent(getActivity(), WebViewTest.class);
                 intent.putExtra("webUrl", mList.get(i).webUrl);
                 startActivity(intent);
             }
@@ -301,13 +386,13 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
         mTopBar.setButtonVisable(0, false);
         mTopBar.setButtonVisable(1, true);*/
 
-        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        /*swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         swipe.setOnRefreshListener(this);
         // 顶部刷新的样式
         swipe.setColorSchemeResources(android.R.color.holo_red_light,
                 android.R.color.holo_green_light,
                 android.R.color.holo_blue_bright,
-                android.R.color.holo_orange_light);
+                android.R.color.holo_orange_light);*/
 
 
         SharedPreferences sp = getActivity().getSharedPreferences("userId", getActivity().MODE_PRIVATE);
@@ -319,8 +404,8 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
 
     public void postHomeInfo() {
 
-        //String url = "http://210.51.190.27:8082/getHome.jspa";
-        String url = YanHao.api_base + "getHome.jspa";
+        String url = "http://210.51.190.27:8082/getHome.jspa";
+        //String url = YanHao.api_base + "getHome.jspa";
         OkHttpUtils
                 .post()
                 .url(url)
@@ -337,7 +422,7 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
         return list;
     }
 
-    @Override
+    /*@Override
     public void onRefresh() {
 
         new Handler().postDelayed(new Runnable() {
@@ -346,5 +431,5 @@ public class HomeFragment extends Fragment implements android.support.v4.widget.
                 swipe.setRefreshing(false);
             }
         }, 1500);
-    }
+    }*/
 }

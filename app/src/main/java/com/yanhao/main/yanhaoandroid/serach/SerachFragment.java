@@ -48,6 +48,7 @@ import java.util.List;
 public class SerachFragment extends Fragment implements View.OnClickListener {
 
     private List<ConstantBean> mContent;
+    private String mSpeciality;
     private ListView mListView;
     private SerachAdapter mAdapter;
     private ConstantBean mBean;
@@ -76,15 +77,19 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
                     String name = job.getString("name");
                     String photoUrl = job.getString("portraitUrl");
                     String userId = job.getString("userId");
-                    String speciality = job.getString("speciality");
-                    int level = job.getInt("level");
+                    JSONArray specialityArray = job.getJSONArray("speciality");
+                    for (int j = 0; j < specialityArray.length(); j++){
+
+                        mSpeciality = specialityArray.optString(j);
+                    }
+                        int level = job.getInt("level");
 
                     mBean = new ConstantBean();
                     mBean.userid = userId;
                     mBean.constantName = name;
                     mBean.imageview = photoUrl;
                     mBean.level = level;
-                    mBean.area = speciality;
+                    mBean.area = mSpeciality;
 
                     mContent.add(mBean);
                     mAdapter.notifyDataSetChanged();
@@ -196,11 +201,12 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
 
         String keywords = URLEncoder.encode("李璐", "utf-8");
 
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/serach.txt";
+        String url = "http://210.51.190.27:8082/search.jspa";
         OkHttpUtils
-                .postString()
+                .post()
                 .url(url)
-                .content(new Gson().toJson(new UserInfo()))
+                .addParams("type", "1")
+                .addParams("keyword", serach_et.getText().toString())
                 .build()
                 .execute(new SerachResult());
     }

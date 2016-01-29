@@ -183,8 +183,8 @@ public class SocialShareFragment extends DialogFragment implements View.OnClickL
         mController.getConfig().setSsoHandler(new SinaSsoHandler());
 
         //   添加qq
-        String qqID = "1104650667";
-        String qqKey = "QgwcnwZxjxhydzGW";
+        String qqID = "1105141284";
+        String qqKey = "6M1F5Cx1LeF5PyJw";
         //参数1为当前Activity， 参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
         UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(getActivity(), qqID, qqKey);
         qqSsoHandler.addToSocialSDK();

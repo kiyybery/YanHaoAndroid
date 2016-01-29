@@ -31,6 +31,7 @@ import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
 import com.yanhao.main.yanhaoandroid.homepage.PayPageActivity;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -167,12 +168,9 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
             getinfobai();
         } else if (userId.equals("2")) {
             getinfohu();
-
         } else if (userId.equals("3")) {
-
             getinfolilu();
         } else if (userId.equals("4")) {
-
             getinfosong();
         }*/
 
@@ -233,7 +231,8 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
                 intent.setClass(getActivity(), PayPageActivity.class);
                 startActivity(intent);
 
-                Reverve(userId);
+                Reverve(PrefHelper.get().getString("userId", ""));
+                Log.i("order_userId", PrefHelper.get().getString("userId", ""));
 
                 break;
 
@@ -292,7 +291,8 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
                 String ask_data = data.getStringExtra("data");
                 String ask_time = data.getStringExtra("time");
                 reservationId = data.getIntExtra("reservationId", 2);
-
+                Toast.makeText(getActivity(), reservationId + "", Toast.LENGTH_LONG).show();
+                Log.i("orderreservationId", reservationId + "");
                 mAskData.setText(ask_data);
                 mAskTime.setText(ask_time);
                 break;
@@ -337,8 +337,8 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", userid)
-                .addParams("reservationId", "2")
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
+                .addParams("reservationId", reservationId + "")
                 .addParams("mobile", sec_mobile)
                 .addParams("issue", encoder_issue)
                 .addParams("note", encoder_note)

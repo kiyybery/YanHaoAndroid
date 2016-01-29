@@ -2,6 +2,7 @@ package com.yanhao.main.yanhaoandroid.matchconsultant;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,9 +89,12 @@ public class GalleryAdapter extends
         viewHolder.mImg.setText(mDatas.get(i).getText());
         //viewHolder.mTxt.setText(String.valueOf(mValues.get(i).text_data));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss E");
-        Date dt = new Date(mValues.get(i).text_data * 1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Log.i("timeMillis", mValues.get(i).text_data + "");
+        Date dt = new Date(mValues.get(i).text_data);
+        Log.i("sDt", dt + "");
         String sTime = sdf.format(dt);
+        Log.i("sTime", sTime);
         Calendar calendar = Calendar.getInstance();
         String w = getWeekOfDate(dt);
         viewHolder.mTxt.setText(w);
@@ -124,8 +128,8 @@ public class GalleryAdapter extends
 
     public static String getWeekOfDate(Date date) {
 
-        String[] weekOfDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
-
+        String[] weekOfDays = {"周三", "周四", "周五", "周六", "周日", "周一", "周二"};
+        //String[] weekOfDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
         Calendar calendar = Calendar.getInstance();
 
         if (date != null) {
@@ -137,14 +141,8 @@ public class GalleryAdapter extends
         int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
         if (w < 0) {
-
             w = 0;
-
         }
-
         return weekOfDays[w];
-
     }
-
-
 }

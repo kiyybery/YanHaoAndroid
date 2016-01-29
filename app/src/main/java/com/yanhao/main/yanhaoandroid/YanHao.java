@@ -31,9 +31,15 @@ public class YanHao extends YanHaoApplication {
     public static final String MAIN_URL = "http://yh.izhipeng.com";
     public static final String api_base = MAIN_URL + File.separator;
 
+    private static YanHao APP;
+
+    public static YanHao get() {
+        return APP;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        APP = this;
     }
 }

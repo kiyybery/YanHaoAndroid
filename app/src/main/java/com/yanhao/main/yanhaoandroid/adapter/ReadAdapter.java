@@ -86,7 +86,7 @@ public class ReadAdapter extends BaseAdapter {
                         viewHolder.imageView.setImageBitmap(bitmap);
                     }
                 });*/
-        Glide.with(mContext).load(url).into(viewHolder.imageView);
+        Glide.with(mContext).load(url).placeholder(R.drawable.default_banner_commend).into(viewHolder.imageView);
         viewHolder.title_tv.setText(mList.get(i).getTitle());
         viewHolder.time_tv.setText(mList.get(i).getDate());
         return view;

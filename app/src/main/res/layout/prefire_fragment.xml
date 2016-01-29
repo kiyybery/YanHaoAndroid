@@ -52,8 +52,7 @@
                             android:layout_marginRight="15dp"
                             android:text="编辑"
                             android:textColor="#ffffff"
-                            android:textSize="18dp"
-                            />
+                            android:textSize="18dp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -79,7 +78,7 @@
                             android:layout_below="@+id/iv_uc_avatar"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="6dp"
-                            android:text="徐慧盈"
+                            android:text="燕好用户"
                             android:textColor="@color/white" />
 
                         <TextView
@@ -205,18 +204,22 @@
                                 android:id="@+id/unlogin_my_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:paddingTop="30dp"
                                 android:text="@string/unlogin_tv"
                                 android:textColor="#666666"
                                 android:textSize="17dp" />
 
                         </RelativeLayout>
+
                         <TextView
                             android:id="@+id/tv_my_unlogin"
                             android:layout_width="277dp"
                             android:layout_height="42dp"
                             android:layout_below="@+id/relativeLayout2"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="72dp"
+                            android:layout_marginTop="52dp"
                             android:background="@drawable/corner"
                             android:paddingLeft="100.5dp"
                             android:paddingRight="12.5dp"

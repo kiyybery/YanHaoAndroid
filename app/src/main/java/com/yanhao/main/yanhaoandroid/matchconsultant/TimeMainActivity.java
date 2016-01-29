@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -37,7 +38,6 @@ import java.util.List;
 public class TimeMainActivity extends Activity implements View.OnClickListener {
 
     private String period;
-    private int reservationId;
     private int status;
     private List newList;
     private TextView mTitle;
@@ -50,6 +50,7 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
     private List<ScheduleData> mTimes = new ArrayList<>();
     private String userId;
     private String data, time;
+    private int reservationId;
     private Button mOrderBtn;
     private ProgressBar progressBar;
 
@@ -140,16 +141,21 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
         initValues();*/
         //initTimes();
         getData(userId);
+        Log.i("time_userId", userId);
+        //Toast.makeText(TimeMainActivity.this, userId, Toast.LENGTH_LONG).show();
         mGridView = (GridView) findViewById(R.id.id_gridview_grid);
         mTimeAdapter = new TimeAdapter(this, mTimes);
         mGridView.setAdapter(mTimeAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(TimeMainActivity.this, mTimes.get(i).period, Toast.LENGTH_LONG).show();
+
                 mTimeAdapter.setSelectedPosition(i);
                 mTimeAdapter.notifyDataSetInvalidated();
                 time = mTimes.get(i).period;
+                reservationId = mTimes.get(i).reservationId;
+                Log.i("reservationId", reservationId + "");
+                Toast.makeText(TimeMainActivity.this, mTimes.get(i).reservationId + "", Toast.LENGTH_LONG).show();
                 //save();
             }
         });
@@ -166,8 +172,8 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
         mAdapter.setOnItemClickLitener(new GalleryAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(TimeMainActivity.this, mDatas.get(position).getText() + "", Toast.LENGTH_SHORT)
-                        .show();
+                /*Toast.makeText(TimeMainActivity.this, mDatas.get(position).getText() + "", Toast.LENGTH_SHORT)
+                        .show();*/
                 data = mDatas.get(position).getText();
                 mAdapter.setSelectedPosition(position);
                 mAdapter.notifyDataSetChanged();
@@ -185,7 +191,7 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent();
         intent.putExtra("data", data);
         intent.putExtra("time", time);
-        //intent.putExtra("reservationId", scheduledata.reservationId);
+        intent.putExtra("reservationId", reservationId);
         finish(Activity.RESULT_OK, intent);
     }
 
@@ -209,8 +215,8 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", "WbqhSt2gqUU=")
-                .addParams("counselorId", "pqOPSaXVE7o=")
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
+                .addParams("counselorId", userId)
                 .build()
                 .execute(new GetReservationSchedule());
     }

@@ -91,7 +91,8 @@ public class SerachAdapter extends BaseAdapter {
             Glide.with(mContext).load(R.drawable.level_icon_sanji).into(viewHolder.level_tv);
         }
 
-        viewHolder.area_tv.setText(mList.get(i).area);
+        //viewHolder.area_tv.setText(mList.get(i).area);
+
         return view;
     }
 

@@ -1,10 +1,10 @@
 package com.yanhao.main.yanhaoandroid.usercenter;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +16,11 @@ import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
-import com.yanhao.main.yanhaoandroid.WebViewActivity;
 import com.yanhao.main.yanhaoandroid.YanHao;
-import com.yanhao.main.yanhaoandroid.adapter.MyCollectionAdapter;
-import com.yanhao.main.yanhaoandroid.adapter.ReadAdapter;
-import com.yanhao.main.yanhaoandroid.bean.CollectionBean;
-import com.yanhao.main.yanhaoandroid.bean.MyCollection;
+import com.yanhao.main.yanhaoandroid.adapter.MyTestAdapter;
+import com.yanhao.main.yanhaoandroid.banner.MyTest;
+import com.yanhao.main.yanhaoandroid.test.WebViewTest;
+import com.yanhao.main.yanhaoandroid.util.MyLetterListView;
 import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -34,22 +33,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Administrator on 2016/1/25 0025.
+ * Created by Administrator on 2016/1/28 0028.
  */
-public class CollectionFragment extends Fragment {
+public class MyTestFragment extends Fragment {
 
-    private List<MyCollection> mList;
+    private View view;
+    private List<MyTest> mList;
+    private MyTest mBean;
     private ListView mListView;
-    private MyCollection mBean;
-
-    private TextView mTitle;
+    private MyTestAdapter mAdapter;
     private LinearLayout mBack;
-    private MyCollectionAdapter mAdapter;
-    ProgressBar progressbar;
+    private TextView mTitle;
+    private ProgressBar mProgressBar;
 
-    private class GetFavorContent extends StringCallback {
-
+    private class GetContent extends StringCallback {
 
         @Override
         public void onError(Request request, Exception e) {
@@ -61,14 +60,18 @@ public class CollectionFragment extends Fragment {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                progressbar.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
                 JSONArray array = jsonObject.getJSONArray("favorContentList");
                 for (int i = 0; i < array.length(); i++) {
-                    mBean = new MyCollection();
+
                     JSONObject job = (JSONObject) array.get(i);
-                    mBean.title = job.getString("title");
+                    mBean = new MyTest();
+                    mBean.id = job.getInt("id");
                     mBean.imageUrl = job.getString("imageUrl");
-                    mBean.contentUrl = job.getString("contentUrl");
+                    mBean.name = job.getString("name");
+                    mBean.scaleId = job.getInt("scaleId");
+                    mBean.score = job.getInt("score");
+                    mBean.subScaleId = job.getInt("subScaleId");
 
                     mList.add(mBean);
                 }
@@ -76,50 +79,46 @@ public class CollectionFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
-    public static CollectionFragment newInstance() {
-
-        CollectionFragment fragment = new CollectionFragment();
+    public static MyTestFragment newInstance() {
+        MyTestFragment fragment = new MyTestFragment();
         Bundle data = new Bundle();
         data.putString("title", " ");
         fragment.setArguments(data);
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_collection_my, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_test_my, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
-
-        //getReadInfo();
-        getFavorContent();
-        mListView = (ListView) view.findViewById(R.id.list_collection);
-
         mList = new ArrayList<>();
-        progressbar = (ProgressBar) view.findViewById(R.id.progressbar);
-        mAdapter = new MyCollectionAdapter(mList, getActivity());
-        mListView.setAdapter(mAdapter);
+        getContent();
+        mListView = (ListView) view.findViewById(R.id.my_test_lv);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                String webUrl = "http://210.51.190.27:8082/viewScaleFeedback.jspa?" +
+                        "id=" + mList.get(i).id + "&" +
+                        "userId=" + PrefHelper.get().getString("userId", "") + "&" +
+                        "scaleId=" + mList.get(i).scaleId + "&" +
+                        "subScaleId=" + mList.get(i).subScaleId + "&" +
+                        "score=" + mList.get(i).score;
+
                 Intent intent = new Intent();
-                intent.putExtra("webUrl", mList.get(i).getContentUrl());
-                intent.setClass(getActivity(), WebViewActivity.class);
+                intent.putExtra("webUrl", webUrl);
+                //intent.putExtra("webUrl", "http://test.izhipeng.com/html/Explain.html");
+                intent.setClass(getActivity(), WebViewTest.class);
                 startActivity(intent);
             }
         });
-        mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
-        mTitle.setText("我的收藏");
+        mAdapter = new MyTestAdapter(getActivity(), mList);
+        mListView.setAdapter(mAdapter);
+
         mBack = (LinearLayout) view.findViewById(R.id.ll_section_title_back);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,22 +126,32 @@ public class CollectionFragment extends Fragment {
                 getActivity().finish();
             }
         });
+        mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
+        mTitle.setText("我的测试");
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar_my_test);
         return view;
     }
 
-    private void getFavorContent() {
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
-        String url = "http://210.51.190.27:8082/getFavorContent.jspa";
-        //String url = YanHao.api_base + "getFavorContent.jspa";
-        String id = PrefHelper.get().getString("userId", "");
-        Log.i("collection_userid", id);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void getContent() {
+
+        String url = "http://210.51.190.27:8082/getFavorContent.jspa?";
         OkHttpUtils
                 .post()
                 .url(url)
                 .addParams("userId", PrefHelper.get().getString("userId", ""))
-                .addParams("type", "0")
+                .addParams("type", "1")
                 .addParams("lastId", "0")
                 .build()
-                .execute(new GetFavorContent());
+                .execute(new GetContent());
     }
 }

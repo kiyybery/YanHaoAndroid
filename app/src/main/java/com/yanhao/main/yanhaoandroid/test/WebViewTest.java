@@ -14,10 +14,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yanhao.main.yanhaoandroid.R;
+import com.yanhao.main.yanhaoandroid.share.ShareActivity;
 
 /**
  * Created by Administrator on 2016/1/20 0020.
@@ -28,6 +30,7 @@ public class WebViewTest extends AppCompatActivity {
     private String webUrl;
     private TextView titletv;
     private ImageView mBackImg;
+    private LinearLayout mBack;
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
@@ -38,6 +41,13 @@ public class WebViewTest extends AppCompatActivity {
 
         webUrl = getIntent().getStringExtra("webUrl");
 
+        mBack = (LinearLayout) findViewById(R.id.ll_section_title_back);
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         mBackImg = (ImageView) findViewById(R.id.iv_section_title_back);
         mBackImg.setOnClickListener(new MyListener());
         titletv = (TextView) findViewById(R.id.tv_section_title_title);
@@ -116,8 +126,15 @@ public class WebViewTest extends AppCompatActivity {
 
         //在js中调用window.AndroidWebView.showInfoFromJs(name)，便会触发此方法。
         @JavascriptInterface
-        public void showInfoFromJs(String name) {
-            Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
+        public void showInfoFromJs(String name, String desp, String imageUrl, String webUrl) {
+            Toast.makeText(mContext, name + desp + imageUrl + webUrl, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.putExtra("shareTitle", name);
+            intent.putExtra("shareDesp", desp);
+            intent.putExtra("shareImageUrl", imageUrl);
+            intent.putExtra("shareWebUrl", webUrl);
+            intent.setClass(WebViewTest.this, ShareActivity.class);
+            startActivity(intent);
         }
     }
 }

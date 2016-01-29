@@ -1,5 +1,7 @@
 package com.yanhao.main.yanhaoandroid.usercenter;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 
 import java.util.regex.Matcher;
@@ -23,11 +27,12 @@ import java.util.regex.Pattern;
 /**
  * Created by Administrator on 2015/11/12 0012.
  */
-public class ProFireFrag extends Fragment {
+public class ProFireFrag extends Fragment implements View.OnClickListener {
 
     private static final int MAX_LENGTH = 120; // 最多支持120字
     private EditText mProfire_et;
-    private TextView feedbackRemainNum,mTitle;
+    private TextView feedbackRemainNum, mTitle, mfinish;
+    private LinearLayout mBack;
 
     public static ProFireFrag newInstance() {
 
@@ -51,6 +56,10 @@ public class ProFireFrag extends Fragment {
         feedbackRemainNum = (TextView) view.findViewById(R.id.num_words);
         mTitle = (TextView) view.findViewById(R.id.tv_profire_title_title);
         mTitle.setText("个人简介");
+        mfinish = (TextView) view.findViewById(R.id.tv_profire_title_right);
+        mfinish.setOnClickListener(this);
+        mBack = (LinearLayout) view.findViewById(R.id.ll_profire_title_back);
+        mBack.setOnClickListener(this);
         mProfire_et = (EditText) view.findViewById(R.id.etprofireContent);
         mProfire_et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,6 +89,7 @@ public class ProFireFrag extends Fragment {
                 }
             }
         });
+        mProfire_et.setText(PrefHelper.get().getString("intro", ""));
         return view;
     }
 
@@ -92,4 +102,36 @@ public class ProFireFrag extends Fragment {
         return string.replaceAll(fk, "");
     }
 
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.tv_profire_title_right:
+
+                save();
+                break;
+            case R.id.ll_profire_title_back:
+
+                save();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void save() {
+
+        Intent intent = new Intent();
+        intent.putExtra("intro", mProfire_et.getText().toString());
+        finish(Activity.RESULT_OK, intent);
+    }
+
+    protected void finish(int resultCode, Intent data) {
+        if (getActivity() != null) {
+            getActivity().setResult(resultCode, data);
+            getActivity().finish();
+        }
+    }
 }

@@ -43,7 +43,7 @@ public class SimpleImageBannerConstant extends BaseIndicaorBanner<BannerItem, Si
 
         final BannerItem item = list.get(position);
         int itemWidth = dm.widthPixels;
-        int itemHeight = (int) (itemWidth * 360 / 1.3f / 640);
+        int itemHeight = (int) (itemWidth * 360 / 1.28f / 640);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setLayoutParams(new LinearLayout.LayoutParams(itemWidth, itemHeight));
 

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.yanhao.main.yanhaoandroid.MainActivity;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.util.AlertDialogFrag;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.Type;
 
 import de.greenrobot.event.EventBus;
@@ -105,6 +106,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 f.show(getChildFragmentManager(), "logout");
                 editor.clear();
                 editor.commit();
+                PrefHelper.get().clear();
                 break;
             case R.id.message_layout:
                 Intent intent = new Intent();

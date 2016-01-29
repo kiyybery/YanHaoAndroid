@@ -2,10 +2,12 @@ package com.yanhao.main.yanhaoandroid.test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
@@ -26,6 +29,7 @@ import com.yanhao.main.yanhaoandroid.adapter.TestAdapter;
 import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.TestBean;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -50,6 +54,8 @@ public class TestFragment extends Fragment implements View.OnClickListener {
     private TextView mTitle_tv;
     private TestAdapter mAdapter;
     private ProgressBar progressBar;
+    SharedPreferences sp;
+    private String userId;
 
     private class MyTestCallback extends StringCallback {
 
@@ -157,13 +163,15 @@ public class TestFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
+        userId = sp.getString("userId", "");
         View view = inflater.inflate(R.layout.fragment_test, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
         //initData();
 
         // getItemInfo();
-        getTestItem();
+        getTestItem(userId);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar_test);
         mTitleLayout = (RelativeLayout) view.findViewById(R.id.rl_section_title);
         mTitleLayout.setBackgroundColor(0xff0a82e1);
@@ -198,7 +206,7 @@ public class TestFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
                 intent.putExtra("webUrl", mList.get(i).webUrl);
-                //intent.putExtra("webUrl", "http://test.izhipeng.com/html/Explain.html");
+                //intent.putExtra("webUrl", "http://210.51.190.27:8082/getScaleInfo.jspa?scaleId=45&userId=WbqhSt2gqUU%3D");
                 intent.setClass(getActivity(), WebViewTest.class);
                 startActivity(intent);
             }
@@ -231,7 +239,7 @@ public class TestFragment extends Fragment implements View.OnClickListener {
         all_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getTestItem();
+                getTestItem(userId);
                 pw.dismiss();
             }
         });
@@ -239,7 +247,7 @@ public class TestFragment extends Fragment implements View.OnClickListener {
         marry_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getTestItem();
+                getTestItem(userId);
                 pw.dismiss();
             }
         });
@@ -277,70 +285,17 @@ public class TestFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void getItemInfo() {
+    private void getTestItem(String userId) {
 
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/test_list.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyTestCallback());
-    }
-
-    private void getItemInfo_My() {
-
-        //mList.clear();
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/test_list_my.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyTestCallback());
-    }
-
-    private void getItemInfo_eduction() {
-
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/test_list_eduction.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyTestCallback());
-    }
-
-    private void getItemInfo_renji() {
-
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/test_list_renji.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyTestCallback());
-    }
-
-    private void getItemInfo_jiankang() {
-
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/test_list_jiankang.txt";
-        OkHttpUtils
-                .postString()
-                .url(url)
-                .content(new Gson().toJson(new UserInfo("zhy", "123")))
-                .build()
-                .execute(new MyTestCallback());
-    }
-
-    private void getTestItem() {
-
-        //String url = "http://210.51.190.27:8082/getTestHome.jspa";
-        String url = YanHao.api_base + "getTestHome.jspa";
+        String url = "http://210.51.190.27:8082/getTestHome.jspa";
+        //String url = YanHao.api_base + "getTestHome.jspa";
+        String id = PrefHelper.get().getString("userId", "");
+        Toast.makeText(getActivity(), id + " is test", Toast.LENGTH_LONG).show();
+        Log.i("test_id", PrefHelper.get().getString("userId", ""));
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", "WbqhSt2gqUU=")
+                .addParams("userId", id)
                 .build()
                 .execute(new MyTestCallback());
 

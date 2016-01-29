@@ -36,6 +36,7 @@ import com.yanhao.main.yanhaoandroid.util.ACache;
 import com.yanhao.main.yanhaoandroid.util.CommonUtils;
 import com.yanhao.main.yanhaoandroid.util.CustomProgressDialog;
 import com.yanhao.main.yanhaoandroid.util.LogUtil;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
 import com.yanhao.main.yanhaoandroid.util.SharedPreferencesUtils;
 import com.yanhao.main.yanhaoandroid.util.StringUtil;
@@ -62,6 +63,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private ImageButton mLogin_show_pwd;
     private Button mLogin_login_btn;
     private String userId;
+    private int userType;
+    private String portraitUrl;
 
     ACache mCache;
 
@@ -88,6 +91,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 } else if (ret == 0) {
 
                     userId = jsonObject.getString("userId");
+                    userType = jsonObject.getInt("userType");
+                    portraitUrl = jsonObject.getString("portraitUrl");
                     //String nickName = jsonObject.getString("nickName");
                     //String portraitUrl = jsonObject.getString("portraitUrl");
                     //Log.i("userId_login", userId);
@@ -148,7 +153,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     editor.putString("userId", userId);
                     editor.commit();
 
-                    EventBus.getDefault().post(new Type(mLogin_username_et.getText().toString(),mLogin_pw_et.getText().toString()));
+                    PrefHelper.get().put("userId", userId);
+                    PrefHelper.get().put("userType", userType);
+                    PrefHelper.get().put("portraitUrl", portraitUrl);
+
+                    EventBus.getDefault().post(new Type(mLogin_username_et.getText().toString(), mLogin_pw_et.getText().toString()));
                     break;
 
                 case 2:

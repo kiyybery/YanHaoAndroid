@@ -80,6 +80,7 @@
         <activity android:name=".homepage.InYanHaoActivity" />
         <activity android:name=".homepage.RecommendActivity" />
         <activity android:name=".homepage.ReadActivity" />
+        <activity android:name=".homepage.DailyTestActivity" />
         <activity android:name=".serach.SerachActivity" />
         <activity
             android:name=".share.ShareActivity"
@@ -90,7 +91,7 @@
         <activity android:name=".test.TestWebViewActivity" />
         <activity android:name=".matchconsultant.TimeMainActivity" />
         <activity android:name=".test.WebViewTest" />
-        <activity android:name=".usercenter.CollectionActivity"/>
+        <activity android:name=".usercenter.CollectionActivity" />
 
 
         <!-- ###################友盟相关的注册SDK使用的Activity###################### -->

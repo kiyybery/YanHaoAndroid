@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +20,14 @@ import android.widget.Toast;
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.share.ShareActivity;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 
 public class WebViewActivity extends AppCompatActivity implements View.OnClickListener {
@@ -47,6 +51,11 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 Toast.makeText(WebViewActivity.this, jsonObject.getString("info"), Toast.LENGTH_LONG).show();
+                if (jsonObject.getString("info").equals("收藏成功")) {
+
+                    mStar_img.setImageResource(R.drawable.case_star_icon_pressed);
+                    mStar_img.setEnabled(false);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -54,10 +63,36 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private class GetStauts extends StringCallback {
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                T.show(WebViewActivity.this, jsonObject.getInt("status") + "", 100);
+                Log.i("read_status", jsonObject.getInt("status") + "");
+                if (jsonObject.getInt("status") == 1) {
+
+                    mStar_img.setImageResource(R.drawable.case_star_icon_pressed);
+                    mStar_img.setEnabled(false);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+
 
         mBack_img = (ImageView) findViewById(R.id.back_img);
         mBack_img.setOnClickListener(this);
@@ -76,6 +111,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         shareImageUrl = getIntent().getStringExtra("shareImageUrl");
         shareWebUrl = getIntent().getStringExtra("shareWebUrl");
 
+        getFavorStatus(PrefHelper.get().getString("userId", ""), webUrl);
         mWebView = (WebView) findViewById(R.id.webView);
         //mWebView.loadData(html, "text/html", "UTF-8");
 
@@ -190,8 +226,8 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", "WbqhSt2gqUU=")
-                .addParams("type", "1")
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
+                .addParams("type", "0")
                 .addParams("imageUrl", imageUrl)
                 .addParams("contentUrl", webUrl)
                 .addParams("title", title)
@@ -208,5 +244,17 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         intent.putExtra("shareWebUrl", shareWebUrl);
         intent.setClass(WebViewActivity.this, ShareActivity.class);
         startActivity(intent);
+    }
+
+    private void getFavorStatus(String userId, String key) {
+
+        String url = "http://210.51.190.27:8082/getFavorStatus.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
+                .addParams("key", webUrl)
+                .build()
+                .execute(new GetStauts());
     }
 }
