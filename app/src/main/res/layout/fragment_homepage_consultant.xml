@@ -129,7 +129,6 @@
                     android:layout_marginTop="10px"
                     android:maxLines="5"
                     android:singleLine="false"
-                    android:text="@string/myprofire_content"
                     android:textColor="#666666"
                     android:textSize="30px" />
             </LinearLayout>
@@ -161,9 +160,7 @@
                     android:layout_marginLeft="35px"
                     android:layout_marginRight="35px"
                     android:layout_marginTop="10px"
-                    android:maxLines="5"
                     android:singleLine="false"
-                    android:text="@string/professional_content"
                     android:textColor="#666666"
                     android:textSize="30px" />
             </LinearLayout>

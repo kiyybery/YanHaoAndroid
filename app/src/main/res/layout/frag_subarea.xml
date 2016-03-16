@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.yanhao.main.yanhaoandroid.util.TopBar
+        <!--<com.yanhao.main.yanhaoandroid.util.TopBar
             android:id="@+id/topBar_consult"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -21,7 +21,71 @@
             custom:costumRightTextColor="@color/white"
             custom:costumTitle="咨询"
             custom:costumTitleTextColor="@color/white"
-            custom:costumTitleTextSize="7.5dp" />
+            custom:costumTitleTextSize="7.5dp" />-->
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/li_home_title"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_home_title"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#f2f2f2">
+
+                <LinearLayout
+                    android:id="@+id/ll_home_title_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="7.5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="12.5dp">
+
+                    <TextView
+                        android:id="@+id/tv_home_title_left"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:textColor="#ffffff"
+                        android:textSize="18dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_home_title_title"
+                    style="@style/A1_Font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:ellipsize="end"
+                    android:maxEms="9"
+                    android:singleLine="true"
+                    android:text="标题"
+                    android:textColor="#ffffff"
+                    android:textSize="22dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_home_title_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="7.5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="12.5dp"
+                    android:paddingTop="12.5dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/iv_home_title_right"
+                        android:layout_width="113px"
+                        android:layout_height="53px" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

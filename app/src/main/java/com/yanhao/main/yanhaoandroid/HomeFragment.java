@@ -25,6 +25,11 @@ import android.widget.Toast;
 
 import com.flyco.banner.widget.Banner.base.BaseBanner;
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.adapter.HomeListViewAapter;
 import com.yanhao.main.yanhaoandroid.banner.BannerItem;
@@ -32,7 +37,9 @@ import com.yanhao.main.yanhaoandroid.banner.DataProvider;
 import com.yanhao.main.yanhaoandroid.banner.SimpleImageBanner;
 import com.yanhao.main.yanhaoandroid.banner.SimpleImageBannerConstant;
 import com.yanhao.main.yanhaoandroid.banner.T;
+import com.yanhao.main.yanhaoandroid.bean.ADInfo;
 import com.yanhao.main.yanhaoandroid.bean.BannerBean;
+import com.yanhao.main.yanhaoandroid.bean.CounselorInfo;
 import com.yanhao.main.yanhaoandroid.bean.CounselorListBean;
 import com.yanhao.main.yanhaoandroid.bean.HomeActivityBean;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
@@ -45,8 +52,11 @@ import com.yanhao.main.yanhaoandroid.homepage.RecommendFragment;
 import com.yanhao.main.yanhaoandroid.serach.SerachActivity;
 import com.yanhao.main.yanhaoandroid.serach.SerachFragment;
 import com.yanhao.main.yanhaoandroid.test.WebViewTest;
+import com.yanhao.main.yanhaoandroid.util.CycleViewPager;
+import com.yanhao.main.yanhaoandroid.util.ImageCycleView;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
-import com.yanhao.main.yanhaoandroid.util.TopBar;
+import com.yanhao.main.yanhaoandroid.util.ViewFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -57,12 +67,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lidroid.xutils.BitmapUtils;
+
 /**
  * Created by Administrator on 2015/10/30 0030.
  */
 public class HomeFragment extends Fragment {
-
-    private TopBar mTopBar;
 
     private Context context = getActivity();
     private View decorView;
@@ -74,10 +84,10 @@ public class HomeFragment extends Fragment {
     private HomeActivityBean mBean;
     private List<BannerBean> mBannerList = new ArrayList<>();
     private BannerBean mBanner;
+    private BannerItem mItem;
     private List<CounselorListBean> mCounselorList = new ArrayList<>();
     private CounselorListBean mCounselor;
-    private List<String> scrollBannerList = new ArrayList<>();
-    ArrayList list;
+    private ArrayList<BannerItem> scrollBannerList = new ArrayList<>();
     private RelativeLayout mTitle, mRecommended_layout, mReadEvery, mTestEvery;
     private TextView mTitle_tv, mTitle_tv_left, recommended_tv_right;
     private ImageView mIv_section_title_right;
@@ -88,6 +98,12 @@ public class HomeFragment extends Fragment {
     private ArrayList<View> pageview;
     private String constorId;
 
+    private List<ImageView> views = new ArrayList<ImageView>();
+    private List<ImageView> consutor_views = new ArrayList<ImageView>();
+    private List<ADInfo> infos = new ArrayList<ADInfo>();
+    private CycleViewPager cycleViewPager, cycleViewPager_conustor;
+    String[] imageUrls, consutor_images;
+    private List<CounselorInfo> counselorInfo = new ArrayList<>();
 
     private class MyHomePageCallback extends StringCallback {
 
@@ -112,8 +128,9 @@ public class HomeFragment extends Fragment {
 
             try {
                 JSONObject jo = new JSONObject(s);
-                progressBar.setVisibility(View.GONE);
                 JSONArray bannerArray = jo.getJSONArray("bannerList");
+                imageUrls = new String[bannerArray.length()];
+                progressBar.setVisibility(View.GONE);
                 for (int b = 0; b < bannerArray.length(); b++) {
 
                     mBanner = new BannerBean();
@@ -124,12 +141,16 @@ public class HomeFragment extends Fragment {
                     mBanner.setBannerUrl(banner_obj.getString("bannerUrl"));
                     mBanner.setActionUrl(banner_obj.getString("actionUrl"));
 
+                    imageUrls[b] = banner_obj.getString("bannerUrl");
                     mBannerList.add(mBanner);
-                    scrollBannerList.add(mBanner.getBannerUrl());
-                    Log.i("scrollBannerList", scrollBannerList.size() + "");
+
                 }
+                configImageLoader();
+                initialize();
 
                 JSONArray counselorArray = jo.getJSONArray("counselorList");
+                consutor_images = new String[counselorArray.length()];
+                Log.i("image_urls", consutor_images.length + "");
                 for (int j = 0; j < counselorArray.length(); j++) {
 
                     mCounselor = new CounselorListBean();
@@ -138,8 +159,11 @@ public class HomeFragment extends Fragment {
                     mCounselor.setUserId(constorId);
                     mCounselor.setImageUrl(counselor_obj.getString("imageUrl"));
 
+                    consutor_images[j] = counselor_obj.getString("imageUrl");
                     mCounselorList.add(mCounselor);
                 }
+                //configImageLoader();
+                initviewcounstor();
 
                 JSONArray ja = jo.getJSONArray("actiList");
                 for (int i = 0; i < ja.length(); i++) {
@@ -184,6 +208,9 @@ public class HomeFragment extends Fragment {
         //postString();
         postHomeInfo();
 
+        //list.add(new ImageCycleView.ImageInfo(scrollBannerList, "aa", "bb"));
+        //Log.i("scrollBannerList", "list = " + list.size() + "");
+        //mImageCycleView = (ImageCycleView) view.findViewById(R.id.icv_topView);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar_home);
         mList = new ArrayList<>();
         mTitle = (RelativeLayout) view.findViewById(R.id.rl_home_title);
@@ -235,11 +262,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        sib = (SimpleImageBanner) view.findViewById(R.id.sib_simple_usage);
+        //sib = (SimpleImageBanner) view.findViewById(R.id.sib_simple_usage);
 
-        sib.setSource(DataProvider.getList()).startScroll();
+        //sib.setSource(DataProvider.getList()).startScroll();
 
-        sib.setOnItemClickL(new SimpleImageBanner.OnItemClickL() {
+        //sib.setSource(scrollBannerList).startScroll();
+
+        /*sib.setOnItemClickL(new SimpleImageBanner.OnItemClickL() {
             @Override
             public void onItemClick(int position) {
 
@@ -256,7 +285,7 @@ public class HomeFragment extends Fragment {
                     startActivity(intent);
                 }
             }
-        });
+        });*/
 
         /*sib_recommended = (SimpleImageBannerConstant) view.findViewById(R.id.sib_simple_usage_recommended);
         sib_recommended.setSource(DataProvider.getConstantList()).startScroll();
@@ -270,7 +299,7 @@ public class HomeFragment extends Fragment {
             }
         });*/
 
-        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        /*viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         //inflater = getLayoutInflater()
 
         View view1 = inflater.inflate(R.layout.item01, null);
@@ -334,17 +363,8 @@ public class HomeFragment extends Fragment {
         };
 
         // ????????
-        viewPager.setAdapter(mPagerAdapter);
+        viewPager.setAdapter(mPagerAdapter);*/
 
-        /*mList = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-
-            mBean = new HomeActivityBean();
-            mBean.setTitle("《我们和娃一起变二》大型公益活动" + i);
-            mBean.setTeacher("讲师" + i);
-            mBean.setPay(i + "");
-            mList.add(mBean);
-        }*/
 
         mListview = (ListView) view.findViewById(R.id.home_activity_listview);
         homeListViewAapter = new HomeListViewAapter(mList, getActivity());
@@ -369,30 +389,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        //TopBar..FrogetFragment详情注释
-        /*mTopBar = (TopBar) view.findViewById(R.id.topBar_home);
-        mTopBar.setOnTopbarClickListener(new TopBar.topbarClickListener() {
-            @Override
-            public void leftClick() {
-
-            }
-
-            @Override
-            public void rightClick() {
-                Toast.makeText(getActivity(), "go to Serach", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        mTopBar.setButtonVisable(0, false);
-        mTopBar.setButtonVisable(1, true);*/
-
-        /*swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
-        swipe.setOnRefreshListener(this);
-        // 顶部刷新的样式
-        swipe.setColorSchemeResources(android.R.color.holo_red_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_orange_light);*/
 
 
         SharedPreferences sp = getActivity().getSharedPreferences("userId", getActivity().MODE_PRIVATE);
@@ -402,6 +398,140 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    private void initialize() {
+
+        cycleViewPager = (CycleViewPager) getActivity().getFragmentManager()
+                .findFragmentById(R.id.fragment_cycle_viewpager_content);
+
+        for (int i = 0; i < imageUrls.length; i++) {
+            ADInfo info = new ADInfo();
+            info.setUrl(imageUrls[i]);
+            info.setContent("图片-->" + i);
+            infos.add(info);
+        }
+
+        // 将最后一个ImageView添加进来
+        views.add(ViewFactory.getImageView(getActivity(), infos.get(infos.size() - 1)
+                .getUrl()));
+        for (int i = 0; i < infos.size(); i++) {
+            views.add(ViewFactory.getImageView(getActivity(), infos.get(i).getUrl()));
+        }
+        // 将第一个ImageView添加进来
+        views.add(ViewFactory.getImageView(getActivity(), infos.get(0).getUrl()));
+
+        // 设置循环，在调用setData方法前调用
+        cycleViewPager.setCycle(true);
+
+        // 在加载数据前设置是否循环
+        cycleViewPager.setData(views, infos, mAdCycleViewListener);
+        // 设置轮播
+        cycleViewPager.setWheel(true);
+
+        // 设置轮播时间，默认5000ms
+        cycleViewPager.setTime(2000);
+        // 设置圆点指示图标组居中显示，默认靠右
+        cycleViewPager.setIndicatorCenter();
+    }
+
+    private void initviewcounstor() {
+
+        cycleViewPager_conustor = (CycleViewPager) getActivity().getFragmentManager()
+                .findFragmentById(R.id.fragment_cycle_viewpager_conustor);
+
+        for (int i = 0; i < consutor_images.length; i++) {
+            Log.i("image_urls", consutor_images.length + "");
+            CounselorInfo info = new CounselorInfo();
+            info.setUrl(consutor_images[i]);
+            info.setContent("图片-->" + i);
+            counselorInfo.add(info);
+        }
+
+        // 将最后一个ImageView添加进来
+        consutor_views.add(ViewFactory.getImageView(getActivity(), counselorInfo.get(counselorInfo.size() - 1)
+                .getUrl()));
+        Log.i("counselorInfosize", counselorInfo.size() + "");
+        for (int i = 0; i < counselorInfo.size(); i++) {
+            consutor_views.add(ViewFactory.getImageView(getActivity(), counselorInfo.get(i).getUrl()));
+        }
+        // 将第一个ImageView添加进来
+        consutor_views.add(ViewFactory.getImageView(getActivity(), counselorInfo.get(0).getUrl()));
+
+        // 设置循环，在调用setData方法前调用
+        cycleViewPager_conustor.setCycle(false);
+
+        // 在加载数据前设置是否循环
+        cycleViewPager_conustor.setData(consutor_views, counselorInfo, mCycleListener);
+        // 设置轮播
+        cycleViewPager_conustor.setWheel(false);
+
+        // 设置轮播时间，默认5000ms
+        cycleViewPager_conustor.setTime(2000);
+        // 设置圆点指示图标组居中显示，默认靠右
+        cycleViewPager_conustor.setIndicatorCenter();
+    }
+
+    private CycleViewPager.ImageCycleViewListener mAdCycleViewListener = new CycleViewPager.ImageCycleViewListener() {
+
+        @Override
+        public void onImageClick(ADInfo info, int position, View imageView) {
+            if (cycleViewPager.isCycle()) {
+                position = position - 1;
+                /*Toast.makeText(getActivity(),
+                        "position-->" + info.getContent(), Toast.LENGTH_SHORT)
+                        .show();*/
+                if (mBannerList.get(position).getBannerType() == 0) {
+
+                    Intent intent = new Intent(getActivity(), WebViewTest.class);
+                    intent.putExtra("webUrl", mBannerList.get(position).getActionUrl());
+                    startActivity(intent);
+                } else {
+
+                    Intent intent = new Intent();
+                    intent.putExtra("userId", mBannerList.get(position).getBannerParam());
+                    intent.setClass(getActivity(), HomePageActivity.class);
+                    startActivity(intent);
+                }
+            }
+        }
+    };
+
+    private CycleViewPager.ImageCycleListener mCycleListener = new CycleViewPager.ImageCycleListener() {
+        @Override
+        public void onImageClickL(CounselorInfo info, int postion, View imageView) {
+            if (cycleViewPager_conustor.isCycle()) {
+                //postion = postion - 2;
+                Intent intent = new Intent();
+                intent.putExtra("userId", mCounselorList.get(postion).getUserId());
+                intent.setClass(getActivity(), HomePageActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
+
+    /**
+     * 配置ImageLoder
+     */
+    private void configImageLoader() {
+        // 初始化ImageLoader
+        @SuppressWarnings("deprecation")
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showStubImage(R.drawable.icon_stub) // 设置图片下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.icon_empty) // 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.icon_error) // 设置图片加载或解码过程中发生错误显示的图片
+                .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
+                .cacheOnDisc(true) // 设置下载的图片是否缓存在SD卡中
+                        // .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
+                .build(); // 创建配置过得DisplayImageOption对象
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getActivity()).defaultDisplayImageOptions(options)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+        ImageLoader.getInstance().init(config);
+    }
+
     public void postHomeInfo() {
 
         String url = "http://210.51.190.27:8082/getHome.jspa";
@@ -409,27 +539,8 @@ public class HomeFragment extends Fragment {
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", "1")
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
                 .build()
                 .execute(new MyHomePageCallback());
     }
-
-    public ArrayList<BannerItem> getScrollList() {
-
-        ArrayList list = new ArrayList();
-
-        BannerItem bannerItem = new BannerItem();
-        return list;
-    }
-
-    /*@Override
-    public void onRefresh() {
-
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                postHomeInfo();
-                swipe.setRefreshing(false);
-            }
-        }, 1500);
-    }*/
 }

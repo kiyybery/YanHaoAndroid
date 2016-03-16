@@ -16,6 +16,8 @@
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
 
+    <string name="ok">OK</string>
+
     <!--设置-->
     <!--设置部分-->
     <string name="clear_cache_title">清理缓存</string>
@@ -34,13 +36,14 @@
     <string name="problem_four">取消预约后何时能够退款？</string>
     <string name="edit_unconfirm">怎样取消预约？</string>
     <string name="edit_unconfirm_content">取消预约后何时能够退款？</string>
+    <string name="info_about">燕好是国内第一家将情感咨询与法务咨询相结合的互联网平台，改变传统咨询行业的业务模式，改善家庭中存在的各类情感问题。以构建和谐、温馨、文明、健康的婚姻家庭关系为目标，以帮助和解决情感问题为理念，利用“互联网+”思维，努力打造情感与法务咨询第一品牌。</string>
 
 
     <!--咨询师个人主页-->
 
     <string name="myprofire_content">华东师范大学心理咨询中心主任，副教授，心理学博士，中国心理卫生协会理事，中国心理学会临床与咨询心理学专业机构与专业人员注册系统首批注册心理督导师和注册心理师、上海心理咨询行业协会副会长、上海高校心理咨询协会副会长兼学术部部长、上海市心理卫生学会理事、上海心理学会心理咨询和心理治疗专业委员会副主任委员、上海市心理咨询师职业培训项目专家委员会委员、上海市教委学校心理咨询师培训项目专家委员会委员、《大众心理学》杂志编委，多家管理咨询公司的签约讲师。他有长达近二十年心理咨询、训练和培训的经验，擅长团体心理训练、人际关系和情绪问题的心理辅导、青少年心理咨询，在企业管理心理培训、人事测评和员工心理援助领域也有丰富的经验。他擅长的课程包括职业压力处理、管理沟通、自我探索、团队建设等。接受过他培训及服务的企业及单位包括：平安保险、太平洋安泰保险、浦发银行、招商银行、上海电信、贝尔阿尔卡特、BP石油、3M公司、英业达、京滨电子、东方航空、宝钢集团、延锋伟世通、小糸车灯、上海通用汽车、两面针集团、上海机场、中智公司、上海烟草、上海电力、德力西集团、上海市人事局、上海市检察院等上百企事业单位以及交通大学、复旦大学、清华大学、东华大学、华东理工等多家大学管理学院总裁班或MBA班、各大中小学教师培训等等。他著有《心理咨询师对你说》、《生存心境界》、《心理侦探》等书二十多本，并曾为数十家报刊开设心理专栏或撰稿，发表文章达百万字。</string>
     <string name="professional_content">2011-2013 中德家庭医疗机构，同济大学</string>
-    <string name="unlogin_tv">登录后可查看预约咨询师，个人主页会展示在这里测试</string>
+    <string name="unlogin_tv">登录后可预约查看咨询师，个人主页会展示在这里测试</string>
     <string name="unlogin_tv_subarea">登录后,燕好为您匹配专属咨询师</string>
 
 
@@ -48,4 +51,19 @@
     <string name="titlename">支付</string>
     <string name="info">支付成功</string>
     <string name="content">咨询师会尽快与您联系，详情可在我得预约查看。有任何疑问可拨打客服电话</string>
+
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">滑动查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+
+    <!-- WXPayEntryActivity -->
+    <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+
+    <string name="pay_result_tip_success">支付成功</string>
+    <string name="pay_result_tip_error">支付发生错误</string>
+    <string name="pay_result_tip_giveup">放弃支付</string>
 </resources>

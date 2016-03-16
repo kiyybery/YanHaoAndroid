@@ -7,10 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.flyco.banner.widget.Banner.BaseIndicaorBanner;
+import com.flyco.banner.widget.Banner.BaseIndicatorBanner;
 import com.yanhao.main.yanhaoandroid.util.ViewFindUtils;
 
-public class SimpleGuideBanner extends BaseIndicaorBanner<Integer, SimpleGuideBanner> {
+public class SimpleGuideBanner extends BaseIndicatorBanner<Integer, SimpleGuideBanner> {
     public SimpleGuideBanner(Context context) {
         this(context, null, 0);
     }
@@ -26,14 +26,14 @@ public class SimpleGuideBanner extends BaseIndicaorBanner<Integer, SimpleGuideBa
 
     @Override
     public View onCreateItemView(int position) {
-        View inflate = View.inflate(context, R.layout.adapter_simple_guide, null);
+        View inflate = View.inflate(mContext, R.layout.adapter_simple_guide, null);
         ImageView iv = ViewFindUtils.find(inflate, R.id.iv);
         TextView tv_jump = ViewFindUtils.find(inflate, R.id.tv_jump);
 
-        final Integer resId = list.get(position);
-        tv_jump.setVisibility(position == list.size() - 1 ? VISIBLE : GONE);
+        final Integer resId = mDatas.get(position);
+        tv_jump.setVisibility(position == mDatas.size() - 1 ? VISIBLE : GONE);
 
-        Glide.with(context)
+        Glide.with(mContext)
                 .load(resId)
                 .into(iv);
 

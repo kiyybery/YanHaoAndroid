@@ -10,15 +10,29 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class OrderActivity extends AppCompatActivity {
 
+    private int userType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            OrderFragment productionResultFrg = OrderFragment.newInstance();
-            ft.add(android.R.id.content, productionResultFrg);
-            ft.commit();
+
+            userType = getIntent().getIntExtra("userType",0);
+            if(userType == 0){
+
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                OrderFragment productionResultFrg = OrderFragment.newInstance();
+                ft.add(android.R.id.content, productionResultFrg);
+                ft.commit();
+            }else {
+
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                OrderPersonalFragment productionResultFrg = OrderPersonalFragment.newInstance();
+                ft.add(android.R.id.content, productionResultFrg);
+                ft.commit();
+            }
+
 
             /*FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();

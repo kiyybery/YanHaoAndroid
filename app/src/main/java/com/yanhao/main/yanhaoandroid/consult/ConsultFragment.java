@@ -38,6 +38,8 @@ public class ConsultFragment extends Fragment implements View.OnClickListener {
     private TopBar mTopBar;
     private TextView mUnLogin_tv;
     private RelativeLayout mUnLogin_layout;
+    private RelativeLayout mTitle;
+    private TextView mTitle_tv;
 
     private int[] areaimages = new int[]{
             R.drawable.marriage, R.drawable.children,
@@ -48,7 +50,7 @@ public class ConsultFragment extends Fragment implements View.OnClickListener {
     private String[] areatexts = new String[]{
             "婚姻关系", "青少年儿童", "职场困惑",
             "情绪与神经症", "人际社交", "个人成长",
-            "性方面", "其他"
+            "性方面", "身心健康"
     };
 
     SharedPreferences sp;
@@ -73,6 +75,12 @@ public class ConsultFragment extends Fragment implements View.OnClickListener {
         //sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
         //userId = sp.getString("userId", "");
         View view = inflater.inflate(R.layout.frag_subarea, container, false);
+
+        mTitle = (RelativeLayout) view.findViewById(R.id.rl_home_title);
+        mTitle.setBackgroundColor(0xff0a82e1);
+        mTitle_tv = (TextView) view.findViewById(R.id.tv_home_title_title);
+        mTitle_tv.setText("咨询");
+
         mGridView = (GridView) view.findViewById(R.id.AreaGridView);
         mGridView.setAdapter(new AreaGridAdapter(getActivity(), arealist));
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,7 +99,7 @@ public class ConsultFragment extends Fragment implements View.OnClickListener {
         }*/
         mUnLogin_tv = (TextView) view.findViewById(R.id.tv_subarea_unlogin);
         mUnLogin_tv.setOnClickListener(this);
-        mTopBar = (TopBar) view.findViewById(R.id.topBar_consult);
+        /*mTopBar = (TopBar) view.findViewById(R.id.topBar_consult);
         mTopBar.setOnTopbarClickListener(new TopBar.topbarClickListener() {
             @Override
             public void leftClick() {
@@ -101,12 +109,12 @@ public class ConsultFragment extends Fragment implements View.OnClickListener {
             @Override
             public void rightClick() {
                 //Toast.makeText(getActivity(), "区域选择", Toast.LENGTH_LONG).show();
-                //// TODO: 2015/11/17 0017 是否需要跳转citylist？ 
+                //// TODO: 2015/11/17 0017 是否需要跳转citylist？
             }
         });
 
         mTopBar.setButtonVisable(0, false);
-        mTopBar.setButtonVisable(1, true);
+        mTopBar.setButtonVisable(1, true);*/
         return view;
     }
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class ConsultListFragment extends Fragment {
     private List<String> mList;
     private ConsultListBean mConsultListBean;
     private ImageView mBackImage;
+    private LinearLayout mBack;
     private TextView mTitle;
     private ConsultListAdapter consultListAdapter;
     private ProgressBar progressBar;
@@ -102,9 +104,18 @@ public class ConsultListFragment extends Fragment {
             mConsultListBean.setText("情绪障碍" + i);
             mList.add(mConsultListBean);
         }*/
+        mBack = (LinearLayout) view.findViewById(R.id.ll_section_title_back);
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
         if (itemName.equals("青少年儿童")) {
+
             postString();
         } else if (itemName.equals("婚姻关系")) {
+
             postStringWordList();
         } else if (itemName.equals("职场困惑")) {
 
@@ -121,10 +132,9 @@ public class ConsultListFragment extends Fragment {
         } else if (itemName.equals("性方面")) {
 
             postStringWordList7();
-        } else if (itemName.equals("其他")) {
+        } else if (itemName.equals("身心健康")) {
 
-            Intent intent = new Intent(getActivity(), MatchConsultantActivity.class);
-            startActivity(intent);
+            postStringWordList8();
         }
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar_Consult);
@@ -225,6 +235,17 @@ public class ConsultListFragment extends Fragment {
     private void postStringWordList7() {
 
         String url = "http://7xop51.com1.z0.glb.clouddn.com/keywords_7.txt";
+        OkHttpUtils
+                .postString()
+                .url(url)
+                .content(new Gson().toJson(new UserInfo("zhy", "123")))
+                .build()
+                .execute(new MyCallback());
+    }
+
+    private void postStringWordList8() {
+
+        String url = "http://7xop51.com1.z0.glb.clouddn.com/keywords_8.txt";
         OkHttpUtils
                 .postString()
                 .url(url)

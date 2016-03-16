@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.adapter.MyOrderAdapter;
+import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.OrderBean;
 import com.yanhao.main.yanhaoandroid.bean.OrderInfo;
 import com.yanhao.main.yanhaoandroid.bean.PersonalOrderBean;
@@ -43,6 +46,8 @@ public class OrderFragment extends Fragment {
     private TextView mTitle;
     private ImageView mBackImage;
     private MyOrderAdapter mMyOrderAdapter;
+    private ProgressBar mBar;
+    private RelativeLayout empty_layout;
 
     private class GetUserReservation extends StringCallback {
 
@@ -56,7 +61,13 @@ public class OrderFragment extends Fragment {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                Log.i("reservationList", s);
+                mBar.setVisibility(View.GONE);
                 JSONArray array = jsonObject.getJSONArray("reservationList");
+                if (array.length() == 0) {
+
+                    empty_layout.setVisibility(View.VISIBLE);
+                }
                 for (int i = 0; i < array.length(); i++) {
 
                     JSONObject job = (JSONObject) array.get(i);
@@ -65,11 +76,13 @@ public class OrderFragment extends Fragment {
                     mOrderBean.setImageview(job.getString("portraitUrl"));
                     mOrderBean.setArea(job.getString("consultTypeName"));
                     mOrderBean.setData(job.getString("reservationTime"));
+                    mOrderBean.setReservationId(job.getInt("reservationId"));
+                    mOrderBean.setPayStatus(job.getInt("payStatus"));
 
                     JSONObject object = job.getJSONObject("details");
                     mOrderBean.setAddress(object.getString("address"));
                     mOrderBean.setServicetel(object.getString("serviceTel"));
-                    Log.i("order_desp", object.getString("address") + object.getString("servicetel"));
+                    Log.i("order_desp", object.getString("address") + object.getString("serviceTel"));
 
                     mList.add(mOrderBean);
                     mMyOrderAdapter.notifyDataSetChanged();
@@ -77,7 +90,6 @@ public class OrderFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -99,8 +111,9 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_myorder, container, false);
 
-        //getUserReservation();
-        getUserReservationForQiNiu();
+        getUserReservation();
+        //getUserReservationForQiNiu();
+        empty_layout = (RelativeLayout) view.findViewById(R.id.empty_layout);
         mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,15 +124,9 @@ public class OrderFragment extends Fragment {
         mTitle = (TextView) view.findViewById(R.id.tv_section_title_title);
         mTitle.setText("我的预约");
 
+        mBar = (ProgressBar) view.findViewById(R.id.progressbar_myorder);
+
         mList = new ArrayList<>();
-        /*for (int i = 0; i < 20; i++) {
-            mOrderBean = new OrderBean();
-            mOrderBean.setConstantName("咨询师"+i);
-            mOrderBean.setLevel("国家" + i+"级");
-            mOrderBean.setArea("神经病 亲子关系 婚姻关系" + i);
-            mOrderBean.setData("2015年2月" + i+"日");
-            mList.add(mOrderBean);
-        }*/
 
         mOrderListView = (ListView) view.findViewById(R.id.order_listview);
         mMyOrderAdapter = new MyOrderAdapter(getActivity(), mList);
@@ -135,6 +142,7 @@ public class OrderFragment extends Fragment {
                 intent.putExtra("reservationTime", mList.get(i).data);
                 intent.putExtra("address", mList.get(i).address);
                 intent.putExtra("servicetel", mList.get(i).servicetel);
+                intent.putExtra("payStatus", mList.get(i).payStatus);
                 intent.setClass(getActivity(), AllOrderActivity.class);
                 startActivity(intent);
             }
@@ -142,24 +150,13 @@ public class OrderFragment extends Fragment {
         return view;
     }
 
-    /*private void getUserReservation() {
+    private void getUserReservation() {
 
         String url = "http://210.51.190.27:8082/getUserReservation.jspa";
         OkHttpUtils
                 .post()
                 .url(url)
                 .addParams("userId", PrefHelper.get().getString("userId", ""))
-                .build()
-                .execute(new GetUserReservation());
-    }*/
-
-    private void getUserReservationForQiNiu() {
-
-        String url = "http://7xop51.com1.z0.glb.clouddn.com/order_desp_get.txt";
-
-        OkHttpUtils
-                .post()
-                .url(url)
                 .build()
                 .execute(new GetUserReservation());
     }

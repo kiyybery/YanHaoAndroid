@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,9 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
     private int reservationId;
     private Button mOrderBtn;
     private ProgressBar progressBar;
+    private LinearLayout mBack_layout;
+    private int consultType;
+    private TextView empty_tv;
 
     private List<ReservationData> reservationDatas = new ArrayList<>();
     private String[] texts = new String[]{
@@ -86,6 +90,11 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(s);
                 progressBar.setVisibility(View.GONE);
                 JSONArray reservationArray = jsonObject.getJSONArray("reservationList");
+
+                if (reservationArray.length() == 0) {
+
+                    empty_tv.setVisibility(View.VISIBLE);
+                }
                 for (int i = 0; i < reservationArray.length(); i++) {
 
 
@@ -131,7 +140,16 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_ordertime);
 
         userId = getIntent().getStringExtra("userId");
+        consultType = getIntent().getIntExtra("consultType", 0);
 
+        empty_tv = (TextView) findViewById(R.id.empty_tv);
+        mBack_layout = (LinearLayout) findViewById(R.id.ll_section_title_back);
+        mBack_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         mTitle = (TextView) findViewById(R.id.tv_section_title_title);
         mTitle.setText("预约时间");
         mOrderBtn = (Button) findViewById(R.id.btnpay_orderTime);
@@ -155,7 +173,7 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
                 time = mTimes.get(i).period;
                 reservationId = mTimes.get(i).reservationId;
                 Log.i("reservationId", reservationId + "");
-                Toast.makeText(TimeMainActivity.this, mTimes.get(i).reservationId + "", Toast.LENGTH_LONG).show();
+                //Toast.makeText(TimeMainActivity.this, mTimes.get(i).reservationId + "", Toast.LENGTH_LONG).show();
                 //save();
             }
         });
@@ -217,6 +235,7 @@ public class TimeMainActivity extends Activity implements View.OnClickListener {
                 .url(url)
                 .addParams("userId", PrefHelper.get().getString("userId", ""))
                 .addParams("counselorId", userId)
+                .addParams("consultType", consultType + "")
                 .build()
                 .execute(new GetReservationSchedule());
     }

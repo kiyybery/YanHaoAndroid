@@ -2,14 +2,17 @@ package com.yanhao.main.yanhaoandroid.serach;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +25,7 @@ import com.google.gson.Gson;
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.adapter.ConstantAdapter;
 import com.yanhao.main.yanhaoandroid.adapter.SelectAdapter;
 import com.yanhao.main.yanhaoandroid.adapter.SerachAdapter;
 import com.yanhao.main.yanhaoandroid.adapter.SerachHistoryAdapter;
@@ -30,6 +34,7 @@ import com.yanhao.main.yanhaoandroid.bean.SelectBean;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
+import com.yanhao.main.yanhaoandroid.util.XListView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -56,6 +61,15 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
     private EditText serach_et;
     private RelativeLayout mCancel_layout;
 
+    private Handler mHandler;
+    private int start = 0;
+    private static int refreshCnt = 0;
+
+    private int pageId = 1;
+    private int count = 10;
+    private int countPerPage;
+    private JSONArray jsonArray;
+
     private class SerachResult extends StringCallback {
 
         @Override
@@ -70,19 +84,19 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
             mContent.clear();
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                JSONArray array = jsonObject.getJSONArray("counselorList");
-                for (int i = 0; i < array.length(); i++) {
+                jsonArray = jsonObject.getJSONArray("counselorList");
+                for (int i = 0; i < jsonArray.length(); i++) {
 
-                    JSONObject job = (JSONObject) array.get(i);
+                    JSONObject job = (JSONObject) jsonArray.get(i);
                     String name = job.getString("name");
                     String photoUrl = job.getString("portraitUrl");
                     String userId = job.getString("userId");
                     JSONArray specialityArray = job.getJSONArray("speciality");
-                    for (int j = 0; j < specialityArray.length(); j++){
+                    for (int j = 0; j < specialityArray.length(); j++) {
 
                         mSpeciality = specialityArray.optString(j);
                     }
-                        int level = job.getInt("level");
+                    int level = job.getInt("level");
 
                     mBean = new ConstantBean();
                     mBean.userid = userId;
@@ -131,6 +145,7 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
 
         /*SelectAdapter selectAdapter = new SelectAdapter(getActivity(), selectBeanList);
         spinner2.setAdapter(selectAdapter);*/
+        mHandler = new Handler();
         mCancel_layout = (RelativeLayout) view.findViewById(R.id.cencel_layout);
         mCancel_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +163,7 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                serach_img.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -161,13 +177,13 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
 
                 if (KeyEvent.KEYCODE_ENTER == i && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
 
-                    try {
-                        serach();
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("keywords", serach_et.getText().toString());
+                    intent.setClass(getActivity(), SerachContentActivity.class);
+                    startActivity(intent);
+                    return true;
                 }
-                return true;
+                return false;
             }
         });
         mListView = (ListView) view.findViewById(R.id.history_serach_list);
@@ -175,7 +191,7 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
-                intent.putExtra("userId", mContent.get(i).getUserid());
+                intent.putExtra("userId", mContent.get(i - 1).getUserid());
                 intent.setClass(getActivity(), HomePageActivity.class);
                 startActivity(intent);
             }
@@ -185,11 +201,7 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
         serach_img.setOnClickListener(this);
 
         mContent = new ArrayList<>();
-        /*for (int i = 0; i < 6; i++) {
-            SelectBean select = new SelectBean();
-            select.setText("记录" + i);
-            mContent.add(select);
-        }*/
+
         mAdapter = new SerachAdapter(getActivity(), mContent);
         mListView.setAdapter(mAdapter);
 
@@ -197,7 +209,7 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void serach() throws UnsupportedEncodingException {
+    public void serach(int pageId) throws UnsupportedEncodingException {
 
         String keywords = URLEncoder.encode("李璐", "utf-8");
 
@@ -207,6 +219,7 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
                 .url(url)
                 .addParams("type", "1")
                 .addParams("keyword", serach_et.getText().toString())
+                .addParams("pageId", pageId + "")
                 .build()
                 .execute(new SerachResult());
     }
@@ -216,11 +229,7 @@ public class SerachFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
 
             case R.id.serach_iv:
-                try {
-                    serach();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                serach_et.setText("");
                 break;
         }
     }

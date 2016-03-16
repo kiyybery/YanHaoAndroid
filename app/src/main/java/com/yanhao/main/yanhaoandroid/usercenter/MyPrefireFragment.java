@@ -65,6 +65,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
 
     private static final int REQUEST_MODIFY_AVATAR = 500;
     private static final int REQUEST_MODIFY_LOGOUT = 501;
+    private static final int REQUEST_MODIFY_EDIT = 902;
 
     private Map<String, String> tempUserInfo = new HashMap<>();
 
@@ -87,6 +88,8 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
     boolean isLogin = NewFeature.LOGIN_STATUS;
 
     String path = PrefHelper.get().getString("portraitUrl", "");
+
+    private int userType;
 
     public static MyPrefireFragment newInstance() {
 
@@ -172,9 +175,9 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
         mName_tv = (TextView) view.findViewById(R.id.tv_uc_nickname);
 
 
-        if (!PrefHelper.get().getString("username", "").equals("")) {
+        if (!PrefHelper.get().getString("nickName", "").equals("")) {
 
-            mName_tv.setText(PrefHelper.get().getString("username", ""));
+            mName_tv.setText(PrefHelper.get().getString("nickName", ""));
         } else {
 
             mName_tv.setText("燕好用户");
@@ -195,8 +198,14 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
         }
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar);
 
-        Log.i("avatars_path", path);
-        Glide.with(MyPrefireFragment.this).load(path).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
+        Log.i("my_avatars_path", path);
+        Glide.with(MyPrefireFragment.this)
+                .load(PrefHelper.get().getString("portraitUrl", ""))
+                .dontTransform()
+                .dontAnimate()
+                .error(R.drawable.avatar_default)
+                .placeholder(R.drawable.avatar_default)
+                .into(mCircleImageView);
         //mCircleImageView.setImageResource(R.drawable.imgmengmengava);
         //mCircleImageView.setOnClickListener(this);
         mOrder_tv = (TextView) view.findViewById(R.id.my_profile_order);
@@ -264,7 +273,17 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
             mUnLoginLayout.setVisibility(View.GONE);
             //getUserInfo(type.getMsg(), type.getPwd());
             mUpdate_tv.setVisibility(View.VISIBLE);
-            Glide.with(MyPrefireFragment.this).load(path).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
+            Glide.with(MyPrefireFragment.this)
+                    .load(type.getPwd())
+                    .dontTransform()
+                    .dontAnimate()
+                    .placeholder(R.drawable.avatar_default)
+                    .error(R.drawable.avatar_default)
+                    .into(mCircleImageView);
+            mName_tv.setText(PrefHelper.get().getString("nickName", ""));
+            userType = type.getUserType();
+            PrefHelper.get().put("userType", userType);
+            //PrefHelper.get().put("portraitUrl", PrefHelper.get().getString("avatars", ""));
         } else if (type.getPwd().equals("logout")) {
             //Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
             mUnLoginLayout.setVisibility(View.VISIBLE);
@@ -333,11 +352,12 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
                 //只做跳转，待传值。
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), EditActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_MODIFY_EDIT);
                 break;
             case R.id.my_profile_order:
                 //
                 intent = new Intent();
+                intent.putExtra("userType", PrefHelper.get().getInt("userType", 0));
                 intent.setClass(getActivity(), OrderActivity.class);
                 startActivity(intent);
                 break;
@@ -357,6 +377,7 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
             case R.id.my_profile_note:
 
                 intent = new Intent();
+                intent.putExtra("userType", PrefHelper.get().getInt("userType", 0));
                 intent.setClass(getActivity(), RecordActivity.class);
                 startActivity(intent);
                 break;
@@ -403,33 +424,6 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
         }
 
         switch (resultCode) {
-            case REQUEST_MODIFY_AVATAR:
-                /**
-                 *  拍照后是跳转到裁剪frag,再到预览frag, 然后在预览frag if(确定)，再次返回本界面,更新本地avatar,
-                 *   if(onBackPressed 用户确认更新个人资料|点击保存按钮)
-                 * 从相册选择后返回，类似于拍照., 暂时先不做裁剪了，有时间再做
-                 */
-                int type = data.getIntExtra("avatar", 0);
-                String path = "";
-                if (type == 1) {
-                    Bundle extras = data.getExtras();
-                    path = extras.getString("avatarPath");
-                    if (!TextUtils.isEmpty(path)) {
-                        Log.i("11", "从相机返回的头像地址" + path);
-                        Glide.with(this).load(Uri.fromFile(new File(path))).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
-                    }
-                } else if (type == 2) {
-                    Uri imageUri = data.getData();
-                    Log.i("11", "imageUri.toString=" + imageUri.toString() +
-                            ",imageUri.getPath=" + imageUri.getPath() +
-                            ",imageUri.getEncodedPath()=" + imageUri.getEncodedPath());
-//                    imageUri.getPath(); iv_avatar.setImageURI(imageUri);
-                    Glide.with(this).load(imageUri).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
-                    path = FileUtilsOfPaul.getPath(getActivity(), imageUri);
-                    Log.i("11", "从本地Uri解析出的头像地址" + path);
-                }
-                tempUserInfo.put("avatars", path);
-                break;
 
             case REQUEST_MODIFY_LOGIN:
 
@@ -443,6 +437,19 @@ public class MyPrefireFragment extends Fragment implements View.OnClickListener,
             case REQUEST_MODIFY_LOGOUT:
 
                 view = inflater.inflate(R.layout.prefire_fragment, null);
+                break;
+
+            case REQUEST_MODIFY_EDIT:
+
+                String avatars_path = data.getStringExtra("avatars_paths");
+                Log.i("get_path", avatars_path);
+                Glide.with(MyPrefireFragment.this)
+                        .load(Uri.fromFile(new File(avatars_path)))
+                        .dontAnimate()
+                        .dontTransform()
+                        .placeholder(R.drawable.avatar_default)
+                        .error(R.drawable.avatar_default)
+                        .into(mCircleImageView);
                 break;
             default:
                 break;

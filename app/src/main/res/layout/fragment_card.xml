@@ -22,7 +22,7 @@
         android:layout_alignBottom="@+id/area_tv"
         android:layout_alignEnd="@+id/area_tv"
         android:layout_alignRight="@+id/area_tv"
-        android:background="@drawable/icon_select_check"
+        android:background="@drawable/icon_time_checked"
         android:visibility="visible" />
 
 </RelativeLayout>

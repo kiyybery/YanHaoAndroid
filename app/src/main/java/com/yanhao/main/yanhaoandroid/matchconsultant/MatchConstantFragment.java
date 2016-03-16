@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.ConstantBean;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
+import com.yanhao.main.yanhaoandroid.util.XListView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -46,9 +48,9 @@ import java.util.List;
  * Created by Administrator on 2015/11/2 0002.
  */
 public class MatchConstantFragment extends Fragment implements
-        android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
+        android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener, XListView.IXListViewListener {
 
-    private ListView mConstantListView;
+    private XListView mConstantListView;
     private List<ConstantBean> mList;
     private ConstantBean mConstantBean;
     private List mSpecialityList;
@@ -70,6 +72,16 @@ public class MatchConstantFragment extends Fragment implements
 
     String titleName;
     String itemName;
+
+    private Handler mHandler;
+    private int start = 0;
+    private static int refreshCnt = 0;
+
+    private int pageId = 1;
+    private int count = 10;
+    private int countPerPage;
+    private JSONArray jsonArray;
+    private LinearLayout mBack;
 
     Handler handler = new Handler() {
         @Override
@@ -98,9 +110,11 @@ public class MatchConstantFragment extends Fragment implements
             //Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                JSONArray jsonArray = jsonObject.getJSONArray("counselorList");
+                countPerPage = jsonObject.getInt("countPerPage");
+                jsonArray = jsonObject.getJSONArray("counselorList");
 
                 for (int i = 0; i < jsonArray.length(); i++) {
+                    Log.i("jsonArray_length", jsonArray.length() + "");
                     mConstantBean = new ConstantBean();
                     JSONObject jo = (JSONObject) jsonArray.get(i);
                     // T.show(getActivity(), jo.keys() + "", 1000);
@@ -128,7 +142,7 @@ public class MatchConstantFragment extends Fragment implements
                     mList.add(mConstantBean);
                 }
 
-                mConstantListView.setAdapter(constantAdapter);
+
                 constantAdapter.notifyDataSetChanged();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -155,34 +169,39 @@ public class MatchConstantFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_matchconsultant, container, false);
         titleName = getArguments().getString("titlename");
         itemName = getArguments().getString("item");
-        //Toast.makeText(getActivity(), titleName + " " + itemName, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity(), "fragment get values = " + titleName + " " + itemName, Toast.LENGTH_LONG).show();
         //getContants();
         //getConstants();
-        getCounselor(titleName, itemName);
+        getCounselor(titleName, itemName, pageId);
         mSpecialityList = new ArrayList<>();
         mList = new ArrayList<>();
-        /*for (int i = 0; i < 15; i++) {
-            mConstantBean = new ConstantBean();
-            mConstantBean.setConstantName("大师" + i);
-            //mConstantBean.setLevel("国家二级" + i);
-            mConstantBean.setArea("亲子关系 婚姻困惑 三角恋" + i);
-            mList.add(mConstantBean);
-        }*/
-        mConstantListView = (ListView) view.findViewById(R.id.match_listview);
+        mHandler = new Handler();
+
+        mConstantListView = (XListView) view.findViewById(R.id.match_listview);
         mConstantListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent = new Intent(getActivity(), HomePageActivity.class);
-                intent.putExtra("userId", mList.get(i).userid);
+                intent.putExtra("userId", mList.get(i - 1).userid);
+                Log.i("consultorid", mList.get(i - 1).userid);
                 //Toast.makeText(getActivity(), "userId" + mList.get(i).userid, Toast.LENGTH_LONG).show();
                 startActivity(intent);
             }
         });
+        mConstantListView.setPullLoadEnable(true);
+        mConstantListView.setXListViewListener(this);
         constantAdapter = new ConstantAdapter(getActivity(), mList);
-
+        mConstantListView.setAdapter(constantAdapter);
         mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+        mBack = (LinearLayout) view.findViewById(R.id.ll_section_title_back);
+        mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().finish();
@@ -194,14 +213,6 @@ public class MatchConstantFragment extends Fragment implements
         set = (AnimationSet) AnimationUtils.loadAnimation(getActivity(), R.anim.gear_anim);
         setLeft = (AnimationSet) AnimationUtils.loadAnimation(getActivity(), R.anim.gear_anim_left);
         setRight = (AnimationSet) AnimationUtils.loadAnimation(getActivity(), R.anim.gear_anim_right);
-
-        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe_match);
-        swipe.setOnRefreshListener(this);
-        // 顶部刷新的样式
-        swipe.setColorSchemeResources(android.R.color.holo_red_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_orange_light);
 
         ImageView gearIV = (ImageView) view.findViewById(R.id.gear_iv);
         ImageView gearIVLeft = (ImageView) view.findViewById(R.id.gear_iv_left);
@@ -224,7 +235,7 @@ public class MatchConstantFragment extends Fragment implements
         return view;
     }
 
-    private void getCounselor(String category, String item) {
+    private void getCounselor(String category, String item, int pageId) {
 
         String url = "http://210.51.190.27:8082/matchCounselor.jspa";
         //String url = YanHao.api_base + "matchCounselor.jspa";
@@ -233,9 +244,15 @@ public class MatchConstantFragment extends Fragment implements
                 .url(url)//
                 .addParams("category", item)//
                 .addParams("item", category)//
-                        //.addParams("code","283454")
+                .addParams("pageId", pageId + "")
                 .build()//
                 .execute(new GetContantsCallBack());
+    }
+
+    private void onLoad() {
+        mConstantListView.stopRefresh();
+        mConstantListView.stopLoadMore();
+        mConstantListView.setRefreshTime("刚刚");
     }
 
     @Override
@@ -243,10 +260,36 @@ public class MatchConstantFragment extends Fragment implements
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                mList.clear();
-                getCounselor(titleName, itemName);
-                swipe.setRefreshing(false);
+                start = ++refreshCnt;
+                //mList.clear();
+                getCounselor(titleName, itemName, pageId);
+                constantAdapter = new ConstantAdapter(getActivity(), mList);
+                mConstantListView.setAdapter(constantAdapter);
+                onLoad();
             }
         }, 1500);
     }
+
+    @Override
+    public void onLoadMore() {
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (jsonArray.length() == countPerPage) {
+
+                    getCounselor(titleName, itemName, ++pageId);
+                    constantAdapter.notifyDataSetChanged();
+                    onLoad();
+                } else {
+
+                    onLoad();
+                    Toast.makeText(getActivity(), "已经到底了！", Toast.LENGTH_LONG).show();
+                    mConstantListView.setPullLoadEnable(false);
+                }
+
+            }
+        }, 2000);
+    }
+
 }

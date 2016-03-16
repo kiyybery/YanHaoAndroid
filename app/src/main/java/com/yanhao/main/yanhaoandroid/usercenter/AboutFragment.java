@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.test.WebViewTest;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.yanhao.main.yanhaoandroid.util.UIHelper;
 
@@ -25,6 +27,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     private TextView mCallPhone_tv, mTitle;
     private ImageView mBackImage;
     Dialog dialog;
+    private RelativeLayout info_layout, deal_layout;
 
     public static AboutFragment newInstance() {
 
@@ -47,6 +50,10 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
+        info_layout = (RelativeLayout) view.findViewById(R.id.about_layout_info);
+        info_layout.setOnClickListener(this);
+        deal_layout = (RelativeLayout) view.findViewById(R.id.about_layout_deal);
+        deal_layout.setOnClickListener(this);
         mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +94,19 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                             }
                         });
                 break;
+            case R.id.about_layout_info:
+
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), AboutDetialActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.about_layout_deal:
+
+                int tag = 1;
+                intent = new Intent();
+                intent.putExtra("tag",tag);
+                intent.setClass(getActivity(), WebViewTest.class);
+                startActivity(intent);
             default:
                 break;
         }

@@ -30,6 +30,7 @@ import com.yanhao.main.yanhaoandroid.bean.Type;
 import com.yanhao.main.yanhaoandroid.bean.UserInfo;
 import com.yanhao.main.yanhaoandroid.homepage.HomePageActivity;
 import com.yanhao.main.yanhaoandroid.homepage.PayPageActivity;
+import com.yanhao.main.yanhaoandroid.test.WebViewTest;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
@@ -52,6 +53,7 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
 
     private Button mCommitBtn;
     private RelativeLayout mAsktime_layout;
+    private LinearLayout mBack_layout;
     private TextView mAsk_tv_face, mAsk_tv_phone, mName, mAddress, mTitle, mAskTime, mAskData;
     private LinearLayout mLayout_face, mLayout_phone;
     private int status = 0;
@@ -66,6 +68,7 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
     public static final int REQUEST_MODIFY_TIME = 100;
 
     private String[] types = new String[]{"当面咨询", "电话咨询"};
+    private int consultType;
     private GridViewAdapter mAdapter;
     private int reservationId;
 
@@ -91,7 +94,7 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String nickname = jsonObject.getString("name");
-                String address = jsonObject.getString("city");
+                //String address = jsonObject.getString("city");
                 String url = jsonObject.getString("portraitUrl");
                 int level = jsonObject.getInt("level");
 
@@ -106,8 +109,15 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
                     Glide.with(OrderContantFragment.this).load(R.drawable.level_icon_sanji).into(mLevel);
                 }
                 mName.setText(nickname);
-                mAddress.setText(address);
-                Glide.with(OrderContantFragment.this).load(url).into(mImg);
+                //mAddress.setText(address);
+                Glide
+                        .with(OrderContantFragment.this)
+                        .load(url)
+                        .dontAnimate()
+                        .dontTransform()
+                        .placeholder(R.drawable.avatar_default)
+                        .error(R.drawable.avatar_default)
+                        .into(mImg);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -132,7 +142,18 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
             //T.show(getActivity(), s, 100);
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                Toast.makeText(getActivity(), jsonObject.getString("info"), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+                if (jsonObject.getInt("ret") == 0) {
+
+                    String webUrl = "http://210.51.190.27:8582/order/signorder.jspa?orderType=6&pid=1&canPayType=6&buyUserId="
+                            + URLEncoder.encode(PrefHelper.get().getString("userId", ""));
+                    Intent intent = new Intent(getActivity(), WebViewTest.class);
+                    intent.putExtra("webUrl", webUrl);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), jsonObject.getString("info"), Toast.LENGTH_LONG).show();
+                    return;
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -174,6 +195,13 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
             getinfosong();
         }*/
 
+        mBack_layout = (LinearLayout) view.findViewById(R.id.ll_section_title_back);
+        mBack_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
         mPhoneNum_et = (EditText) view.findViewById(R.id.callstyle_time);
         mIssue_et = (EditText) view.findViewById(R.id.problem_time);
         mNote_et = (EditText) view.findViewById(R.id.note_time);
@@ -207,13 +235,17 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
             Type type = new Type();
             type.setText(types[i]);
             mList.add(type);
-
         }
         mAdapter = new GridViewAdapter(getActivity(), mList);
         mGridView.setAdapter(mAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Toast.makeText(getActivity(), mList.get(i).getText(), Toast.LENGTH_LONG).show();
+                if (mList.get(i).getText().equals("电话咨询")) {
+
+                    consultType = 1;
+                }
                 mAdapter.setSelectedPosition(i);
                 mAdapter.notifyDataSetInvalidated();
             }
@@ -227,19 +259,26 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
 
             case R.id.btnCommitAsk:
 
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PayPageActivity.class);
-                startActivity(intent);
+                if (mPhoneNum_et.getText().length() == 0 || mIssue_et.getText().length() == 0 || mNote_et.getText().length() == 0) {
+                    T.show(getActivity(), "您输入有误，请检查！", 100);
+                    return;
+                } else {
+                    /*Intent intent = new Intent();
+                    intent.putExtra("reservationId", reservationId);
+                    intent.setClass(getActivity(), PayPageActivity.class);
+                    startActivity(intent);*/
 
-                Reverve(PrefHelper.get().getString("userId", ""));
-                Log.i("order_userId", PrefHelper.get().getString("userId", ""));
 
+                    Reverve(PrefHelper.get().getString("userId", ""));
+                    Log.i("order_userId", PrefHelper.get().getString("userId", ""));
+                }
                 break;
 
             case R.id.asktime_layout:
 
-                intent = new Intent();
+                Intent intent = new Intent();
                 intent.putExtra("userId", userId);
+                intent.putExtra("consultType", consultType);
                 intent.setClass(getActivity(), TimeMainActivity.class);
                 startActivityForResult(intent, REQUEST_MODIFY_TIME);
                 break;
@@ -291,7 +330,7 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
                 String ask_data = data.getStringExtra("data");
                 String ask_time = data.getStringExtra("time");
                 reservationId = data.getIntExtra("reservationId", 2);
-                Toast.makeText(getActivity(), reservationId + "", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), reservationId + "", Toast.LENGTH_LONG).show();
                 Log.i("orderreservationId", reservationId + "");
                 mAskData.setText(ask_data);
                 mAskTime.setText(ask_time);
@@ -325,23 +364,14 @@ public class OrderContantFragment extends Fragment implements View.OnClickListen
 
         String sec_mobile = SecurityUtil.encrypt(mobile);
 
-        String encoder_issue = null;
-        String encoder_note = null;
-
-        try {
-            encoder_issue = URLEncoder.encode(issue, "utf-8");
-            encoder_note = URLEncoder.encode(note, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
         OkHttpUtils
                 .post()
                 .url(url)
                 .addParams("userId", PrefHelper.get().getString("userId", ""))
                 .addParams("reservationId", reservationId + "")
                 .addParams("mobile", sec_mobile)
-                .addParams("issue", encoder_issue)
-                .addParams("note", encoder_note)
+                .addParams("issue", issue)
+                .addParams("note", note)
                 .build()
                 .execute(new ReverveCallback());
     }

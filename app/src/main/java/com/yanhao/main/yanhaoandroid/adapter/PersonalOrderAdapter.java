@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.bean.PersonalOrderBean;
 
@@ -20,11 +21,13 @@ public class PersonalOrderAdapter extends BaseAdapter {
 
     private List<PersonalOrderBean> mList;
     private LayoutInflater mInflater;
+    private Context mContext;
 
     public PersonalOrderAdapter(Context context, List<PersonalOrderBean> list) {
 
         this.mInflater = LayoutInflater.from(context);
         this.mList = list;
+        this.mContext = context;
     }
 
     @Override
@@ -58,7 +61,15 @@ public class PersonalOrderAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.imageView.setImageResource(R.drawable.imgmengmengava);
+        //viewHolder.imageView.setImageResource(R.drawable.imgmengmengava);
+        String url = mList.get(i).getImage();
+        Glide.with(mContext)
+                .load(url)
+                .dontAnimate()
+                .dontTransform()
+                .placeholder(R.drawable.avatar_default)
+                .error(R.drawable.avatar_default)
+                .into(viewHolder.imageView);
         viewHolder.personal_name.setText(mList.get(i).getPresonalName());
         viewHolder.personal_type.setText(mList.get(i).getType());
         viewHolder.personal_time.setText(mList.get(i).getTime());

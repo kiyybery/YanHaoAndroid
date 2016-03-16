@@ -46,6 +46,14 @@
             android:scrollbarStyle="outsideInset"
             android:verticalSpacing="8dp" />
 
+        <TextView
+            android:id="@+id/empty_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:text="暂无可预约时间，请您选择其他咨询师"
+            android:visibility="invisible"/>
+
 
         <Button
             android:id="@+id/btnpay_orderTime"

@@ -58,6 +58,7 @@ public class MyTestAdapter extends BaseAdapter {
             RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.img_test_my);
             viewHolder.textView = (TextView) view.findViewById(R.id.title_tv_my);
+            viewHolder.time_tv = (TextView) view.findViewById(R.id.answer_num_my);
             view.setTag(viewHolder);
         } else {
 
@@ -66,12 +67,13 @@ public class MyTestAdapter extends BaseAdapter {
 
         Glide.with(mContext).load(mList.get(i).imageUrl).into(viewHolder.imageView);
         viewHolder.textView.setText(mList.get(i).name);
+        viewHolder.time_tv.setText(mList.get(i).createTime);
         return view;
     }
 
     class ViewHolder {
 
         ImageView imageView;
-        TextView textView;
+        TextView textView, time_tv;
     }
 }

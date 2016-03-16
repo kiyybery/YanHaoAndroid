@@ -12,22 +12,14 @@
 
         <include layout="@layout/section_title" />
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_match"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/match_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/li_section_title"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/myprofire_pressed"
-                android:focusable="true"
-                android:scrollbars="none" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+        <com.yanhao.main.yanhaoandroid.util.XListView
+            android:id="@+id/match_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/li_section_title"
+            android:background="@drawable/myprofire_pressed"
+            android:focusable="true"
+            android:scrollbars="none" />
 
     </LinearLayout>
 

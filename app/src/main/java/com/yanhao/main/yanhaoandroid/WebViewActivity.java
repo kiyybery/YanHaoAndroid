@@ -37,6 +37,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
     private TextView titletv;
     private String webUrl, imageUrl, title, shareTitle, shareDesp, shareImageUrl, shareWebUrl;
     private ImageView mBack_img, mShare_img, mLike_img, mStar_img;
+    private int like_status = 0;
 
     private class addFavorCallback extends StringCallback {
 
@@ -75,7 +76,7 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                T.show(WebViewActivity.this, jsonObject.getInt("status") + "", 100);
+                //T.show(WebViewActivity.this, jsonObject.getInt("status") + "", 100);
                 Log.i("read_status", jsonObject.getInt("status") + "");
                 if (jsonObject.getInt("status") == 1) {
 
@@ -98,8 +99,13 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
         mBack_img.setOnClickListener(this);
         mShare_img = (ImageView) findViewById(R.id.share_img);
         mShare_img.setOnClickListener(this);
-        mLike_img = (ImageView) findViewById(R.id.like_img);
-        mLike_img.setOnClickListener(this);
+        //mLike_img = (ImageView) findViewById(R.id.like_img);
+        /*if (like_status == 1) {
+
+            mLike_img.setImageResource(R.drawable.case_like_icon_pressed);
+            mLike_img.setEnabled(false);
+        }
+        mLike_img.setOnClickListener(this);*/
         mStar_img = (ImageView) findViewById(R.id.star_img);
         mStar_img.setOnClickListener(this);
 
@@ -208,10 +214,12 @@ public class WebViewActivity extends AppCompatActivity implements View.OnClickLi
                 intent.setClass(WebViewActivity.this, ShareActivity.class);
                 startActivity(intent);*/
                 break;
-            case R.id.like_img:
+            /*case R.id.like_img:
 
                 Toast.makeText(WebViewActivity.this, "已经点赞！", Toast.LENGTH_LONG).show();
-                break;
+                like_status++;
+                PrefHelper.get().put("like_status", like_status);
+                break;*/
             case R.id.star_img:
                 addFavorContent();
                 break;

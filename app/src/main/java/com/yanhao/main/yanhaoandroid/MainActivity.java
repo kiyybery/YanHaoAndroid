@@ -1,20 +1,42 @@
 package com.yanhao.main.yanhaoandroid;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.squareup.okhttp.Request;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.common.Constants;
+import com.tencent.android.tpush.service.XGPushService;
 import com.yanhao.main.yanhaoandroid.bottomBar.library.PagerBottomTabStrip;
 import com.yanhao.main.yanhaoandroid.consult.ConsultFragment;
 import com.yanhao.main.yanhaoandroid.test.ClassifyWindow;
 import com.yanhao.main.yanhaoandroid.test.TestFragment;
 import com.yanhao.main.yanhaoandroid.usercenter.MyPrefireFragment;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.ViewFindUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
@@ -45,13 +67,79 @@ public class MainActivity extends AppCompatActivity {
 
     private String userId;
     private View decorView;
+    private Context context;
+    Message m = null;
+    String DEVICE_ID;
+
+    private class SaveMessage extends StringCallback {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            //Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                Toast.makeText(MainActivity.this, jsonObject.getString("msg"), Toast.LENGTH_LONG).show();
+                if (jsonObject.getString("msg").equals("success)")) {
+
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_home);
 
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        DEVICE_ID = tm.getDeviceId();
+        Log.i("DEVICE_ID", DEVICE_ID);
+
+        context = this;
+        XGPushConfig.enableDebug(this, true);
+
+        Handler handler = new HandlerExtension(MainActivity.this);
+        m = handler.obtainMessage();
+        // 注册接口
+        XGPushManager.registerPush(getApplicationContext(),
+                new XGIOperateCallback() {
+                    @Override
+                    public void onSuccess(Object data, int flag) {
+                        Log.w(Constants.LogTag,
+                                "+++ register push sucess. token:" + data);
+                        m.obj = "+++ register push sucess. token:" + data;
+                        m.sendToTarget();
+
+                        //getMessageForServer();
+                    }
+
+                    @Override
+                    public void onFail(Object data, int errCode, String msg) {
+                        Log.w(Constants.LogTag,
+                                "+++ register push fail. token:" + data
+                                        + ", errCode:" + errCode + ",msg:"
+                                        + msg);
+
+                        m.obj = "+++ register push fail. token:" + data
+                                + ", errCode:" + errCode + ",msg:" + msg;
+                        m.sendToTarget();
+                    }
+                });
         userId = getIntent().getStringExtra("userId");
+
+        getMessageForServer();
+        Intent service = new Intent(context, XGPushService.class);
+        context.startService(service);
 
         for (int i = 0; i < titles.length; i++) {
             tabs.add(new TabEntity(titles[i], iconResidClick[i], iconResid[i]));
@@ -118,9 +206,72 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        // TODO Auto-generated method stub
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
     protected void onResume() {
-
-
+        // TODO Auto-generated method stub
         super.onResume();
+        XGPushClickedResult click = XGPushManager.onActivityStarted(this);
+        Log.d("TPush", "onResumeXGPushClickedResult:" + click);
+        if (click != null) { // 判断是否来自信鸽的打开方式
+            Toast.makeText(this, "通知被点击:" + click.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        XGPushManager.onActivityStoped(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        //unregisterReceiver(updateListViewReceiver);
+        super.onDestroy();
+    }
+
+    private static class HandlerExtension extends Handler {
+        WeakReference<MainActivity> mActivity;
+
+        HandlerExtension(MainActivity activity) {
+            mActivity = new WeakReference<MainActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            MainActivity theActivity = mActivity.get();
+            if (theActivity == null) {
+                theActivity = new MainActivity();
+            }
+            if (msg != null) {
+                Log.w(Constants.LogTag, msg.obj.toString());
+                Log.i("push_token", XGPushConfig.getToken(theActivity));
+            }
+            // XGPushManager.registerCustomNotification(theActivity,
+            // "BACKSTREET", "BOYS", System.currentTimeMillis() + 5000, 0);
+        }
+    }
+
+    private void getMessageForServer() {
+
+        String url = "http://210.51.190.27:8081/xinge/login.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("deviceToken", XGPushConfig.getToken(context))
+                .addParams("appVersion", "1.1")
+                .addParams("deviceId", DEVICE_ID)
+                .addParams("appId", "yanhao")
+                .addParams("os", "ANDROID")
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
+                .build()
+                .execute(new SaveMessage());
     }
 }

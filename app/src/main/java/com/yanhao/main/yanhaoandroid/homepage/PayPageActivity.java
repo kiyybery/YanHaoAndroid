@@ -12,13 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 public class PayPageActivity extends AppCompatActivity {
 
     FragmentManager fm = getSupportFragmentManager();
+    private int reservationId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
+            reservationId = getIntent().getIntExtra("reservationId", 0);
             FragmentTransaction ft = fm.beginTransaction();
             PayPageFragment productionResultFrg = PayPageFragment.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putInt("reservationId", reservationId);
+            productionResultFrg.setArguments(bundle);
             ft.add(android.R.id.content, productionResultFrg);
             ft.commit();
         }

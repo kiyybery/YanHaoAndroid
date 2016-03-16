@@ -25,11 +25,11 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/11/10 0010.
  */
-public class UpdateSexFragment extends Fragment implements View.OnClickListener{
+public class UpdateSexFragment extends Fragment implements View.OnClickListener {
 
-    private TextView mMan_tv,mWoman_tv,mFinish;
-    private String getMan,getWoman,getSex;
-    private ImageView mCheckMan,mCheckWoman;
+    private TextView mMan_tv, mWoman_tv, mFinish;
+    private String getMan, getWoman, getSex;
+    private ImageView mCheckMan, mCheckWoman;
 
     public static UpdateSexFragment newInstance() {
 
@@ -50,7 +50,7 @@ public class UpdateSexFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_updatesex,container,false);
+        View view = inflater.inflate(R.layout.fragment_updatesex, container, false);
         mMan_tv = (TextView) view.findViewById(R.id.man_tv);
         mMan_tv.setOnClickListener(this);
         mWoman_tv = (TextView) view.findViewById(R.id.woman_tv);
@@ -64,7 +64,7 @@ public class UpdateSexFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.man_tv:
                 getMan = mMan_tv.getText().toString();
@@ -79,6 +79,11 @@ public class UpdateSexFragment extends Fragment implements View.OnClickListener{
                 mCheckWoman.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_text_title_right:
+
+                if (getSex == null) {
+                    Toast.makeText(getActivity(), "您还未选择性别~~", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 save();
                 break;
             default:
@@ -86,11 +91,11 @@ public class UpdateSexFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void save(){
+    public void save() {
 
         Intent intent = new Intent();
-        intent.putExtra("sex",getSex);
-        Toast.makeText(getActivity(),"sex="+getSex,Toast.LENGTH_LONG).show();
+        intent.putExtra("sex", getSex);
+        Toast.makeText(getActivity(), "sex=" + getSex, Toast.LENGTH_LONG).show();
         finish(Activity.RESULT_OK, intent);
     }
 

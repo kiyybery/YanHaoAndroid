@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/myprofire_pressed">
+    android:background="@drawable/myprofire_pressed"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -57,15 +57,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img_test_my"
-            android:layout_alignLeft="@+id/relativeLayout"
-            android:layout_alignStart="@+id/relativeLayout"
-            android:layout_marginBottom="15px">
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15px"
+            android:layout_marginRight="35px">
 
             <TextView
                 android:id="@+id/time_tv_my"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已答题人数："
+                android:text="答题时间："
                 android:textColor="#969696"
                 android:textSize="26px" />
 

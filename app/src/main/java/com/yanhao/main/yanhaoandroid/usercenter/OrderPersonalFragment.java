@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.adapter.PersonalOrderAdapter;
 import com.yanhao.main.yanhaoandroid.bean.OrderBean;
 import com.yanhao.main.yanhaoandroid.bean.PersonalOrderBean;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -51,15 +54,22 @@ public class OrderPersonalFragment extends Fragment {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                Log.i("coustour_info", s);
+                Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
                 JSONArray array = jsonObject.getJSONArray("reservationList");
                 for (int i = 0; i < array.length(); i++) {
 
                     JSONObject job = (JSONObject) array.get(i);
                     mPersonalOrderBean = new PersonalOrderBean();
-                    mPersonalOrderBean.setPresonalName(job.getString("counselorName"));
+                    mPersonalOrderBean.setPresonalName(job.getString("userName"));
                     mPersonalOrderBean.setImage(job.getString("portraitUrl"));
                     mPersonalOrderBean.setType(job.getString("consultTypeName"));
                     mPersonalOrderBean.setTime(job.getString("reservationTime"));
+
+                    JSONObject object = job.getJSONObject("details");
+                    mPersonalOrderBean.setIssue(object.getString("issue"));
+                    mPersonalOrderBean.setMobile(object.getString("mobile"));
+                    mPersonalOrderBean.setNote(object.getString("note"));
 
                     mList.add(mPersonalOrderBean);
                     mPersonalOrderAdapter.notifyDataSetChanged();
@@ -91,6 +101,7 @@ public class OrderPersonalFragment extends Fragment {
 
         getUserReservation();
 
+        //Toast.makeText(getActivity(), "Consultor order", Toast.LENGTH_LONG).show();
         mBackImage = (ImageView) view.findViewById(R.id.iv_section_title_back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +127,14 @@ public class OrderPersonalFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), AllOrderActivity.class);
+                intent.putExtra("portraitUrl", mList.get(i).getImage());
+                intent.putExtra("userName", mList.get(i).getPresonalName());
+                intent.putExtra("reservationTime", mList.get(i).getTime());
+                intent.putExtra("consultTypeName", mList.get(i).getType());
+                intent.putExtra("issue", mList.get(i).getIssue());
+                intent.putExtra("mobile", mList.get(i).getMobile());
+                intent.putExtra("note", mList.get(i).getNote());
+                intent.setClass(getActivity(), PersonalOrderActivity.class);
                 startActivity(intent);
             }
         });
@@ -125,11 +143,12 @@ public class OrderPersonalFragment extends Fragment {
 
     private void getUserReservation() {
 
-        String url = "http://210.51.190.27:8082/getUserReservation.jspa";
+        String url = "http://210.51.190.27:8082/getCounselorReservation.jspa";
+        Log.i("counselor_id", PrefHelper.get().getString("userId", ""));
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", "WbqhSt2gqUU=")
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
                 .build()
                 .execute(new GetUserReservation());
     }

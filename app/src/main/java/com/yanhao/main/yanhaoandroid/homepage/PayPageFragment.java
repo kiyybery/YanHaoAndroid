@@ -15,14 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.alipay.PayActivity;
 import com.yanhao.main.yanhaoandroid.alipay.pay.ExternalPartner;
 import com.yanhao.main.yanhaoandroid.alipay.pay.Keys;
 import com.yanhao.main.yanhaoandroid.alipay.pay.PayResult;
+import com.yanhao.main.yanhaoandroid.test.WebViewTest;
 import com.yanhao.main.yanhaoandroid.usercenter.ModifyOKActivity;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Administrator on 2015/12/1 0001.
@@ -46,6 +54,30 @@ public class PayPageFragment extends Fragment implements View.OnClickListener {
     private ImageView mWXpay_img, mAlipay_img;
     private boolean isSelect;
     private TextView mTitle;
+    private int reservationId;
+
+    private class SignOrder extends StringCallback {
+
+
+        @Override
+        public void onError(Request request, Exception e) {
+
+            Toast.makeText(getActivity(), e + "", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onResponse(String s) {
+
+            Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                Toast.makeText(getActivity(), jsonObject.getString("info"), Toast.LENGTH_LONG).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -107,6 +139,7 @@ public class PayPageFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_paypage, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
+        reservationId = getArguments().getInt("reservationId");
         mPaybtn = (Button) view.findViewById(R.id.btnpay);
         mPaybtn.setOnClickListener(this);
 
@@ -159,14 +192,48 @@ public class PayPageFragment extends Fragment implements View.OnClickListener {
 
             case R.id.btnpay:
 
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PayActivity.class);
+                //String webUrl = "http://192.168.0.179:8080/tougu_order/order/signorder.jspa?orderType=6&pid=1000&canPayType=2&sellUserId=111&buyUserId=222&num=1";
+                String webUrl = "http://210.51.190.27:8582/order/signorder.jspa?orderType=6&pid=1&canPayType=6&buyUserId=" + PrefHelper.get().getString("userId", "");
+                Intent intent = new Intent(getActivity(), WebViewTest.class);
+                intent.putExtra("webUrl", webUrl);
                 startActivity(intent);
+
+
+                //暂加确认支付，测试用
+                //confirmReservation();
                 break;
 
             default:
                 break;
         }
 
+    }
+
+    private void confirmReservation() {
+
+        String url = "http://210.51.190.27:8082/confirmReservation.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
+                .addParams("reservationId", reservationId + "")
+                .build()
+                .execute(new SignOrder());
+
+    }
+
+    private void gotoPay() {
+
+        String url = "http://210.51.190.27:8582/order/signorder.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("orderType", 6 + "")
+                .addParams("pid", 1 + "")
+                .addParams("canPayType", 6 + "")
+                .addParams("buyUserId", PrefHelper.get().getString("userId", ""))
+                .addParams("num", 1 + "")
+                .build()
+                .execute(new SignOrder());
     }
 }

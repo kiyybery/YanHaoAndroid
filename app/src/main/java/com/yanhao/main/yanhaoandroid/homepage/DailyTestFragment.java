@@ -22,6 +22,7 @@ import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.adapter.TestAdapter;
 import com.yanhao.main.yanhaoandroid.bean.TestBean;
 import com.yanhao.main.yanhaoandroid.test.WebViewTest;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -100,11 +101,11 @@ public class DailyTestFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_test, container, false);
+        view = inflater.inflate(R.layout.fragemnt_read, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
         getDailyTest();
-        progressBar = (ProgressBar) view.findViewById(R.id.progressbar_test);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         mTitleLayout = (RelativeLayout) view.findViewById(R.id.rl_section_title);
         mTitle_tv = (TextView) view.findViewById(R.id.tv_section_title_title);
         mTitle_tv.setText("心理健康测试");
@@ -118,7 +119,7 @@ public class DailyTestFragment extends Fragment {
         });
         mList = new ArrayList<>();
 
-        mTest_lv = (ListView) view.findViewById(R.id.test_listview);
+        mTest_lv = (ListView) view.findViewById(R.id.read_listview);
         mAdapter = new TestAdapter(mList, getActivity());
 
         mTest_lv.setEmptyView(getActivity().findViewById(R.id.empty_rl));
@@ -142,6 +143,7 @@ public class DailyTestFragment extends Fragment {
         OkHttpUtils
                 .post()
                 .url(url)
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
                 .build()
                 .execute(new GetDailyTest());
     }

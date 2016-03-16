@@ -31,6 +31,7 @@ import com.yanhao.main.yanhaoandroid.consult.ConsultFragment;
 import com.yanhao.main.yanhaoandroid.login.LoginActivity;
 import com.yanhao.main.yanhaoandroid.matchconsultant.OrderContantActivity;
 import com.yanhao.main.yanhaoandroid.util.CircleImageView;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.yanhao.main.yanhaoandroid.util.Type;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -54,7 +55,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mBackGround_layout;
     private LinearLayout mBack_layout;
     private CircleImageView mTitleImg;
-    private TextView mName, mAddress, mMyProfire, mEduction, mText1;
+    private TextView mName, mAddress, mMyProfire, mEduction, mSigntrue;
     private List<String> specialityList = new ArrayList();
     private List<String> chargeList = new ArrayList();
     private RecyclerView mRecycleView, mRecycleView_charge;
@@ -95,8 +96,9 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
                 String nick_name = jsonObject.getString("name");
                 String photoUrl = jsonObject.getString("portraitUrl");
                 String address = jsonObject.getString("city");
-                //String intro = jsonObject.getString("intro");
+                String intro = jsonObject.getString("intro");
                 String education = jsonObject.getString("education");
+                String signature = jsonObject.getString("signature");
                 JSONArray jsonArray = jsonObject.getJSONArray("specialityList");
                 String str = jsonArray.toString();
                 Log.i("str_list", str + "");
@@ -135,25 +137,21 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
                         "education" + education +
                         "speciality" + str +
                         "charge" + str1, Toast.LENGTH_LONG).show();*/
-
-                if (!TextUtils.isEmpty(photoUrl)) {
-
-                    Glide
-                            .with(HomePageFragment.this)
-                            .load(photoUrl)
-                                    //.placeholder(R.drawable.avatar_default)
-                            .into(mTitleImg);
-                } else {
-
-                    //mTitleImg.setBackgroundResource(R.drawable.avatar_default);
-                    mTitleImg.setImageResource(R.drawable.avatar_default);
-                }
+                Glide
+                        .with(HomePageFragment.this)
+                        .load(photoUrl)
+                        .dontTransform()
+                        .dontAnimate()
+                        .placeholder(R.drawable.avatar_default)
+                        .error(R.drawable.avatar_default)
+                        .into(mTitleImg);
 
                 //Glide.with(HomePageFragment.this).load(photoUrl).into(mTitleImg);
                 mName.setText(nick_name);
                 mAddress.setText(address);
-                /*mMyProfire.setText(intro);*/
+                mMyProfire.setText(intro);
                 mEduction.setText(education);
+                mSigntrue.setText(signature);
 
                 myAdapter.notifyDataSetChanged();
                 myAdapter_charge.notifyDataSetChanged();
@@ -174,13 +172,14 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
         EventBus.getDefault().register(HomePageFragment.this);
         sp = getActivity().getSharedPreferences("userInfo", getActivity().MODE_PRIVATE);
-        sub_userId = sp.getString("userId", "");
+        sub_userId = PrefHelper.get().getString("userId", "");
         View view = inflater.inflate(R.layout.fragment_homepage_consultant, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
-        userId = getArguments().getString("userId");
+        String consultorid = getArguments().getString("userId");
 
-        getUserInfo(userId);
+        Log.i("consultorid", consultorid);
+        getUserInfo(consultorid);
 
         /*if (userId == 1) {
 
@@ -217,6 +216,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         mAddress = (TextView) view.findViewById(R.id.tv_uc_address);
         mMyProfire = (TextView) view.findViewById(R.id.myprofire_content);
         mEduction = (TextView) view.findViewById(R.id.professional_content);
+        mSigntrue = (TextView) view.findViewById(R.id.personal_sigenal);
 
         mRecycleView = (RecyclerView) view.findViewById(R.id.id_recycleView);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -245,7 +245,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     public void onEventMainThread(Type type) {
         String msg = "onEventMainThread收到了消息：" + type.getMsg();
         Log.d("harvic", msg);
-        if (type.getMsg().equals("11111")) {
+        if (type.getMsg().equals("login_avatars")) {
 
             Intent intent = new Intent();
             intent.setClass(getActivity(), OrderContantActivity.class);
@@ -282,13 +282,13 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void getUserInfo(String userid) {
+    public void getUserInfo(String consultorid) {
 
         String url = "http://210.51.190.27:8082/getCounselorHome.jspa";
         OkHttpUtils
                 .post()//
                 .url(url)//
-                .addParams("userId", userid)//
+                .addParams("userId", consultorid)//
                 .build()//
                 .execute(new MyStringCallBack());
     }

@@ -10,7 +10,7 @@
 
         <include layout="@layout/section_px_title" />
 
-        <ListView
+        <com.yanhao.main.yanhaoandroid.util.XListView
             android:id="@+id/test_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

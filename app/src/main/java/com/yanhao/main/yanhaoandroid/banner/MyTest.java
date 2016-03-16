@@ -11,6 +11,15 @@ public class MyTest {
     public int scaleId;
     public int score;
     public int subScaleId;
+    public String createTime;
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
     public int getId() {
         return id;

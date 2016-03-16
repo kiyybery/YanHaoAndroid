@@ -7,11 +7,32 @@ public class Type {
 
     private String msg;
     private String pwd;
+    private int userType;
 
     public Type(String message, String password) {
 
         this.msg = message;
         this.pwd = password;
+    }
+
+    public Type(String message, String password, int userType) {
+
+        this.msg = message;
+        this.pwd = password;
+        this.userType = userType;
+    }
+
+    public Type(int userType) {
+
+        this.userType = userType;
+    }
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
     }
 
     public String getPwd() {

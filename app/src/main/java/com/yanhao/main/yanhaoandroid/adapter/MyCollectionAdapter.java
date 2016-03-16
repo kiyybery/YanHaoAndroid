@@ -70,7 +70,14 @@ public class MyCollectionAdapter extends BaseAdapter {
         }
 
         String imageUrl = mList.get(i).imageUrl;
-        Glide.with(mContext).load(imageUrl).into(viewHolder.imageView);
+        Glide
+                .with(mContext)
+                .load(imageUrl)
+                .dontTransform()
+                .dontAnimate()
+                .placeholder(R.drawable.avatar_default)
+                .error(R.drawable.avatar_default)
+                .into(viewHolder.imageView);
         viewHolder.textView.setText(mList.get(i).title);
         return view;
     }

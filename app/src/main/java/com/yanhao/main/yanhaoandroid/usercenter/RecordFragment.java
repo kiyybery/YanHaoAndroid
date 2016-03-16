@@ -8,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.okhttp.Request;
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
 import com.yanhao.main.yanhaoandroid.adapter.MyOrderAdapter;
+import com.yanhao.main.yanhaoandroid.banner.T;
 import com.yanhao.main.yanhaoandroid.bean.OrderBean;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -37,6 +40,8 @@ public class RecordFragment extends Fragment {
     private TextView mTitle;
     private ImageView mBackImage;
     private MyOrderAdapter mAdapter;
+    private RelativeLayout empty_layout;
+    private int userType;
 
     private class GetUserReservation extends StringCallback {
 
@@ -50,12 +55,16 @@ public class RecordFragment extends Fragment {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                JSONArray array = jsonObject.getJSONArray("reservationList");
+                JSONArray array = jsonObject.getJSONArray("reservationRecordList");
+                if (array.length() == 0) {
+
+                    empty_layout.setVisibility(View.VISIBLE);
+                }
                 for (int i = 0; i < array.length(); i++) {
 
                     JSONObject job = (JSONObject) array.get(i);
                     mOrderBean = new OrderBean();
-                    mOrderBean.setConstantName(job.getString("counselorName"));
+                    mOrderBean.setConstantName(job.getString("name"));
                     mOrderBean.setImageview(job.getString("portraitUrl"));
                     mOrderBean.setArea(job.getString("consultTypeName"));
                     mOrderBean.setData(job.getString("reservationTime"));
@@ -89,7 +98,16 @@ public class RecordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_myrecord, container, false);
         RelayoutViewTool.relayoutViewWithScale(view, YanHao.screenWidthScale);
 
-        getUserReservation();
+        empty_layout = (RelativeLayout) view.findViewById(R.id.empty_layout);
+        userType = getArguments().getInt("userType");
+        if (userType == 0) {
+
+            getUserReservation();
+        } else {
+
+            getConsultorReservation();
+        }
+
         mList = new ArrayList<>();
         /*for (int i = 0; i < 20; i++) {
             mOrderBean = new OrderBean();
@@ -117,11 +135,22 @@ public class RecordFragment extends Fragment {
 
     private void getUserReservation() {
 
-        String url = "http://210.51.190.27:8082/getUserReservation.jspa";
+        String url = "http://210.51.190.27:8082/getUserReservationRecord.jspa";
         OkHttpUtils
                 .post()
                 .url(url)
-                .addParams("userId", "WbqhSt2gqUU=")
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
+                .build()
+                .execute(new GetUserReservation());
+    }
+
+    private void getConsultorReservation() {
+
+        String url = "http://210.51.190.27:8082/getCounselorReservationRecord.jspa";
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("userId", PrefHelper.get().getString("userId", ""))
                 .build()
                 .execute(new GetUserReservation());
     }

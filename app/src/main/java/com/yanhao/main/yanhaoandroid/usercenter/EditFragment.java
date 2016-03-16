@@ -33,6 +33,7 @@ import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 import com.yanhao.main.yanhaoandroid.util.FileUtilsOfPaul;
 import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.SecurityUtil;
+import com.yanhao.main.yanhaoandroid.util.Type;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -43,6 +44,8 @@ import java.io.File;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/11/9 0009.
@@ -58,7 +61,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private String password;
     private String intro;
     private int gender;
-    private LinearLayout mFinish;
+    private LinearLayout mBack;
 
     String path = "";
     private static final String TAG = EditFragment.class.getSimpleName();
@@ -93,6 +96,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onError(Request request, Exception e) {
             T.show(getActivity(), e + "", 1000000);
+            Log.i("update_pro", e + "");
         }
 
         @Override
@@ -124,54 +128,18 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
             try {
                 T.show(getActivity(), s, 1000);
+                Log.i("update_avator", s);
                 JSONObject jsonObject = new JSONObject(s);
                 int ret = jsonObject.getInt("ret");
                 if (ret == 0) {
                     img_path = jsonObject.getString("path");
+                    PrefHelper.get().put("img_path", img_path);
                     T.show(getActivity(), jsonObject.getString("info"), 100);
                 } else {
 
                     T.show(getActivity(), jsonObject.getString("info"), 100);
                 }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    private class MyStringCallback extends StringCallback {
-
-
-        @Override
-        public void onError(Request request, Exception e) {
-
-        }
-
-        @Override
-        public void onResponse(String s) {
-
-            try {
-                //Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
-                JSONObject jsonObject = new JSONObject(s);
-                int ret = jsonObject.getInt("ret");
-                if (ret == 1) {
-
-                    String info = jsonObject.getString("info");
-                    T.show(getActivity(), info, 100);
-
-                } else {
-
-                    String userId = jsonObject.getString("userId");
-                    String nickName = jsonObject.getString("nickName");
-                    String portraitUrl = jsonObject.getString("portraitUrl");
-                    Log.i("userId_login", userId);
-                    //Toast.makeText(getActivity(), userId, Toast.LENGTH_LONG).show();
-
-                    mName_tv.setText(nickName);
-                    Glide.with(EditFragment.this).load(portraitUrl).into(mCircleImageView);
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -203,16 +171,21 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         //mShowError = (TextView) view.findViewById(R.id.show_error);
         mFinish_tv = (TextView) view.findViewById(R.id.tv_text_title_right);
         mName_tv = (TextView) view.findViewById(R.id.edit_name);
-        mName_tv.setText(PrefHelper.get().getString("username", ""));
+        mName_tv.setText(PrefHelper.get().getString("nickName", ""));
         mSex_tv = (TextView) view.findViewById(R.id.edit_sex);
         mSex_tv.setText(PrefHelper.get().getString("sex", ""));
         mCity_tv = (TextView) view.findViewById(R.id.edit_address);
         mCity_tv.setText(PrefHelper.get().getString("city_name", ""));
         mCircleImageView = (CircleImageView) view.findViewById(R.id.iv_uc_avatar_edit);
-        Glide.with(EditFragment.this)
+        /*Glide.with(EditFragment.this)
                 .load(Uri.fromFile(new File(PrefHelper.get().getString("avatars", ""))))
                 .dontTransform()
-                .error(R.drawable.kuangge)
+                .error(R.drawable.avatar_default)
+                .into(mCircleImageView);*/
+        Glide.with(EditFragment.this)
+                .load(PrefHelper.get().getString("portraitUrl", ""))
+                .dontTransform()
+                .error(R.drawable.avatar_default)
                 .into(mCircleImageView);
         mName_layout = (RelativeLayout) view.findViewById(R.id.name_layout);
         mSex_layout = (RelativeLayout) view.findViewById(R.id.sex_layout);
@@ -227,6 +200,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
         mBackImage = (ImageView) view.findViewById(R.id.iv_text_title_back);
         mBackImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+        mBack = (LinearLayout) view.findViewById(R.id.ll_text_title_back);
+        mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().finish();
@@ -278,8 +258,16 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
             case R.id.tv_text_title_right:
 
-                updateProfile();
-                getActivity().finish();
+                String update_path = PrefHelper.get().getString("img_path", "");
+
+                if (update_path == null) {
+
+                    Toast.makeText(getActivity(), "path is null", Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+
+                    updateProfile(update_path);
+                }
                 break;
             default:
                 break;
@@ -317,7 +305,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                             ",imageUri.getPath=" + imageUri.getPath() +
                             ",imageUri.getEncodedPath()=" + imageUri.getEncodedPath());
 //                    imageUri.getPath(); iv_avatar.setImageURI(imageUri);
-                    Glide.with(this).load(imageUri).dontTransform().error(R.drawable.kuangge).into(mCircleImageView);
+                    Glide.with(this).load(imageUri).dontTransform().error(R.drawable.avatar_default).into(mCircleImageView);
                     path = FileUtilsOfPaul.getPath(getActivity(), imageUri);
                     Log.i(TAG, "从本地Uri解析出的头像地址" + path);
                     //uploadImg(imageUri);
@@ -326,6 +314,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 }
                 tempUserInfo.put("avatars", path);
                 PrefHelper.get().put("avatars", path);
+                PrefHelper.get().put("portraitUrl", path);
                 Log.i("avatars_path", path);
 
                 break;
@@ -349,9 +338,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 if (sex.equals("男")) {
 
                     gender = 1;
+                    PrefHelper.get().put("gender", gender);
                 } else {
 
                     gender = 0;
+                    PrefHelper.get().put("gender", gender);
                 }
                 PrefHelper.get().put("sex", data.getStringExtra("sex"));
                 mSex_tv.setText(sex);
@@ -386,28 +377,38 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         return changed;
     }
 
-    private void updateProfile() {
-
-        File file = new File(path);
-        if (!file.exists()) {
-            Toast.makeText(getActivity(), "文件不存在，请修改文件路径", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void updateProfile(String update_path) {
 
         String url = "http://210.51.190.27:8082/updateProfile.jspa";
-        //String intro = URLEncoder.encode("12312akiu");
+        int sex_pr;
+        String city_pr, intro_pr, portrait_pr, name;
 
+        if (PrefHelper.get().getString("city_name", "").equals("") && PrefHelper.get().getString("intro", "").equals("")
+                && mName_tv.getText().toString().equals("")) {
+
+            city_pr = "北京";
+            intro_pr = "个人简介";
+            name = PrefHelper.get().getString("nickName", "");
+        } else {
+
+            city_pr = PrefHelper.get().getString("city_name", "");
+            intro_pr = PrefHelper.get().getString("intro", "");
+            name = mName_tv.getText().toString();
+        }
         OkHttpUtils
                 .post()
                 .url(url)
                 .addParams("userId", PrefHelper.get().getString("userId", ""))
-                .addParams("nickName", mName_tv.getText().toString())
-                .addParams("gender", gender + "")
-                .addParams("city", mCity_tv.getText().toString())
-                .addParams("intro", intro)
-                .addParams("portrait", img_path)
+                .addParams("nickName", name)
+                .addParams("gender", 1 + "")
+                .addParams("city", city_pr)
+                .addParams("intro", intro_pr)
+                .addParams("portrait", PrefHelper.get().getString("img_path", ""))
                 .build()
                 .execute(new UpdateProFileCallBack());
+        update();
+        Log.i("updateProfile_info", PrefHelper.get().getString("userId", "") + " " + mName_tv.getText().toString() + " " +
+                gender + " " + mCity_tv.getText().toString() + " " + intro + " " + img_path);
     }
 
     private void multiFileUpload() {
@@ -419,26 +420,31 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("userId", userId);
+        params.put("userId", PrefHelper.get().getString("userId", ""));
+        Log.i("params_userid", PrefHelper.get().getString("userId", ""));
 
         String url = "http://210.51.190.27:8082/uploadPortrait.jspa";
         OkHttpUtils.post()//
-                .addFile("file", "MYXJ_20151225150838_fast.jpg", file)//
+                .addFile("file", "YHPIC_fast.jpg", file)//
                 .url(url)
                 .params(params)//
                 .build()//
                 .execute(new UpdateProFileCallBack());
     }
 
-    /*private void getUserInfo(String userName, String passWord) {
+    public void update() {
 
-        String url = "http://210.51.190.27:8082/login.jspa";
-        OkHttpUtils
-                .post()//
-                .url(url)//
-                .addParams("mobile", SecurityUtil.encrypt(userName))//
-                .addParams("password", SecurityUtil.encrypt(passWord))//
-                .build()//
-                .execute(new MyStringCallback());
-    }*/
+        Intent intent = new Intent();
+        intent.putExtra("avatars_paths", path);
+        intent.setClass(getActivity(), MainActivity.class);
+        EventBus.getDefault().post(new Type("edit_avatars", path));
+        finish(Activity.RESULT_OK, intent);
+    }
+
+    protected void finish(int resultCode, Intent data) {
+        if (getActivity() != null) {
+            getActivity().setResult(resultCode, data);
+            getActivity().finish();
+        }
+    }
 }

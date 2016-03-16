@@ -64,7 +64,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private Button mLogin_login_btn;
     private String userId;
     private int userType;
-    private String portraitUrl;
+    private String portraitUrl, userName, city;
+    private int gender;
 
     ACache mCache;
 
@@ -81,6 +82,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             //Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                Log.i("login_info", s);
                 int ret = jsonObject.getInt("ret");
 
                 if (ret == 1) {
@@ -93,6 +95,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     userId = jsonObject.getString("userId");
                     userType = jsonObject.getInt("userType");
                     portraitUrl = jsonObject.getString("portraitUrl");
+                    userName = jsonObject.getString("nickName");
+                    gender = jsonObject.getInt("gender");
+                    city = jsonObject.getString("city");
+
+                    Toast.makeText(getActivity(), "gender" + gender + "city" + city, Toast.LENGTH_LONG).show();
+
                     //String nickName = jsonObject.getString("nickName");
                     //String portraitUrl = jsonObject.getString("portraitUrl");
                     //Log.i("userId_login", userId);
@@ -101,7 +109,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     message.arg1 = 1;
                     mHnadler.sendMessage(message);
 
-                    Toast.makeText(getActivity(), userId, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), userId, Toast.LENGTH_LONG).show();
                     /*Intent i = new Intent(getActivity(), MainActivity.class);
                     i.putExtra("userId", userId);
                     startActivity(i);
@@ -154,10 +162,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     editor.commit();
 
                     PrefHelper.get().put("userId", userId);
-                    PrefHelper.get().put("userType", userType);
                     PrefHelper.get().put("portraitUrl", portraitUrl);
+                    PrefHelper.get().put("nickName", userName);
+                    PrefHelper.get().put("userMobile", mLogin_username_et.getText().toString());
+                    PrefHelper.get().put("gender", gender);
+                    PrefHelper.get().put("city", city);
+                    PrefHelper.get().put("userType", userType);
 
-                    EventBus.getDefault().post(new Type(mLogin_username_et.getText().toString(), mLogin_pw_et.getText().toString()));
+                    EventBus.getDefault().post(new Type("login_avatars", portraitUrl, userType));
                     break;
 
                 case 2:

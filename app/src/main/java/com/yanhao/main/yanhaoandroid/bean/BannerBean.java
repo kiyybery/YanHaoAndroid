@@ -1,5 +1,7 @@
 package com.yanhao.main.yanhaoandroid.bean;
 
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 2016/1/12 0012.
  */
@@ -9,6 +11,7 @@ public class BannerBean {
     private String bannerParam;
     private String bannerUrl;
     private String actionUrl;
+    private String[] urlList;
 
     public int getBannerType() {
         return bannerType;
@@ -40,5 +43,13 @@ public class BannerBean {
 
     public void setActionUrl(String actionUrl) {
         this.actionUrl = actionUrl;
+    }
+
+    public String[] getUrlList() {
+        return urlList;
+    }
+
+    public void setUrlList(String[] urlList) {
+        this.urlList = urlList;
     }
 }

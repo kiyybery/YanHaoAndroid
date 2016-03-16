@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import com.yanhao.main.yanhaoandroid.util.LogUtil;
 
 
 /**
@@ -20,6 +23,7 @@ public class HomePageActivity extends AppCompatActivity{
         if (savedInstanceState == null) {
 
             userId = getIntent().getStringExtra("userId");
+            Log.i("consultorid",userId);
             FragmentTransaction ft = fm.beginTransaction();
             HomePageFragment productionResultFrg = HomePageFragment.newInstance();
             Bundle bundle = new Bundle();

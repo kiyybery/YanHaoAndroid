@@ -77,7 +77,13 @@ public class ConstantAdapter extends BaseAdapter {
 
             viewHolder.imageView.setImageResource(R.drawable.avatar_default);
         } else {
-            Glide.with(mContext).load(url).into(viewHolder.imageView);
+            Glide.with(mContext)
+                    .load(url)
+                    .dontTransform()
+                    .dontAnimate()
+                    .placeholder(R.drawable.avatar_default)
+                    .error(R.drawable.avatar_default)
+                    .into(viewHolder.imageView);
         }
         viewHolder.name_tv.setText(mList.get(i).constantName);
         //viewHolder.level_tv.setText(mList.get(i).level);

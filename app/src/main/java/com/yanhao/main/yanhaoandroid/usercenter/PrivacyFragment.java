@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.yanhao.main.yanhaoandroid.R;
 import com.yanhao.main.yanhaoandroid.YanHao;
+import com.yanhao.main.yanhaoandroid.util.PrefHelper;
 import com.yanhao.main.yanhaoandroid.util.RelayoutViewTool;
 
 /**
@@ -23,7 +24,7 @@ public class PrivacyFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mModifyPwd_layout, mModifyPhone_layout;
     private TextView tv_section_title_title, mPrivacy_title_num, mEdit_privacy;
     private ImageView iv_section_title_back;
-    String mobile = "18101215049";
+    String mobile = PrefHelper.get().getString("userMobile", "");
 
     public static PrivacyFragment newInstance() {
 

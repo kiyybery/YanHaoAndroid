@@ -20,7 +20,7 @@
         android:layout_alignBottom="@+id/ask_tv_item"
         android:layout_alignEnd="@+id/ask_tv_item"
         android:layout_alignRight="@+id/ask_tv_item"
-        android:background="@drawable/icon_select_check"
+        android:background="@drawable/icon_time_checked"
         android:visibility="visible" />
 
 </RelativeLayout>

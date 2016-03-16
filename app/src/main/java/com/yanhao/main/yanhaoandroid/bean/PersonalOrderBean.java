@@ -9,6 +9,33 @@ public class PersonalOrderBean {
     public String presonalName;
     public String type;
     public String time;
+    public String issue;
+    public String mobile;
+    public String note;
+
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 
     public String getImage() {
         return image;

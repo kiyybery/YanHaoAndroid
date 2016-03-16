@@ -21,7 +21,7 @@ import com.yanhao.main.yanhaoandroid.util.CircleImageView;
 public class ConsultantOrderFragment extends Fragment {
 
     private String consultTypeName, counselorName, reservationTime, portraitUrl, address, serviceTel;
-    private TextView mName_tv, mOrder_time_tv, mTitle, mAddress, mServiceTel;
+    private TextView mName_tv, mOrder_time_tv, mTitle, mAddress, mServiceTel, mOrderType_tv;
     private CircleImageView mCircleImageView;
     private LinearLayout mBack;
 
@@ -49,6 +49,8 @@ public class ConsultantOrderFragment extends Fragment {
         address = getArguments().getString("address");
         serviceTel = getArguments().getString("servicetel");
 
+        mOrderType_tv = (TextView) view.findViewById(R.id.style_time);
+        mOrderType_tv.setText(consultTypeName);
         mName_tv = (TextView) view.findViewById(R.id.order_name);
         mName_tv.setText(counselorName);
         mOrder_time_tv = (TextView) view.findViewById(R.id.ordered_time);
@@ -61,7 +63,9 @@ public class ConsultantOrderFragment extends Fragment {
         Glide.with(ConsultantOrderFragment.this)
                 .load(portraitUrl)
                 .dontTransform()
+                .dontAnimate()
                 .placeholder(R.drawable.avatar_default)
+                .error(R.drawable.avatar_default)
                 .into(mCircleImageView);
 
         mBack = (LinearLayout) view.findViewById(R.id.ll_section_title_back);
